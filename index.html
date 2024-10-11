@@ -12,43 +12,43 @@
 
 <body style="background-color: #c7a95c;">
     <div class="container m-md-5">
-        <div class="calculator p-4 rounded shadow position-relative" style="background-color: #edede2;" >
-            <div class="alert alert-success position-absolute top-50 start-50 translate-middle text-center d-none"
+        <div class="calculator p-3 rounded shadow position-relative" style="background-color: #edede2;" >
+            <div class="alert alert-success position-fixed top-50 start-50 translate-middle text-center d-none"
                 id="resultBanner" onclick="this.classList.add('d-none');"></div>
             <input class="w-100 display bg-dark text-white p-3 mb-3 rounded" id="display">
-            <div class="buttons row g-2">
+            <div class="buttons row justify-content-center">
                 <!-- Dice buttons -->
-                <div class="row g-2 mb-3">
+                <div class="row g-2">
                     <button class="btn btn-info col-4" onclick="appendToDisplay('d4', true)"><h2 class="m-1">d4</h2></button>
                     <button class="btn btn-primary col-4" onclick="appendToDisplay('d6', true)"><h2 class="m-1">d6</h2></button>
                     <button class="btn btn-info col-4" onclick="appendToDisplay('d8', true)"><h2 class="m-1">d8</h2></button>
                     <button class="btn btn-primary col-4" onclick="appendToDisplay('d10', true)"><h2 class="m-1">d10</h2></button>
                     <button class="btn btn-info col-4" onclick="appendToDisplay('d12', true)"><h2 class="m-1">d12</h2></button>
                     <button class="btn btn-primary col-4" onclick="appendToDisplay('d100', true)"><h2 class="m-1">d100</h2></button>
-                    <button class="btn btn-secondary col-12" onclick="appendToDisplay('d20', true)">
+                    <button class="btn btn-primary col-12" onclick="appendToDisplay('d20', true)">
                         <h1 class="m-1">d20</h1>
                     </button>
                 </div>
                 <!-- Numeric buttons -->
-                <div class="row g-2 mb-3">
-                    <button class="btn btn-secondary col-4" onclick="appendToDisplay('1', false)">1</button>
-                    <button class="btn btn-secondary col-4" onclick="appendToDisplay('2', false)">2</button>
-                    <button class="btn btn-secondary col-4" onclick="appendToDisplay('3', false)">3</button>
-                    <button class="btn btn-secondary col-4" onclick="appendToDisplay('4', false)">4</button>
-                    <button class="btn btn-secondary col-4" onclick="appendToDisplay('5', false)">5</button>
-                    <button class="btn btn-secondary col-4" onclick="appendToDisplay('6', false)">6</button>
-                    <button class="btn btn-secondary col-4" onclick="appendToDisplay('7', false)">7</button>
-                    <button class="btn btn-secondary col-4" onclick="appendToDisplay('8', false)">8</button>
-                    <button class="btn btn-secondary col-4" onclick="appendToDisplay('9', false)">9</button>
-                    <button class="btn btn-secondary col-8" onclick="appendToDisplay('0', false)">0</button>
-                    <button class="btn btn-danger col-4" onclick="saveFormula()">❤</button>
+                 <div class="row my-3 ">
+                    <button class="btn btn-secondary border col-4" onclick="appendToDisplay('1', false)">1</button>
+                    <button class="btn btn-secondary border col-4" onclick="appendToDisplay('2', false)">2</button>
+                    <button class="btn btn-secondary border col-4" onclick="appendToDisplay('4', false)">4</button>
+                    <button class="btn btn-secondary border col-4" onclick="appendToDisplay('3', false)">3</button>
+                    <button class="btn btn-secondary border col-4" onclick="appendToDisplay('5', false)">5</button>
+                    <button class="btn btn-secondary border col-4" onclick="appendToDisplay('6', false)">6</button>
+                    <button class="btn btn-secondary border col-4" onclick="appendToDisplay('7', false)">7</button>
+                    <button class="btn btn-secondary border col-4" onclick="appendToDisplay('8', false)">8</button>
+                    <button class="btn btn-secondary border col-4" onclick="appendToDisplay('9', false)">9</button>
+                    <button class="btn btn-secondary border col-8" onclick="appendToDisplay('0', false)">0</button>
+                    <button class="btn btn-danger border col-4" onclick="saveFormula()">❤</button>
                 </div>
                 <!-- Operation buttons -->
-                <button class="btn btn-success col-4" onclick="appendToDisplay('v', false)">Vantaggio</button>
                 <button class="btn btn-danger col-4" onclick="appendToDisplay('s', false)">Svantaggio</button>
+                <button class="btn btn-success col-4" onclick="appendToDisplay('v', false)">Vantaggio</button>
+                <button class="btn btn-danger col-4" onclick="clearDisplay()">❌</button>
                 <button class="btn btn-warning col-4" onclick="appendToDisplay('+', false)">➕</button>
                 <button class="btn btn-warning col-4" onclick="appendToDisplay('-', false)">➖</button>
-                <button class="btn btn-danger col-4" onclick="clearDisplay()">❌</button>
                 <button class="btn btn-info col-4" onclick="backspaceDisplay()">◀</button>
                 <button class="btn btn-success btn-lg col-12 mt-2" onclick="rollDice()">
                     <h1 class="m-1">Roll</h1>
@@ -143,95 +143,100 @@
         }
 
         function saveFormula() {
-            const display = document.getElementById('display').value;
-            if (display) {
-                const savedFormulas = document.getElementById('savedFormulas');
-                const listItem = document.createElement('li');
-                listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+        const display = document.getElementById('display').value;
+        let name = prompt("Inserisci un nome per la formula:");
+        name+=": "+display; 
+        if (display && name) {
+            const savedFormulas = document.getElementById('savedFormulas');
+            const listItem = document.createElement('li');
+            listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
 
-                const formulaButton = document.createElement('button');
-                formulaButton.className = 'btn btn-link';
-                formulaButton.id = display;
-                formulaButton.innerHTML = display;
+            const formulaButton = document.createElement('button');
+            formulaButton.className = 'btn btn-success';
+            formulaButton.dataset.id = display;
+            formulaButton.textContent = name;
 
-                const editButton = document.createElement('button');
-                editButton.className = 'btn btn-warning btn-sm';
-                editButton.innerHTML = '✏️';
-                editButton.addEventListener('click', function () {
-                    showEditModal(display, listItem);
-                });
-                formulaButton.textContent = display;
-                formulaButton.addEventListener('click', function () {
-                    document.getElementById('display').value = this.id;
-                });
+            formulaButton.addEventListener('click', function () {
+                document.getElementById('display').value = this.dataset.id;
+                rollDice();
+                lastButtonWasDice = true
 
-                const deleteButton = document.createElement('button');
-                deleteButton.className = 'btn btn-danger btn-sm';
-                deleteButton.innerHTML = '🗑️';
-                deleteButton.addEventListener('click', function () {
-                    savedFormulas.removeChild(listItem);
-                    removeFormulaFromLocalStorage(display);
-                });
-
-                listItem.appendChild(formulaButton);
-                listItem.appendChild(editButton);
-                listItem.appendChild(deleteButton);
-                savedFormulas.appendChild(listItem);
-                saveFormulaToLocalStorage(display);
-            }
-        }
-
-        function saveFormulaToLocalStorage(formula) {
-            let formulas = JSON.parse(localStorage.getItem('formulas')) || [];
-            if (!formulas.includes(formula)) {
-                formulas.push(formula);
-                localStorage.setItem('formulas', JSON.stringify(formulas));
-            }
-        }
-
-        function removeFormulaFromLocalStorage(formula) {
-            let formulas = JSON.parse(localStorage.getItem('formulas')) || [];
-            formulas = formulas.filter(f => f !== formula);
-            localStorage.setItem('formulas', JSON.stringify(formulas));
-        }
-
-        function loadFormulas() {
-            const savedFormulas = JSON.parse(localStorage.getItem('formulas')) || [];
-            savedFormulas.forEach(formula => {
-                const savedFormulasElement = document.getElementById('savedFormulas');
-                const listItem = document.createElement('li');
-                listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-
-                const formulaButton = document.createElement('button');
-                formulaButton.className = 'btn btn-link';
-                formulaButton.id = formula;
-                formulaButton.textContent = formula;
-                formulaButton.addEventListener('click', function () {
-                    document.getElementById('display').value = this.id;
-                    rollDice();
-                });
-
-                const editButton = document.createElement('button');
-                editButton.className = 'btn btn-warning btn-sm';
-                editButton.innerHTML = '✏️';
-                editButton.addEventListener('click', function () {
-                    showEditModal(formula, listItem);
-                });
-
-                const deleteButton = document.createElement('button');
-                deleteButton.className = 'btn btn-danger btn-sm';
-                deleteButton.innerHTML = '🗑️';
-                deleteButton.addEventListener('click', function () {
-                    savedFormulasElement.removeChild(listItem);
-                    removeFormulaFromLocalStorage(formula);
-                });
-
-                listItem.appendChild(formulaButton);
-                listItem.appendChild(editButton);
-                listItem.appendChild(deleteButton);
-                savedFormulasElement.appendChild(listItem);
             });
+
+            const editButton = document.createElement('button');
+            editButton.className = 'btn btn-warning btn-sm';
+            editButton.innerHTML = '✏️';
+            editButton.addEventListener('click', function () {
+                showEditModal(display, name, listItem);
+            });
+
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'btn btn-danger btn-sm';
+            deleteButton.innerHTML = '🗑️';
+            deleteButton.addEventListener('click', function () {
+                savedFormulas.removeChild(listItem);
+                removeFormulaFromLocalStorage(display);
+            });
+
+            listItem.appendChild(formulaButton);
+            listItem.appendChild(editButton);
+            listItem.appendChild(deleteButton);
+            savedFormulas.appendChild(listItem);
+            saveFormulaToLocalStorage({ id: display, name });
         }
+    }
+
+    function saveFormulaToLocalStorage(formula) {
+        let formulas = JSON.parse(localStorage.getItem('formulas')) || [];
+        formulas.push(formula);
+        localStorage.setItem('formulas', JSON.stringify(formulas));
+    }
+
+    function removeFormulaFromLocalStorage(id) {
+        let formulas = JSON.parse(localStorage.getItem('formulas')) || [];
+        formulas = formulas.filter(f => f.id !== id);
+        localStorage.setItem('formulas', JSON.stringify(formulas));
+    }
+
+    function loadFormulas() {
+        const savedFormulas = JSON.parse(localStorage.getItem('formulas')) || [];
+        const savedFormulasElement = document.getElementById('savedFormulas');
+        savedFormulas.forEach(formula => {
+            const listItem = document.createElement('li');
+            listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+
+            const formulaButton = document.createElement('button');
+            formulaButton.className = 'btn btn-success';
+            formulaButton.dataset.id = formula.id;
+            formulaButton.textContent = formula.name;
+
+            formulaButton.addEventListener('click', function () {
+                document.getElementById('display').value = this.dataset.id;
+                rollDice();
+                lastButtonWasDice = true
+            });
+
+            const editButton = document.createElement('button');
+            editButton.className = 'btn btn-warning btn-sm';
+            editButton.innerHTML = '✏️';
+            editButton.addEventListener('click', function () {
+                showEditModal(formula.id, formula.name, listItem);
+            });
+
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'btn btn-danger btn-sm';
+            deleteButton.innerHTML = '🗑️';
+            deleteButton.addEventListener('click', function () {
+                savedFormulasElement.removeChild(listItem);
+                removeFormulaFromLocalStorage(formula.id);
+            });
+
+            listItem.appendChild(formulaButton);
+            listItem.appendChild(editButton);
+            listItem.appendChild(deleteButton);
+            savedFormulasElement.appendChild(listItem);
+        });
+    }
     </script>
     <div class="modal" id="editModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -255,26 +260,23 @@
         let currentEditFormula = null;
         let currentListItem = null;
 
-        function showEditModal(formula, listItem) {
-            currentEditFormula = formula;
-            currentListItem = listItem;
-            document.getElementById('editInput').value = '';
-            const editModal = new bootstrap.Modal(document.getElementById('editModal'));
-            editModal.show();
+        function showEditModal(id, name, listItem) {
+        currentEditFormula = { id, name };
+        currentListItem = listItem;
+        document.getElementById('editInput').value = name;
+        const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+        editModal.show();
+    }
+
+    function confirmEdit() {
+        const newName = document.getElementById('editInput').value;
+        if (newName) {
+            currentListItem.querySelector('.btn-success').textContent = newName;
+
+            removeFormulaFromLocalStorage(currentEditFormula.id);
+            saveFormulaToLocalStorage({ id: currentEditFormula.id, name: newName });
         }
-
-        function confirmEdit() {
-            const newName = document.getElementById('editInput').value;
-            if (newName) {
-                const newFormulaText = `${newName}: ${currentEditFormula}`;
-                const formulaButton = currentListItem.querySelector('.btn-link');
-                formulaButton.textContent = newFormulaText;
-
-
-                removeFormulaFromLocalStorage(currentEditFormula);
-                saveFormulaToLocalStorage(newName);
-            }
-        }
+    }
     </script>
 </body>
 
