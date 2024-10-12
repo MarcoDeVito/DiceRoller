@@ -95,300 +95,307 @@
                 </button>
             </div>
         </div>
-        <!-- Saved Formulas -->
-       <!-- Accordion for Saved Formulas and Roll History -->
-<div class="accordion mt-4" id="accordionExample">
-    <!-- Formule Salvate -->
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="headingSavedFormulas">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapseSavedFormulas" aria-expanded="true" aria-controls="collapseSavedFormulas">
-                Formule Salvate
-            </button>
-        </h2>
-        <div id="collapseSavedFormulas" class="accordion-collapse collapse show" aria-labelledby="headingSavedFormulas"
-            data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-                <ul class="list-group" id="savedFormulas"></ul>
+
+
+        <!-- Accordion for Saved Formulas and Roll History -->
+        <div class="accordion mt-4" id="accordionExample">
+            <!-- Formule Salvate -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingSavedFormulas">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseSavedFormulas" aria-expanded="true"
+                        aria-controls="collapseSavedFormulas">
+                        Formule Salvate
+                    </button>
+                </h2>
+                <div id="collapseSavedFormulas" class="accordion-collapse collapse show"
+                    aria-labelledby="headingSavedFormulas" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <ul class="list-group " id="savedFormulas"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cronologia Tiri -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingRollHistory">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseRollHistory" aria-expanded="false" aria-controls="collapseRollHistory">
+                        Cronologia Tiri
+                    </button>
+                </h2>
+                <div id="collapseRollHistory" class="accordion-collapse collapse" aria-labelledby="headingRollHistory"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+                        <ul class="list-group" id="rollHistory"></ul>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Cronologia Tiri -->
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="headingRollHistory">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapseRollHistory" aria-expanded="false" aria-controls="collapseRollHistory">
-                Cronologia Tiri
-            </button>
-        </h2>
-        <div id="collapseRollHistory" class="accordion-collapse collapse" aria-labelledby="headingRollHistory"
-            data-bs-parent="#accordionExample">
-            <ul class="list-group" id="rollHistory"></ul>
-
-    </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+        <script>
+            let lastButtonWasDice = false;
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-    <script>
-        let lastButtonWasDice = false;
-        
-
-        document.addEventListener('DOMContentLoaded', loadFormulas);
-        document.addEventListener('keydown', event=>{
-            if(event.key==="Enter") {
-                event.preventDefault();
-                rollDice()
-            }
-        });
-
-        function appendToDisplay(value, isDice) {
-            const display = document.getElementById('display');
-            if (isDice && lastButtonWasDice && display.value.length > 0) display.value += '+';
-            else if(lastButtonWasDice &&!isNaN(parseInt(value)))  display.value += '+';
-            // else if(!lastButtonWasDice && isDice&& display.value.length != 0)  display.value += '+';
-            display.value += value;
-            lastButtonWasDice = isDice;
-        }
-
-        function clearDisplay() {
-            document.getElementById('display').value = '';
-            lastButtonWasDice = false;
-        }
-
-        function backspaceDisplay() {
-            const display = document.getElementById('display');
-            display.value = display.value.slice(0, -1);
-        }
-
-        function rollDice() {
-            const display = document.getElementById('display').value.trim();
-            let total = 0;
-            let detailedResult = '';
-            if (!display) {
-                return
-            }
-            // Controllo se il display contiene solo "s" o "v"
-            else if (display === 's' || display === 'v') {
-                const roll1 = Math.floor(Math.random() * 20) + 1;
-                const roll2 = Math.floor(Math.random() * 20) + 1;
-                total = display === 'v' ? Math.max(roll1, roll2) : Math.min(roll1, roll2);
-                detailedResult = `(${roll1}, ${roll2}) => ${total}[d20]`;
-            } else {
-                const dicePattern = /(\d*)d(\d+)([vs])?/g;
-                let match;
-                let modifiedDisplay = display;
-
-                while ((match = dicePattern.exec(display)) !== null) {
-                    const rolls = match[1] ? parseInt(match[1]) : 1;
-                    const sides = parseInt(match[2]);
-                    const modifier = match[3];
-                    let rollResults = [];
-
-                    for (let i = 0; i < rolls; i++) {
-                        let roll1 = Math.floor(Math.random() * sides) + 1;
-                        let roll2 = Math.floor(Math.random() * sides) + 1;
-                        let finalRoll = roll1;
-                        if (modifier === 'v') {
-                            finalRoll = Math.max(roll1, roll2);
-                            detailedResult += `(${roll1}, ${roll2}) => ${finalRoll}[d${sides}]`;
-                        } else if (modifier === 's') {
-                            finalRoll = Math.min(roll1, roll2);
-                            detailedResult += `(${roll1}, ${roll2}) => ${finalRoll}[d${sides}]`;
-                        } else {
-                            detailedResult += `${finalRoll}[d${sides}]`;
-                        }
-
-                        rollResults.push(finalRoll);
-
-                        if (i < rolls - 1) {
-                            detailedResult += ' + ';
-                        }
-                    }
-                    detailedResult += '<br>';
-                    const rollTotal = rollResults.reduce((sum, roll) => sum + roll, 0);
-                    modifiedDisplay = modifiedDisplay.replace(match[0], rollTotal);
+            document.addEventListener('DOMContentLoaded', loadFormulas);
+            document.addEventListener('keydown', event => {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    rollDice()
                 }
-
-                try {
-                    total = eval(modifiedDisplay);
-                } catch (error) {
-                    alert('Errore nella formula inserita.');
-                    return;
-                }
-            }
-
-            const resultBanner = document.getElementById('resultBanner');
-            resultBanner.innerHTML = `<h1>Risultato: ${total}</h1><p>${detailedResult}</p>`;
-            resultBanner.classList.remove('d-none');
-            updateRollHistory(display, total, detailedResult);
-        }
-
-        let rollHistory = [];
-
-        function updateRollHistory(roll, result, details) {
-    const rollHistoryElement = document.getElementById('rollHistory');
-    const listItem = document.createElement('li');
-    listItem.className = 'list-group-item';
-
-    // Ottenere l'ora corrente
-    const currentTime = new Date().toLocaleTimeString();
-
-    // Aggiungi l'ora prima di "Formula"
-    listItem.innerHTML = `<p class="text-center">${currentTime}<br><strong>Formula:</strong> ${roll} - <strong>Risultato:</strong> ${result} <br> <small>${details}</small></p>`;
-
-    // Aggiungi l'elemento in cima alla cronologia
-    rollHistoryElement.prepend(listItem);
-
-    // Memorizza nella cronologia
-    rollHistory.unshift({ roll, result, details });
-
-    // Mantieni solo gli ultimi 5 tiri
-    if (rollHistory.length > 5) {
-        rollHistory.pop();
-        rollHistoryElement.lastChild.remove();
-    }
-}
-        function saveFormula() {
-            const display = document.getElementById('display').value;
-            let name = prompt("Inserisci un nome per la formula:");
-            if (display && name) {
-                name += ": " + display;
-                const savedFormulas = document.getElementById('savedFormulas');
-                const listItem = document.createElement('li');
-                listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-
-                const formulaButton = document.createElement('button');
-                formulaButton.className = 'btn btn-success';
-                formulaButton.dataset.id = display;
-                formulaButton.textContent = name;
-
-                formulaButton.addEventListener('click', function () {
-                    document.getElementById('display').value = this.dataset.id;
-                    rollDice();
-                    lastButtonWasDice = true;
-                });
-
-                const editButton = document.createElement('button');
-                editButton.className = 'btn btn-warning btn-sm';
-                editButton.innerHTML = '✏️';
-                editButton.addEventListener('click', function () {
-                    showEditModal(display, name, listItem);
-                });
-
-                const deleteButton = document.createElement('button');
-                deleteButton.className = 'btn btn-danger btn-sm';
-                deleteButton.innerHTML = '🗑️';
-                deleteButton.addEventListener('click', function () {
-                    savedFormulas.removeChild(listItem);
-                    removeFormulaFromLocalStorage(display);
-                });
-
-                listItem.appendChild(formulaButton);
-                listItem.appendChild(editButton);
-                listItem.appendChild(deleteButton);
-                savedFormulas.appendChild(listItem);
-                saveFormulaToLocalStorage({ id: display, name });
-            } else {
-                alert("Non è possibile salvare una formula vuota o senza nome.");
-            }
-        }
-
-
-        function saveFormulaToLocalStorage(formula) {
-            let formulas = JSON.parse(localStorage.getItem('formulas')) || [];
-            formulas.push(formula);
-            localStorage.setItem('formulas', JSON.stringify(formulas));
-        }
-
-        function removeFormulaFromLocalStorage(id) {
-            let formulas = JSON.parse(localStorage.getItem('formulas')) || [];
-            formulas = formulas.filter(f => f.id !== id);
-            localStorage.setItem('formulas', JSON.stringify(formulas));
-        }
-
-        function loadFormulas() {
-            const savedFormulas = JSON.parse(localStorage.getItem('formulas')) || [];
-            const savedFormulasElement = document.getElementById('savedFormulas');
-            savedFormulas.forEach(formula => {
-                const listItem = document.createElement('li');
-                listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-
-                const formulaButton = document.createElement('button');
-                formulaButton.className = 'btn btn-success';
-                formulaButton.dataset.id = formula.id;
-                formulaButton.textContent = formula.name;
-
-                formulaButton.addEventListener('click', function () {
-                    document.getElementById('display').value = this.dataset.id;
-                    rollDice();
-                    lastButtonWasDice = true
-                });
-
-                const editButton = document.createElement('button');
-                editButton.className = 'btn btn-warning btn-sm';
-                editButton.innerHTML = '✏️';
-                editButton.addEventListener('click', function () {
-                    showEditModal(formula.id, formula.name, listItem);
-                });
-
-                const deleteButton = document.createElement('button');
-                deleteButton.className = 'btn btn-danger btn-sm';
-                deleteButton.innerHTML = '🗑️';
-                deleteButton.addEventListener('click', function () {
-                    savedFormulasElement.removeChild(listItem);
-                    removeFormulaFromLocalStorage(formula.id);
-                });
-
-                listItem.appendChild(formulaButton);
-                listItem.appendChild(editButton);
-                listItem.appendChild(deleteButton);
-                savedFormulasElement.appendChild(listItem);
             });
-        }
-    </script>
-    <div class="modal" id="editModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Modifica Formula</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="text" class="form-control" id="editInput" placeholder="Nuovo nome">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="confirmEdit()">Ok</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+
+            function appendToDisplay(value, isDice) {
+                const display = document.getElementById('display');
+                if (isDice && lastButtonWasDice && display.value.length > 0) display.value += '+';
+                else if (lastButtonWasDice && !isNaN(parseInt(value))) display.value += '+';
+                // else if(!lastButtonWasDice && isDice&& display.value.length != 0)  display.value += '+';
+                display.value += value;
+                lastButtonWasDice = isDice;
+            }
+
+            function clearDisplay() {
+                document.getElementById('display').value = '';
+                lastButtonWasDice = false;
+            }
+
+            function backspaceDisplay() {
+                const display = document.getElementById('display');
+                display.value = display.value.slice(0, -1);
+            }
+
+            function rollDice() {
+                const display = document.getElementById('display').value.trim();
+                let total = 0;
+                let detailedResult = '';
+                if (!display) {
+                    return
+                }
+                // Controllo se il display contiene solo "s" o "v"
+                else if (display === 's' || display === 'v') {
+                    const roll1 = Math.floor(Math.random() * 20) + 1;
+                    const roll2 = Math.floor(Math.random() * 20) + 1;
+                    total = display === 'v' ? Math.max(roll1, roll2) : Math.min(roll1, roll2);
+                    detailedResult = `(${roll1}, ${roll2}) => ${total}[d20]`;
+                } else {
+                    const dicePattern = /(\d*)d(\d+)([vs])?/g;
+                    let match;
+                    let modifiedDisplay = display;
+
+                    while ((match = dicePattern.exec(display)) !== null) {
+                        const rolls = match[1] ? parseInt(match[1]) : 1;
+                        const sides = parseInt(match[2]);
+                        const modifier = match[3];
+                        let rollResults = [];
+
+                        for (let i = 0; i < rolls; i++) {
+                            let roll1 = Math.floor(Math.random() * sides) + 1;
+                            let roll2 = Math.floor(Math.random() * sides) + 1;
+                            let finalRoll = roll1;
+                            if (modifier === 'v') {
+                                finalRoll = Math.max(roll1, roll2);
+                                detailedResult += `(${roll1}, ${roll2}) => ${finalRoll}[d${sides}]`;
+                            } else if (modifier === 's') {
+                                finalRoll = Math.min(roll1, roll2);
+                                detailedResult += `(${roll1}, ${roll2}) => ${finalRoll}[d${sides}]`;
+                            } else {
+                                detailedResult += `${finalRoll}[d${sides}]`;
+                            }
+
+                            rollResults.push(finalRoll);
+
+                            if (i < rolls - 1) {
+                                detailedResult += ' + ';
+                            }
+                        }
+                        detailedResult += '<br>';
+                        const rollTotal = rollResults.reduce((sum, roll) => sum + roll, 0);
+                        modifiedDisplay = modifiedDisplay.replace(match[0], rollTotal);
+                    }
+
+                    try {
+                        total = eval(modifiedDisplay);
+                    } catch (error) {
+                        alert('Errore nella formula inserita.');
+                        return;
+                    }
+                }
+
+                const resultBanner = document.getElementById('resultBanner');
+                resultBanner.innerHTML = `<h1>Risultato: ${total}</h1><p>${detailedResult}</p>`;
+                resultBanner.classList.remove('d-none');
+                updateRollHistory(display, total, detailedResult);
+            }
+
+            let rollHistory = [];
+
+            function updateRollHistory(roll, result, details) {
+                const rollHistoryElement = document.getElementById('rollHistory');
+                const listItem = document.createElement('li');
+                listItem.className = 'list-group-item';
+
+                // Ottenere l'ora corrente
+                const currentTime = new Date().toLocaleTimeString();
+
+                // Aggiungi l'ora prima di "Formula"
+                listItem.innerHTML = `<p class="text-center mb-0">${currentTime}<br><strong>Formula:</strong> ${roll} - <strong>Risultato:</strong> ${result} <br> <small>${details}</small></p>`;
+
+                // Aggiungi l'elemento in cima alla cronologia
+                rollHistoryElement.prepend(listItem);
+
+                // Memorizza nella cronologia
+                rollHistory.unshift({ roll, result, details });
+
+                // Mantieni solo gli ultimi 5 tiri
+                if (rollHistory.length > 5) {
+                    rollHistory.pop();
+                    rollHistoryElement.lastChild.remove();
+                }
+            }
+            function saveFormula() {
+                const display = document.getElementById('display').value;
+                let name = prompt("Inserisci un nome per la formula:");
+                if (display && name) {
+                    name += ": " + display;
+                    const savedFormulas = document.getElementById('savedFormulas');
+                    const listItem = document.createElement('li');
+                    listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+
+                    const formulaButton = document.createElement('button');
+                    formulaButton.className = 'btn btn-success';
+                    formulaButton.dataset.id = display;
+                    formulaButton.textContent = name;
+
+                    formulaButton.addEventListener('click', function () {
+                        document.getElementById('display').value = this.dataset.id;
+                        rollDice();
+                        lastButtonWasDice = true;
+                    });
+
+                    const editButton = document.createElement('button');
+                    editButton.className = 'btn btn-warning btn-sm';
+                    editButton.innerHTML = '✏️';
+                    editButton.addEventListener('click', function () {
+                        showEditModal(display, name, listItem);
+                    });
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.className = 'btn btn-danger btn-sm';
+                    deleteButton.innerHTML = '🗑️';
+                    deleteButton.addEventListener('click', function () {
+                        savedFormulas.removeChild(listItem);
+                        removeFormulaFromLocalStorage(display);
+                    });
+
+                    listItem.appendChild(formulaButton);
+                    listItem.appendChild(editButton);
+                    listItem.appendChild(deleteButton);
+                    savedFormulas.appendChild(listItem);
+                    saveFormulaToLocalStorage({ id: display, name });
+                } else {
+                    alert("Non è possibile salvare una formula vuota o senza nome.");
+                }
+            }
+
+
+            function saveFormulaToLocalStorage(formula) {
+                let formulas = JSON.parse(localStorage.getItem('formulas')) || [];
+                formulas.push(formula);
+                localStorage.setItem('formulas', JSON.stringify(formulas));
+            }
+
+            function removeFormulaFromLocalStorage(id) {
+                let formulas = JSON.parse(localStorage.getItem('formulas')) || [];
+                formulas = formulas.filter(f => f.id !== id);
+                localStorage.setItem('formulas', JSON.stringify(formulas));
+            }
+
+            function loadFormulas() {
+                const savedFormulas = JSON.parse(localStorage.getItem('formulas')) || [];
+                const savedFormulasElement = document.getElementById('savedFormulas');
+                savedFormulas.forEach(formula => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+
+                    const formulaButton = document.createElement('button');
+                    formulaButton.className = 'btn btn-success';
+                    formulaButton.dataset.id = formula.id;
+                    formulaButton.textContent = formula.name;
+
+                    formulaButton.addEventListener('click', function () {
+                        document.getElementById('display').value = this.dataset.id;
+                        rollDice();
+                        lastButtonWasDice = true
+                    });
+
+                    const editButton = document.createElement('button');
+                    editButton.className = 'btn btn-warning btn-sm';
+                    editButton.innerHTML = '✏️';
+                    editButton.addEventListener('click', function () {
+                        showEditModal(formula.id, formula.name, listItem);
+                    });
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.className = 'btn btn-danger btn-sm';
+                    deleteButton.innerHTML = '🗑️';
+                    deleteButton.addEventListener('click', function () {
+                        savedFormulasElement.removeChild(listItem);
+                        removeFormulaFromLocalStorage(formula.id);
+                    });
+
+                    listItem.appendChild(formulaButton);
+                    listItem.appendChild(editButton);
+                    listItem.appendChild(deleteButton);
+                    savedFormulasElement.appendChild(listItem);
+                });
+            }
+        </script>
+        <div class="modal" id="editModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modifica Formula</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control" id="editInput" placeholder="Nuovo nome">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="confirmEdit()">Ok</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        let currentEditFormula = null;
-        let currentListItem = null;
+        <script>
+            let currentEditFormula = null;
+            let currentListItem = null;
 
-        function showEditModal(id, name, listItem) {
-            currentEditFormula = { id, name };
-            currentListItem = listItem;
-            document.getElementById('editInput').value = name;
-            const editModal = new bootstrap.Modal(document.getElementById('editModal'));
-            editModal.show();
-        }
-
-        function confirmEdit() {
-            const newName = document.getElementById('editInput').value;
-            if (newName) {
-                currentListItem.querySelector('.btn-success').textContent = newName;
-
-                removeFormulaFromLocalStorage(currentEditFormula.id);
-                saveFormulaToLocalStorage({ id: currentEditFormula.id, name: newName });
+            function showEditModal(id, name, listItem) {
+                currentEditFormula = { id, name };
+                currentListItem = listItem;
+                document.getElementById('editInput').value = name;
+                const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+                editModal.show();
             }
-        }
-    </script>
+
+            function confirmEdit() {
+                const newName = document.getElementById('editInput').value;
+                if (newName) {
+                    currentListItem.querySelector('.btn-success').textContent = newName;
+
+                    removeFormulaFromLocalStorage(currentEditFormula.id);
+                    saveFormulaToLocalStorage({ id: currentEditFormula.id, name: newName });
+                }
+            }
+        </script>
 </body>
 
 </html>
