@@ -330,7 +330,8 @@
                 formulaButton.dataset.id = display;
                 formulaButton.textContent = name;
 
-                formulaButton.addEventListener('click', function () {
+                formulaButton.addEventListener('click', function (event) {
+                     event.stopPropagation();
                     document.getElementById('display').value = this.dataset.id;
                     rollDice();
                     lastButtonWasDice = true;
@@ -386,7 +387,8 @@
                 formulaButton.dataset.id = formula.id;
                 formulaButton.textContent = formula.name;
 
-                formulaButton.addEventListener('click', function () {
+                formulaButton.addEventListener('click', function (event) {
+                        event.stopPropagation();
                     document.getElementById('display').value = this.dataset.id;
                     rollDice();
                     lastButtonWasDice = true
