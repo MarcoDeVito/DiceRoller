@@ -94,7 +94,7 @@
                     <h5 class="m-1">⌫</h5>
                 </button>
                 <button class="btn btn-warning border col-4" onclick="appendToDisplay('-', false)">➖</button>
-                <button class="btn btn-danger border col-4" onclick="appendToDisplay('s', false)">
+                <button class="btn btn-danger border col-4" onclick="appendToDisplay('s', 'prova')">
                     <h5 class="m-1"></h5>Svantaggio</h5>
                 </button>
                 <button class="btn btn-info border col-4" onclick="clearDisplay()"><span
@@ -150,6 +150,7 @@
         crossorigin="anonymous"></script>
     <script>
         let lastButtonWasDice = false;
+        let lastButtonWasVantageOrDisadvantage = false;
         let rollHistory = [];
 
 
@@ -188,11 +189,16 @@
 
         function appendToDisplay(value, isDice) {
             const display = document.getElementById('display');
+            if (lastButtonWasVantageOrDisadvantage) {
+        // Se l'ultimo tasto era "v" o "s" e il prossimo è un numero, aggiungi un "+"
+        display.value += '+';
+    }
             if (isDice && lastButtonWasDice && display.value.length > 0) display.value += '+';
             else if (lastButtonWasDice && !isNaN(parseInt(value))) display.value += '+';
             // else if(!lastButtonWasDice && isDice&& display.value.length != 0)  display.value += '+';
             display.value += value;
             lastButtonWasDice = isDice;
+            lastButtonWasVantageOrDisadvantage = value === 'v' || value === 's'; // Aggiorna il flag
         }
 
         function clearDisplay() {
