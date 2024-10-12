@@ -48,26 +48,26 @@
             </div>
             <div class="buttons row justify-content-center">
                 <!-- Dice buttons -->
-                <div class="row g-2">
-                    <button class="btn btn-info col-4" onclick="appendToDisplay('d4', true)">
+                <div class="row">
+                    <button class="btn rounded-0 col-4" style="background-color:  #cce5f5;" onclick="appendToDisplay('d4', true)">
                         <h2 class="m-1">d4</h2>
                     </button>
-                    <button class="btn btn-primary col-4" onclick="appendToDisplay('d6', true)">
+                    <button class="btn rounded-0 col-4" style="background-color: #b3d7ef;" onclick="appendToDisplay('d6', true)">
                         <h2 class="m-1">d6</h2>
                     </button>
-                    <button class="btn btn-info col-4" onclick="appendToDisplay('d8', true)">
+                    <button class="btn rounded-0 col-4" style="background-color: #99c9e8;" onclick="appendToDisplay('d8', true)">
                         <h2 class="m-1">d8</h2>
                     </button>
-                    <button class="btn btn-primary col-4" onclick="appendToDisplay('d10', true)">
+                    <button class="btn rounded-0 col-4" style="background-color: #80bce1;" onclick="appendToDisplay('d10', true)">
                         <h2 class="m-1">d10</h2>
                     </button>
-                    <button class="btn btn-info col-4" onclick="appendToDisplay('d12', true)">
+                    <button class="btn rounded-0 col-4" style="background-color: #66add9;" onclick="appendToDisplay('d12', true)">
                         <h2 class="m-1">d12</h2>
                     </button>
-                    <button class="btn btn-primary col-4" onclick="appendToDisplay('d100', true)">
+                    <button class="btn rounded-0 col-4" style="background-color: #4d9fcf;" onclick="appendToDisplay('d100', true)">
                         <h2 class="m-1">d100</h2>
                     </button>
-                    <button class="btn btn-primary col-12" onclick="appendToDisplay('d20', true)">
+                    <button class="btn rounded-0 rounded-bottom-2 col-12" style="background-color: #338fc5;" onclick="appendToDisplay('d20', true)">
                         <h1 class="m-1">d20</h1>
                     </button>
                 </div>
@@ -329,10 +329,10 @@
                 name += ": " + display;
                 const savedFormulas = document.getElementById('savedFormulas');
                 const listItem = document.createElement('li');
-                listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                listItem.className = 'list-group-item d-flex align-items-center';
 
                 const formulaButton = document.createElement('button');
-                formulaButton.className = 'btn btn-success';
+                formulaButton.className = 'btn btn-success w-100';
                 formulaButton.dataset.id = display;
                 formulaButton.textContent = name;
 
@@ -344,14 +344,14 @@
                 });
 
                 const editButton = document.createElement('button');
-                editButton.className = 'btn btn-warning btn-sm';
+                editButton.className = 'btn btn-warning btn-sm flex-shrink-1';
                 editButton.innerHTML = '✏️';
                 editButton.addEventListener('click', function () {
                     showEditModal(display, name, listItem);
                 });
 
                 const deleteButton = document.createElement('button');
-                deleteButton.className = 'btn btn-danger btn-sm';
+                deleteButton.className = 'btn btn-danger btn-sm flex-shrink-1';
                 deleteButton.innerHTML = '🗑️';
                 deleteButton.addEventListener('click', function () {
                     savedFormulas.removeChild(listItem);
@@ -389,7 +389,7 @@
                 listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
 
                 const formulaButton = document.createElement('button');
-                formulaButton.className = 'btn btn-success';
+                formulaButton.className = 'btn btn-success w-100';
                 formulaButton.dataset.id = formula.id;
                 formulaButton.textContent = formula.name;
 
@@ -401,14 +401,14 @@
                 });
 
                 const editButton = document.createElement('button');
-                editButton.className = 'btn btn-warning btn-sm';
+                editButton.className = 'btn btn-warning btn-sm flex-shrink-1';
                 editButton.innerHTML = '✏️';
                 editButton.addEventListener('click', function () {
                     showEditModal(formula.id, formula.name, listItem);
                 });
 
                 const deleteButton = document.createElement('button');
-                deleteButton.className = 'btn btn-danger btn-sm';
+                deleteButton.className = 'btn btn-danger btn-sm flex-shrink-1';
                 deleteButton.innerHTML = '🗑️';
                 deleteButton.addEventListener('click', function () {
                     savedFormulasElement.removeChild(listItem);
