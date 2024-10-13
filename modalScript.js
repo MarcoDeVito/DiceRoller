@@ -26,13 +26,13 @@ function confirmEdit() {
         const savedFormulasElement = document.getElementById('savedFormulas');
         savedFormulasElement.innerHTML=''
         loadFormulas()
-        closeModal()
+        closeModal('editModal')
     }
 }
 
 
-function closeModal() {
-    const editModal = document.getElementById('editModal');
-    const modal = bootstrap.Modal.getInstance(editModal);
+function closeModal(modalName) {
+    const thisModal = document.getElementById(modalName);
+    const modal = bootstrap.Modal.getInstance(thisModal);
     modal.hide();
 }

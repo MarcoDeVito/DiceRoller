@@ -8,31 +8,16 @@
             loadFormulas();
             loadRollHistory();
         });
+
         document.addEventListener('keydown', event => {
             if (event.key === "Enter") {
                 event.preventDefault();
+                
                 rollDice()
             }
         });
 
-
-        // Nasconde il banner se clicchi in qualsiasi punto della pagina, eccetto i pulsanti
-        document.addEventListener('click', function () {
-            const resultBanner = document.getElementById('resultBanner');
-            if (!resultBanner.classList.contains('d-none')) {
-                resultBanner.classList.add('d-none');
-            }
-        });
-
-        // Impedisce che il click sui pulsanti chiuda il banner
-        document.getElementById('resultBanner').addEventListener('click', function (event) {
-            event.stopPropagation(); // Impedisce che il click sul banner lo nasconda
-        });
-
-        // Interrompe la propagazione del click sul banner per evitare che si chiuda
-        document.getElementById('resultBanner').addEventListener('click', function (event) {
-            event.stopPropagation();
-        });
+      
 
         function appendToDisplay(value, isDice) {
             const display = document.getElementById('display');
@@ -58,7 +43,7 @@
             display.value = display.value.slice(0, -1);
         }
 
-        function rollDice() {
+        function rollDice(isopen=false) {
             const display = document.getElementById('display').value.trim();
             let total = 0;
             let detailedResult = '';
@@ -115,14 +100,16 @@
                     return;
                 }
             }
+ // Aggiorna il contenuto del modale
+ const modalResultContent = document.getElementById('modalResultContent');
+ modalResultContent.innerHTML = `<p class='text-center display-1 fw.bold'>Risultato: ${total}</p><p class='text-center h3'>${detailedResult}</p>`;
 
-            const resultBanner = document.getElementById('resultBanner');
-            
-            
-            resultBanner.innerHTML = `<h1>Risultato: ${total}</h1><p>${detailedResult}</p><button class="btn btn-success mt-2" onclick="event.stopPropagation(); rollDice()">
-    <h1 class="m-1">🔄</h1>
-</button>`;
-            resultBanner.classList.remove('d-none');
+ if(!isopen){
+     const resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
+     resultModal.show();
+
+ }
+ // Mostra il modale
             updateRollHistory(display, total, detailedResult);
 
         }

@@ -14,11 +14,22 @@
 <body class="d-flex justify-content-center" style="background-color: #c7a95c;">
     <div class="container m-md-5">
         <div class="calculator p-3 rounded shadow position-relative" style="background-color: #edede2;">
-            <div class="alert alert-success position-fixed top-50 start-50 translate-middle text-center d-none"
-                id="resultBanner" style="z-index: 100;"
-                onclick="event.stopPropagation(); this.classList.add('d-none');">
-
-            </div>
+            <!-- Modale -->
+<div class="modal fade " id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="background-color: #86d1a3;" onclick="closeModal('resultModal')">
+        <div class="modal-body">
+          <!-- Il risultato e i dettagli del lancio verranno inseriti qui -->
+          <div id="modalResultContent"></div>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+            <button type="button" class="btn btn-success" onclick="event.stopPropagation(); rollDice(true)"><h1 class="m-1">🔄</h1></button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><h1>Chiudi</h1></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
             <div class="row">
                 <div class="col-9 p-0">
                     <input class="w-100 display border border-none bg-dark text-white p-3 rounded" id="display">
