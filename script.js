@@ -190,7 +190,7 @@
                 name += ": " + display;
                 const savedFormulas = document.getElementById('savedFormulas');
                 const listItem = document.createElement('li');
-                listItem.className = 'list-group-item d-flex align-items-center align-items-stretch';
+                listItem.className = 'list-group-item d-flex align-items-center ';
 
                 const formulaButton = document.createElement('button');
                 formulaButton.className = 'btn btn-secondary  rounded-0 rounded-start-2 w-100';
@@ -205,7 +205,7 @@
                 });
 
                 const editButton = document.createElement('button');
-                editButton.className = 'btn btn-warning rounded-0 h-100 flex-shrink-1';
+                editButton.className = 'btn btn-warning rounded-0 h-100 flex-shrink-1 align-self-stretch';
                 editButton.innerHTML = '✏️';
                 editButton.addEventListener('click', function () {
                     showEditModal(display, name, listItem);
@@ -246,7 +246,7 @@
             const savedFormulasElement = document.getElementById('savedFormulas');
             savedFormulas.forEach(formula => {
                 const listItem = document.createElement('li');
-                listItem.className = 'list-group-item d-flex justify-content-between align-items-center align-items-stretch';
+                listItem.className = 'list-group-item d-flex justify-content-between align-items-center ';
 
                 const formulaButton = document.createElement('button');
                 formulaButton.className = 'btn btn-secondary rounded-0 rounded-start-2 w-100';

@@ -22,7 +22,7 @@ function confirmEdit() {
         newSave.textContent = newName+": "+newFormula;
         newSave.id = newFormula;
         removeFormulaFromLocalStorage(currentEditFormula.id);
-        saveFormulaToLocalStorage({ id: newFormula, name: newName });
+        saveFormulaToLocalStorage({ id: newFormula, name: newName+": "+newFormula });
         closeModal()
     }
 }
