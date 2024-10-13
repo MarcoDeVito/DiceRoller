@@ -344,14 +344,14 @@
                 });
 
                 const editButton = document.createElement('button');
-                editButton.className = 'btn btn-warning rounded-0 flex-shrink-1';
+                editButton.className = 'btn btn-warning rounded-0 h-100 flex-shrink-1';
                 editButton.innerHTML = '✏️';
                 editButton.addEventListener('click', function () {
                     showEditModal(display, name, listItem);
                 });
 
                 const deleteButton = document.createElement('button');
-                deleteButton.className = 'btn btn-danger rounded-0 rounded-end-2  flex-shrink-1';
+                deleteButton.className = 'btn btn-danger rounded-0 h-100 rounded-end-2  flex-shrink-1';
                 deleteButton.innerHTML = '🗑️';
                 deleteButton.addEventListener('click', function () {
                     savedFormulas.removeChild(listItem);
@@ -401,14 +401,14 @@
                 });
 
                 const editButton = document.createElement('button');
-                editButton.className = 'btn btn-warning rounded-0 flex-shrink-1';
+                editButton.className = 'btn btn-warning rounded-0 h-100 flex-shrink-1';
                 editButton.innerHTML = '✏️';
                 editButton.addEventListener('click', function () {
                     showEditModal(formula.id, formula.name, listItem);
                 });
 
                 const deleteButton = document.createElement('button');
-                deleteButton.className = 'btn btn-danger rounded-0 rounded-end-2 flex-shrink-1';
+                deleteButton.className = 'btn btn-danger rounded-0 h-100 rounded-end-2 flex-shrink-1';
                 deleteButton.innerHTML = '🗑️';
                 deleteButton.addEventListener('click', function () {
                     savedFormulasElement.removeChild(listItem);
