@@ -21,7 +21,7 @@ function confirmEdit() {
         const newSave= currentListItem.querySelector('.btn-secondary')
         newSave.textContent = newName+": "+newFormula;
         newSave.id = newFormula;
-        removeFormulaFromLocalStorage(currentEditFormula.id);
+        removeFormulaFromLocalStorage(currentEditFormula.name);
         saveFormulaToLocalStorage({ id: newFormula, name: newName+": "+newFormula });
         const savedFormulasElement = document.getElementById('savedFormulas');
         savedFormulasElement.innerHTML=''

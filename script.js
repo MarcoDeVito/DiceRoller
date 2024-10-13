@@ -12,7 +12,6 @@
         document.addEventListener('keydown', event => {
             if (event.key === "Enter") {
                 event.preventDefault();
-                
                 rollDice()
             }
         });
@@ -176,9 +175,9 @@
             localStorage.setItem('formulas', JSON.stringify(formulas));
         }
 
-        function removeFormulaFromLocalStorage(id) {
+        function removeFormulaFromLocalStorage(name) {
             let formulas = JSON.parse(localStorage.getItem('formulas')) || [];
-            formulas = formulas.filter(f => f.id !== id);
+            formulas = formulas.filter(f => f.name !== name);
             localStorage.setItem('formulas', JSON.stringify(formulas));
         }
 
@@ -198,6 +197,9 @@
             formulaButton.style= "width:70%; overflow:hidden"
             formulaButton.dataset.id = id;
             formulaButton.textContent = name;
+            
+            
+            
         
             formulaButton.addEventListener('click', function (event) {
                 event.stopPropagation();
@@ -218,7 +220,9 @@
             deleteButton.innerHTML = '🗑️';
             deleteButton.addEventListener('click', function () {
                 savedFormulasElement.removeChild(listItem);
-                removeFormulaFromLocalStorage(id);
+                removeFormulaFromLocalStorage(name);
+                document.getElementById('savedFormulas').innerHTML=''; 
+                loadFormulas()
             });
         
             listItem.innerHTML = '';
@@ -238,6 +242,8 @@
                 name += ": " + display;
                 const listItem = createFormulaElement(display, name);
                 saveFormulaToLocalStorage({ id: display, name });
+                document.getElementById('savedFormulas').innerHTML=''; 
+                loadFormulas()
             } else {
                 alert("Non è possibile salvare una formula vuota o senza nome.");
             }
@@ -245,8 +251,16 @@
         
         function loadFormulas() {
             const savedFormulas = JSON.parse(localStorage.getItem('formulas')) || [];
-            savedFormulas.forEach(formula => {
+                        
+            if (savedFormulas.length===0) {
+                const tutorialFormulas = document.getElementById('savedFormulas'); 
+                tutorialFormulas.innerHTML='<p>Ancora nessuna formula salvata</p><p>Premi ❤ per salvare una formula tra i preferiti</p>'
+            }
+            else{
+                savedFormulas.forEach(formula => {
                 createFormulaElement(formula.id, formula.name);
             });
+            }
+            
         }
         
