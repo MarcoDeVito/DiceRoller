@@ -119,7 +119,7 @@
                 </h2>
                 <div id="collapseSavedFormulas" class="accordion-collapse collapse show"
                     aria-labelledby="headingSavedFormulas" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
+                    <div class="accordion-body  d-flex align-content-stretch">
                         <ul class="list-group " id="savedFormulas"></ul>
                     </div>
                 </div>
@@ -351,7 +351,7 @@
                 });
 
                 const deleteButton = document.createElement('button');
-                deleteButton.className = 'btn btn-danger rounded-0  rounded-end-2  flex-shrink-1';
+                deleteButton.className = 'btn btn-danger rounded-0 rounded-end-2  flex-shrink-1';
                 deleteButton.innerHTML = '🗑️';
                 deleteButton.addEventListener('click', function () {
                     savedFormulas.removeChild(listItem);
@@ -408,7 +408,7 @@
                 });
 
                 const deleteButton = document.createElement('button');
-                deleteButton.className = 'btn btn-danger rounded-0  rounded-end-2 flex-shrink-1';
+                deleteButton.className = 'btn btn-danger rounded-0 rounded-end-2 flex-shrink-1';
                 deleteButton.innerHTML = '🗑️';
                 deleteButton.addEventListener('click', function () {
                     savedFormulasElement.removeChild(listItem);
