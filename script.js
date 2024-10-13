@@ -29,9 +29,6 @@
             event.stopPropagation(); // Impedisce che il click sul banner lo nasconda
         });
 
-
-
-
         // Interrompe la propagazione del click sul banner per evitare che si chiuda
         document.getElementById('resultBanner').addEventListener('click', function (event) {
             event.stopPropagation();
@@ -109,7 +106,7 @@
                     const rollTotal = rollResults.reduce((sum, roll) => sum + roll, 0);
                     modifiedDisplay = modifiedDisplay.replace(match[0], rollTotal);
                 }
-                console.log(total);
+                
 
                 try {
                     total = eval(modifiedDisplay);
@@ -120,6 +117,8 @@
             }
 
             const resultBanner = document.getElementById('resultBanner');
+            
+            
             resultBanner.innerHTML = `<h1>Risultato: ${total}</h1><p>${detailedResult}</p><button class="btn btn-success mt-2" onclick="event.stopPropagation(); rollDice()">
     <h1 class="m-1">🔄</h1>
 </button>`;
@@ -128,11 +127,6 @@
 
         }
 
-
-
-
-
-
         function updateRollHistory(roll, result, details) {
             const rollHistoryElement = document.getElementById('rollHistory');
             const listItem = document.createElement('li');
@@ -140,7 +134,16 @@
 
             const currentTime = new Date().toLocaleTimeString();
 
-            listItem.innerHTML = `<p class="text-center mb-0">${currentTime}<br><strong>Formula:</strong> ${roll} - <strong>Risultato:</strong> ${result} <br> <small>${details}</small></p>`;
+            listItem.innerHTML = `<p class="text-center mb-0">${currentTime}<br><strong>Formula:</strong> <a class="link-opacity-50-hover link-offset-2 link-danger">${roll}</a> - <strong>Risultato:</strong> ${result} <br> <small>${details}</small></p>`;
+            listItem.id=roll
+
+            listItem.onclick= event=> {
+                document.getElementById('display').value = roll;
+                event.stopPropagation()
+               rollDice();
+               lastButtonWasDice = true;
+           };
+            
 
             rollHistoryElement.prepend(listItem);
 
@@ -165,7 +168,15 @@
             savedRollHistory.forEach(rollItem => {
                 const listItem = document.createElement('li');
                 listItem.className = 'list-group-item';
-                listItem.innerHTML = `<p class="text-center mb-0">${rollItem.time}<br><strong>Formula:</strong> ${rollItem.roll} - <strong>Risultato:</strong> ${rollItem.result} <br> <small>${rollItem.details}</small></p>`;
+                listItem.innerHTML = `<p class="text-center mb-0">${rollItem.time}<br><strong>Formula:</strong> <a class="link-opacity-50-hover link-offset-2 link-danger">${rollItem.roll}</a> - <strong>Risultato:</strong> ${rollItem.result} <br> <small>${rollItem.details}</small></p>`;
+                listItem.id=rollItem.roll
+                listItem.onclick= event=> {
+                    document.getElementById('display').value = rollItem.roll;
+                    event.stopPropagation()
+                   rollDice();
+                   lastButtonWasDice = true;
+               };
+
                 rollHistoryElement.appendChild(listItem);
             });
 
@@ -217,7 +228,6 @@
                 alert("Non è possibile salvare una formula vuota o senza nome.");
             }
         }
-
 
         function saveFormulaToLocalStorage(formula) {
             let formulas = JSON.parse(localStorage.getItem('formulas')) || [];
