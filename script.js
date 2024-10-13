@@ -190,7 +190,7 @@
                 name += ": " + display;
                 const savedFormulas = document.getElementById('savedFormulas');
                 const listItem = document.createElement('li');
-                listItem.className = 'list-group-item d-flex align-items-center';
+                listItem.className = 'list-group-item d-flex align-items-center align-items-stretch';
 
                 const formulaButton = document.createElement('button');
                 formulaButton.className = 'btn btn-secondary  rounded-0 rounded-start-2 w-100';
@@ -246,7 +246,7 @@
             const savedFormulasElement = document.getElementById('savedFormulas');
             savedFormulas.forEach(formula => {
                 const listItem = document.createElement('li');
-                listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                listItem.className = 'list-group-item d-flex justify-content-between align-items-center align-items-stretch';
 
                 const formulaButton = document.createElement('button');
                 formulaButton.className = 'btn btn-secondary rounded-0 rounded-start-2 w-100';
