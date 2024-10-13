@@ -11,7 +11,7 @@
 
 </head>
 
-<body style="background-color: #c7a95c;">
+<body class="d-flex justify-content-center" style="background-color: #c7a95c;">
     <div class="container m-md-5">
         <div class="calculator p-3 rounded shadow position-relative" style="background-color: #edede2;">
             <div class="alert alert-success position-fixed top-50 start-50 translate-middle text-center d-none"
@@ -42,6 +42,7 @@
                                     </g>
                                 </g>
                             </svg>
+
                         </h2>
                     </button>
                 </div>
@@ -49,25 +50,32 @@
             <div class="buttons row justify-content-center">
                 <!-- Dice buttons -->
                 <div class="row">
-                    <button class="btn rounded-0 col-4" style="background-color:  #cce5f5;" onclick="appendToDisplay('d4', true)">
+                    <button class="btn rounded-0 col-4" style="background-color:  #cce5f5;"
+                        onclick="appendToDisplay('d4', true)">
                         <h2 class="m-1">d4</h2>
                     </button>
-                    <button class="btn rounded-0 col-4" style="background-color: #b3d7ef;" onclick="appendToDisplay('d6', true)">
+                    <button class="btn rounded-0 col-4" style="background-color: #b3d7ef;"
+                        onclick="appendToDisplay('d6', true)">
                         <h2 class="m-1">d6</h2>
                     </button>
-                    <button class="btn rounded-0 col-4" style="background-color: #99c9e8;" onclick="appendToDisplay('d8', true)">
+                    <button class="btn rounded-0 col-4" style="background-color: #99c9e8;"
+                        onclick="appendToDisplay('d8', true)">
                         <h2 class="m-1">d8</h2>
                     </button>
-                    <button class="btn rounded-0 col-4" style="background-color: #80bce1;" onclick="appendToDisplay('d10', true)">
+                    <button class="btn rounded-0 col-4" style="background-color: #80bce1;"
+                        onclick="appendToDisplay('d10', true)">
                         <h2 class="m-1">d10</h2>
                     </button>
-                    <button class="btn rounded-0 col-4" style="background-color: #66add9;" onclick="appendToDisplay('d12', true)">
+                    <button class="btn rounded-0 col-4" style="background-color: #66add9;"
+                        onclick="appendToDisplay('d12', true)">
                         <h2 class="m-1">d12</h2>
                     </button>
-                    <button class="btn rounded-0 col-4" style="background-color: #4d9fcf;" onclick="appendToDisplay('d100', true)">
+                    <button class="btn rounded-0 col-4" style="background-color: #4d9fcf;"
+                        onclick="appendToDisplay('d100', true)">
                         <h2 class="m-1">d100</h2>
                     </button>
-                    <button class="btn rounded-0 rounded-bottom-2 col-12" style="background-color: #338fc5;" onclick="appendToDisplay('d20', true)">
+                    <button class="btn rounded-0 rounded-bottom-2 col-12" style="background-color: #338fc5;"
+                        onclick="appendToDisplay('d20', true)">
                         <h1 class="m-1">d20</h1>
                     </button>
                 </div>
@@ -83,7 +91,8 @@
                     <button class="btn btn-secondary border col-4" onclick="appendToDisplay('8', false)">8</button>
                     <button class="btn btn-secondary border col-4" onclick="appendToDisplay('9', false)">9</button>
                     <button class="btn btn-secondary border col-8" onclick="appendToDisplay('0', false)">0</button>
-                    <button class="btn btn-danger border col-4" style="background-color: rgb(82, 1, 1);" onclick="saveFormula()">❤</button>
+                    <button class="btn btn-danger border col-4" style="background-color: rgb(82, 1, 1);"
+                        onclick="saveFormula()">❤</button>
                 </div>
                 <!-- Operation buttons -->
                 <button class="btn btn-warning border col-4" onclick="appendToDisplay('+', false)">➕</button>
@@ -119,7 +128,7 @@
                 </h2>
                 <div id="collapseSavedFormulas" class="accordion-collapse collapse show"
                     aria-labelledby="headingSavedFormulas" data-bs-parent="#accordionExample">
-                    <div class="accordion-body  d-flex align-content-stretch">
+                    <div class="accordion-body ">
                         <ul class="list-group " id="savedFormulas"></ul>
                     </div>
                 </div>
@@ -144,284 +153,7 @@
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-    <script>
-        let lastButtonWasDice = false;
-        let lastButtonWasVantageOrDisadvantage = false;
-        let rollHistory = [];
-
-
-        document.addEventListener('DOMContentLoaded', () => {
-            loadFormulas();
-            loadRollHistory();
-        });
-        document.addEventListener('keydown', event => {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                rollDice()
-            }
-        });
-
-
-        // Nasconde il banner se clicchi in qualsiasi punto della pagina, eccetto i pulsanti
-        document.addEventListener('click', function () {
-            const resultBanner = document.getElementById('resultBanner');
-            if (!resultBanner.classList.contains('d-none')) {
-                resultBanner.classList.add('d-none');
-            }
-        });
-
-        // Impedisce che il click sui pulsanti chiuda il banner
-        document.getElementById('resultBanner').addEventListener('click', function (event) {
-            event.stopPropagation(); // Impedisce che il click sul banner lo nasconda
-        });
-
-
-
-
-        // Interrompe la propagazione del click sul banner per evitare che si chiuda
-        document.getElementById('resultBanner').addEventListener('click', function (event) {
-            event.stopPropagation();
-        });
-
-        function appendToDisplay(value, isDice) {
-            const display = document.getElementById('display');
-            if (lastButtonWasVantageOrDisadvantage) {
-        // Se l'ultimo tasto era "v" o "s" e il prossimo è un numero, aggiungi un "+"
-        display.value += '+';
-    }
-            if (isDice && lastButtonWasDice && display.value.length > 0) display.value += '+';
-            else if (lastButtonWasDice && !isNaN(parseInt(value))) display.value += '+';
-            // else if(!lastButtonWasDice && isDice&& display.value.length != 0)  display.value += '+';
-            display.value += value;
-            lastButtonWasDice = isDice;
-            lastButtonWasVantageOrDisadvantage = value === 'v' || value === 's'; // Aggiorna il flag
-        }
-
-        function clearDisplay() {
-            document.getElementById('display').value = '';
-            lastButtonWasDice = false;
-        }
-
-        function backspaceDisplay() {
-            const display = document.getElementById('display');
-            display.value = display.value.slice(0, -1);
-        }
-
-        function rollDice() {
-            const display = document.getElementById('display').value.trim();
-            let total = 0;
-            let detailedResult = '';
-            if (!display) {
-                return
-            }
-            // Controllo se il display contiene solo "s" o "v"
-            else if (display === 's' || display === 'v') {
-                const roll1 = Math.floor(Math.random() * 20) + 1;
-                const roll2 = Math.floor(Math.random() * 20) + 1;
-                total = display === 'v' ? Math.max(roll1, roll2) : Math.min(roll1, roll2);
-                detailedResult = `(${roll1}, ${roll2}) => ${total}[d20]`;
-            } else {
-                const dicePattern = /(\d*)d(\d+)([vs])?/g;
-                let match;
-                let modifiedDisplay = display;
-
-                while ((match = dicePattern.exec(display)) !== null) {
-                    const rolls = match[1] ? parseInt(match[1]) : 1;
-                    const sides = parseInt(match[2]);
-                    const modifier = match[3];
-                    let rollResults = [];
-
-                    for (let i = 0; i < rolls; i++) {
-                        let roll1 = Math.floor(Math.random() * sides) + 1;
-                        let roll2 = Math.floor(Math.random() * sides) + 1;
-                        let finalRoll = roll1;
-                        if (modifier === 'v') {
-                            finalRoll = Math.max(roll1, roll2);
-                            detailedResult += `(${roll1}, ${roll2}) => ${finalRoll}[d${sides}]`;
-                        } else if (modifier === 's') {
-                            finalRoll = Math.min(roll1, roll2);
-                            detailedResult += `(${roll1}, ${roll2}) => ${finalRoll}[d${sides}]`;
-                        } else {
-                            detailedResult += `${finalRoll}[d${sides}]`;
-                        }
-
-                        rollResults.push(finalRoll);
-
-                        if (i < rolls - 1) {
-                            detailedResult += ' + ';
-                        }
-                    }
-                    detailedResult += '<br>';
-                    const rollTotal = rollResults.reduce((sum, roll) => sum + roll, 0);
-                    modifiedDisplay = modifiedDisplay.replace(match[0], rollTotal);
-                }
-                console.log(total);
-
-                try {
-                    total = eval(modifiedDisplay);
-                } catch (error) {
-                    alert('Errore nella formula inserita.');
-                    return;
-                }
-            }
-
-            const resultBanner = document.getElementById('resultBanner');
-            resultBanner.innerHTML = `<h1>Risultato: ${total}</h1><p>${detailedResult}</p><button class="btn btn-success mt-2" onclick="event.stopPropagation(); rollDice()">
-    <h1 class="m-1">🔄</h1>
-</button>`;
-            resultBanner.classList.remove('d-none');
-            updateRollHistory(display, total, detailedResult);
-
-        }
-
-
-
-
-
-
-        function updateRollHistory(roll, result, details) {
-            const rollHistoryElement = document.getElementById('rollHistory');
-            const listItem = document.createElement('li');
-            listItem.className = 'list-group-item';
-
-            const currentTime = new Date().toLocaleTimeString();
-
-            listItem.innerHTML = `<p class="text-center mb-0">${currentTime}<br><strong>Formula:</strong> ${roll} - <strong>Risultato:</strong> ${result} <br> <small>${details}</small></p>`;
-
-            rollHistoryElement.prepend(listItem);
-
-            rollHistory.unshift({ roll, result, details, time: currentTime });
-
-            if (rollHistory.length > 10) {
-                rollHistory.pop();
-                rollHistoryElement.lastChild.remove();
-            }
-
-            saveRollHistoryToLocalStorage();
-        }
-
-        function saveRollHistoryToLocalStorage() {
-            localStorage.setItem('rollHistory', JSON.stringify(rollHistory));
-        }
-
-        function loadRollHistory() {
-            const savedRollHistory = JSON.parse(localStorage.getItem('rollHistory')) || [];
-            const rollHistoryElement = document.getElementById('rollHistory');
-
-            savedRollHistory.forEach(rollItem => {
-                const listItem = document.createElement('li');
-                listItem.className = 'list-group-item';
-                listItem.innerHTML = `<p class="text-center mb-0">${rollItem.time}<br><strong>Formula:</strong> ${rollItem.roll} - <strong>Risultato:</strong> ${rollItem.result} <br> <small>${rollItem.details}</small></p>`;
-                rollHistoryElement.appendChild(listItem);
-            });
-
-            rollHistory = savedRollHistory;
-        }
-
-        function saveFormula() {
-            const display = document.getElementById('display').value;
-            let name = prompt("Inserisci un nome per la formula:");
-            if (display && name) {
-                name += ": " + display;
-                const savedFormulas = document.getElementById('savedFormulas');
-                const listItem = document.createElement('li');
-                listItem.className = 'list-group-item d-flex align-items-center';
-
-                const formulaButton = document.createElement('button');
-                formulaButton.className = 'btn btn-secondary  rounded-0 rounded-start-2 w-100';
-                formulaButton.dataset.id = display;
-                formulaButton.textContent = name;
-
-                formulaButton.addEventListener('click', function (event) {
-                     event.stopPropagation();
-                    document.getElementById('display').value = this.dataset.id;
-                    rollDice();
-                    lastButtonWasDice = true;
-                });
-
-                const editButton = document.createElement('button');
-                editButton.className = 'btn btn-warning rounded-0 h-100 flex-shrink-1';
-                editButton.innerHTML = '✏️';
-                editButton.addEventListener('click', function () {
-                    showEditModal(display, name, listItem);
-                });
-
-                const deleteButton = document.createElement('button');
-                deleteButton.className = 'btn btn-danger rounded-0 h-100 rounded-end-2  flex-shrink-1';
-                deleteButton.innerHTML = '🗑️';
-                deleteButton.addEventListener('click', function () {
-                    savedFormulas.removeChild(listItem);
-                    removeFormulaFromLocalStorage(display);
-                });
-
-                listItem.appendChild(formulaButton);
-                listItem.appendChild(editButton);
-                listItem.appendChild(deleteButton);
-                savedFormulas.appendChild(listItem);
-                saveFormulaToLocalStorage({ id: display, name });
-            } else {
-                alert("Non è possibile salvare una formula vuota o senza nome.");
-            }
-        }
-
-
-        function saveFormulaToLocalStorage(formula) {
-            let formulas = JSON.parse(localStorage.getItem('formulas')) || [];
-            formulas.push(formula);
-            localStorage.setItem('formulas', JSON.stringify(formulas));
-        }
-
-        function removeFormulaFromLocalStorage(id) {
-            let formulas = JSON.parse(localStorage.getItem('formulas')) || [];
-            formulas = formulas.filter(f => f.id !== id);
-            localStorage.setItem('formulas', JSON.stringify(formulas));
-        }
-
-        function loadFormulas() {
-            const savedFormulas = JSON.parse(localStorage.getItem('formulas')) || [];
-            const savedFormulasElement = document.getElementById('savedFormulas');
-            savedFormulas.forEach(formula => {
-                const listItem = document.createElement('li');
-                listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-
-                const formulaButton = document.createElement('button');
-                formulaButton.className = 'btn btn-secondary rounded-0 rounded-start-2 w-100';
-                formulaButton.dataset.id = formula.id;
-                formulaButton.textContent = formula.name;
-
-                formulaButton.addEventListener('click', function (event) {
-                        event.stopPropagation();
-                    document.getElementById('display').value = this.dataset.id;
-                    rollDice();
-                    lastButtonWasDice = true
-                });
-
-                const editButton = document.createElement('button');
-                editButton.className = 'btn btn-warning rounded-0 h-100 flex-shrink-1';
-                editButton.innerHTML = '✏️';
-                editButton.addEventListener('click', function () {
-                    showEditModal(formula.id, formula.name, listItem);
-                });
-
-                const deleteButton = document.createElement('button');
-                deleteButton.className = 'btn btn-danger rounded-0 h-100 rounded-end-2 flex-shrink-1';
-                deleteButton.innerHTML = '🗑️';
-                deleteButton.addEventListener('click', function () {
-                    savedFormulasElement.removeChild(listItem);
-                    removeFormulaFromLocalStorage(formula.id);
-                });
-
-                listItem.appendChild(formulaButton);
-                listItem.appendChild(editButton);
-                listItem.appendChild(deleteButton);
-                savedFormulasElement.appendChild(listItem);
-            });
-        }
-    </script>
+    <!-- Modale modifca formula -->
     <div class="modal" id="editModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -430,7 +162,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" class="form-control" id="editInput" placeholder="Nuovo nome">
+                    <input type="text" class="form-control mb-2" id="editInputName" placeholder="Nuovo nome">
+                    <input type="text" class="form-control" id="editInputFormula" placeholder="Formula">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" onclick="confirmEdit()">Ok</button>
@@ -439,29 +172,13 @@
             </div>
         </div>
     </div>
-
-    <script>
-        let currentEditFormula = null;
-        let currentListItem = null;
-
-        function showEditModal(id, name, listItem) {
-            currentEditFormula = { id, name };
-            currentListItem = listItem;
-            document.getElementById('editInput').value = name;
-            const editModal = new bootstrap.Modal(document.getElementById('editModal'));
-            editModal.show();
-        }
-
-        function confirmEdit() {
-            const newName = document.getElementById('editInput').value;
-            if (newName) {
-                currentListItem.querySelector('.btn-success').textContent = newName;
-
-                removeFormulaFromLocalStorage(currentEditFormula.id);
-                saveFormulaToLocalStorage({ id: currentEditFormula.id, name: newName });
-            }
-        }
-    </script>
+    <!--  Script Bootstrap cdn -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <!--  Script personali -->
+    <script src="script.js"></script>
+    <script src="modalScript.js"></script>
 </body>
 
 </html>
