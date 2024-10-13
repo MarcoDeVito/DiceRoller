@@ -136,7 +136,6 @@
 
             listItem.innerHTML = `<p class="text-center mb-0">${currentTime}<br><strong>Formula:</strong> <a class="link-opacity-50-hover link-offset-2 link-danger">${roll}</a> - <strong>Risultato:</strong> ${result} <br> <small>${details}</small></p>`;
             listItem.id=roll
-
             listItem.onclick= event=> {
                 document.getElementById('display').value = roll;
                 event.stopPropagation()
@@ -183,52 +182,7 @@
             rollHistory = savedRollHistory;
         }
 
-        function saveFormula() {
-            const display = document.getElementById('display').value;
-            let name = prompt("Inserisci un nome per la formula:");
-            if (display && name) {
-                name += ": " + display;
-                const savedFormulas = document.getElementById('savedFormulas');
-                const listItem = document.createElement('li');
-                listItem.className = 'list-group-item d-flex align-items-center ';
-
-                const formulaButton = document.createElement('button');
-                formulaButton.className = 'btn btn-secondary  rounded-0 rounded-start-2 w-100';
-                formulaButton.dataset.id = display;
-                formulaButton.textContent = name;
-
-                formulaButton.addEventListener('click', function (event) {
-                     event.stopPropagation();
-                    document.getElementById('display').value = this.dataset.id;
-                    rollDice();
-                    lastButtonWasDice = true;
-                });
-
-                const editButton = document.createElement('button');
-                editButton.className = 'btn btn-warning rounded-0 h-100 flex-shrink-1 align-self-stretch';
-                editButton.innerHTML = '✏️';
-                editButton.addEventListener('click', function () {
-                    showEditModal(display, name, listItem);
-                });
-
-                const deleteButton = document.createElement('button');
-                deleteButton.className = 'btn btn-danger rounded-0 h-100 rounded-end-2  flex-shrink-1';
-                deleteButton.innerHTML = '🗑️';
-                deleteButton.addEventListener('click', function () {
-                    savedFormulas.removeChild(listItem);
-                    removeFormulaFromLocalStorage(display);
-                });
-
-                listItem.appendChild(formulaButton);
-                listItem.appendChild(editButton);
-                listItem.appendChild(deleteButton);
-                savedFormulas.appendChild(listItem);
-                saveFormulaToLocalStorage({ id: display, name });
-            } else {
-                alert("Non è possibile salvare una formula vuota o senza nome.");
-            }
-        }
-
+       
         function saveFormulaToLocalStorage(formula) {
             let formulas = JSON.parse(localStorage.getItem('formulas')) || [];
             formulas.push(formula);
@@ -241,43 +195,71 @@
             localStorage.setItem('formulas', JSON.stringify(formulas));
         }
 
+        function createFormulaElement(id, name, listItem = null) {
+            const savedFormulasElement = document.getElementById('savedFormulas');
+        
+            if (!listItem) {
+                listItem = document.createElement('li');
+                listItem.className = 'list-group-item w-100 d-flex align-items-center ';
+            }
+            const btnGroup= document.createElement('div')
+            btnGroup.className= 'btn-group w-100'
+            
+
+            const formulaButton = document.createElement('button');
+            formulaButton.className = 'btn btn-secondary';
+            formulaButton.style= "width:70%; overflow:hidden"
+            formulaButton.dataset.id = id;
+            formulaButton.textContent = name;
+        
+            formulaButton.addEventListener('click', function (event) {
+                event.stopPropagation();
+                document.getElementById('display').value = this.dataset.id;
+                rollDice();
+                lastButtonWasDice = true;
+            });
+        
+            const editButton = document.createElement('button');
+            editButton.className = 'btn btn-warning flex-shrink-1';
+            editButton.innerHTML = '✏️';
+            editButton.onclick= () =>{
+                showEditModal(id, name, listItem);
+            };
+        
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'btn btn-danger flex-shrink-1';
+            deleteButton.innerHTML = '🗑️';
+            deleteButton.addEventListener('click', function () {
+                savedFormulasElement.removeChild(listItem);
+                removeFormulaFromLocalStorage(id);
+            });
+        
+            listItem.innerHTML = '';
+            btnGroup.appendChild(formulaButton);
+            btnGroup.appendChild(editButton);
+            btnGroup.appendChild(deleteButton);
+            listItem.appendChild(btnGroup)
+            savedFormulasElement.appendChild(listItem);
+        
+            return listItem;
+        }
+        
+        function saveFormula() {
+            const display = document.getElementById('display').value;
+            let name = prompt("Inserisci un nome per la formula:");
+            if (display && name) {
+                name += ": " + display;
+                const listItem = createFormulaElement(display, name);
+                saveFormulaToLocalStorage({ id: display, name });
+            } else {
+                alert("Non è possibile salvare una formula vuota o senza nome.");
+            }
+        }
+        
         function loadFormulas() {
             const savedFormulas = JSON.parse(localStorage.getItem('formulas')) || [];
-            const savedFormulasElement = document.getElementById('savedFormulas');
             savedFormulas.forEach(formula => {
-                const listItem = document.createElement('li');
-                listItem.className = 'list-group-item d-flex justify-content-between align-items-center ';
-
-                const formulaButton = document.createElement('button');
-                formulaButton.className = 'btn btn-secondary rounded-0 rounded-start-2 w-100';
-                formulaButton.dataset.id = formula.id;
-                formulaButton.textContent = formula.name;
-
-                formulaButton.addEventListener('click', function (event) {
-                        event.stopPropagation();
-                    document.getElementById('display').value = this.dataset.id;
-                    rollDice();
-                    lastButtonWasDice = true
-                });
-
-                const editButton = document.createElement('button');
-                editButton.className = 'btn btn-warning rounded-0 h-100 flex-shrink-1';
-                editButton.innerHTML = '✏️';
-                editButton.addEventListener('click', function () {
-                    showEditModal(formula.id, formula.name, listItem);
-                });
-
-                const deleteButton = document.createElement('button');
-                deleteButton.className = 'btn btn-danger rounded-0 h-100 rounded-end-2 flex-shrink-1';
-                deleteButton.innerHTML = '🗑️';
-                deleteButton.addEventListener('click', function () {
-                    savedFormulasElement.removeChild(listItem);
-                    removeFormulaFromLocalStorage(formula.id);
-                });
-
-                listItem.appendChild(formulaButton);
-                listItem.appendChild(editButton);
-                listItem.appendChild(deleteButton);
-                savedFormulasElement.appendChild(listItem);
+                createFormulaElement(formula.id, formula.name);
             });
         }
+        
