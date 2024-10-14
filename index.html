@@ -10,8 +10,19 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
       
 <style>
+    .black{
+        color: black;
+    }
     .btn-custom
-        {background-color: #4d9fcf;}
+        {background-color: #338fc5;
+           color: white;
+            }
+            .btn-custom:hover {
+  background-color: #338fc5; 
+  }
+            .btn-custom:active {
+  background-color: #356d8d !important; 
+  }
 </style>
 </head>
 
@@ -100,7 +111,7 @@
                     <h5 class="m-1"></h5>Vantaggio</h5>
                 </button>
                 <button class="btn btn-custom border col-4" onclick="backspaceDisplay()">
-                    <h5 class="m-1">⌫</h5>
+                    <h5 class="m-1 black">⌫</h5>
                 </button>
                 <button class="btn btn-custom border col-4" onclick="appendToDisplay('-', false)">➖</button>
                 <button class="btn btn-danger border col-4" onclick="appendToDisplay('s', 'prova')">
@@ -301,7 +312,7 @@
                     </form>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button type="button" class="btn btn-success" onclick="salvaStatistiche()">Salva</button>
+                    <button type="button" class="btn btn-custom" onclick="salvaStatistiche()">Salva</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
                 </div>
             </div>
@@ -359,13 +370,13 @@ aria-hidden="true">
             <!-- Il risultato e i dettagli del lancio verranno inseriti qui -->
             <div id="modalResultContent"></div>
         </div>
-        <div class="modal-footer d-flex justify-content-center">
-            <button type="button" class="btn btn-success"
+        <div class="modal-footer d-flex justify-content-evenly">
+            <button type="button" class="btn btn-secondary"
                 onclick="event.stopPropagation(); rollDice(true)">
                 <h1 class="m-1">🔄</h1>
             </button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                <h1>Chiudi</h1>
+                <h1  class="m-1">❌</h1>
             </button>
         </div>
     </div>

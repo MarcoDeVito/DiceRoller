@@ -212,7 +212,7 @@
             });
         
             const editButton = document.createElement('button');
-            editButton.className = 'btn btn-warning flex-shrink-1';
+            editButton.className = 'btn btn-custom flex-shrink-1';
             editButton.innerHTML = '✏️';
             editButton.onclick= () =>{
                 showEditModal(id, name, listItem);
