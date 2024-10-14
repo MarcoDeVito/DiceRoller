@@ -142,7 +142,7 @@
 
             const currentTime = new Date().toLocaleTimeString();
 
-            listItem.innerHTML = `<p class="text-center mb-0">${currentTime}<br><strong>Formula:</strong> <a class="link-opacity-50-hover link-offset-2 link-danger">${roll}</a> - <strong>${resultName}:</strong> ${result} <br> <small>${details}</small></p>`;
+            listItem.innerHTML = `<p class="text-center mb-0">${currentTime}<br><a class="link-opacity-50-hover link-offset-2 link-danger">${roll}</a> - <strong>${resultName}:</strong> ${result} <br> <small>${details}</small></p>`;
             listItem.id=roll
             listItem.onclick= event=> {
                 document.getElementById('display').value = roll;
@@ -176,7 +176,7 @@
             savedRollHistory.forEach(rollItem => {
                 const listItem = document.createElement('li');
                 listItem.className = 'list-group-item';
-                listItem.innerHTML = `<p class="text-center mb-0">${rollItem.time}<br><strong>Formula:</strong> <a class="link-opacity-50-hover link-offset-2 link-danger">${rollItem.roll}</a> - <strong>${rollItem.resultName}:</strong> ${rollItem.result} <br> <small>${rollItem.details}</small></p>`;
+                listItem.innerHTML = `<p class="text-center mb-0">${rollItem.time}<br><a class="link-opacity-50-hover link-offset-2 link-danger">${rollItem.roll}</a> - <strong>${rollItem.resultName}:</strong> ${rollItem.result} <br> <small>${rollItem.details}</small></p>`;
                 listItem.id=rollItem.roll
                 listItem.onclick= event=> {
                     document.getElementById('display').value = rollItem.roll;
