@@ -190,7 +190,7 @@ function createButtonStats(id, name, i = false) {
         i++;
     }
     let numcol = i < 12 && i ? "col-4 " : "col-6 ";
-    col.className = numcol + "btn-group p-1 btn-group-lg" + ((i >= 3 && i <= 5) ||((i >= 9 && i <= 11)) ? " mb-3 " : "");
+    col.className = numcol + "btn-group p-1 " + ((i >= 3 && i <= 5) ||((i >= 9 && i <= 11)) ? " mb-3 " : "");
     const button = document.createElement('button');
     if (proficientSkills.includes(name) || proficientSavingThrows.includes(name.replace("TS ", ""))) {
         button.className = "btn btn-custom"; // Cambia colore se è competente

@@ -157,7 +157,7 @@
 
             rollHistory.unshift({resultName, roll, result, details, time: currentTime });
 
-            if (rollHistory.length > 10) {
+            if (rollHistory.length > 20) {
                 rollHistory.pop();
                 rollHistoryElement.lastChild.remove();
             }
