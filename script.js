@@ -226,8 +226,10 @@
         
             formulaButton.addEventListener('click', function (event) {
                 event.stopPropagation();
+                textsplit=this.innerText.split(":")
+                formulaname= textsplit[0]
                 document.getElementById('display').value = this.dataset.id;
-                rollDice();
+                rollDice(false,formulaname);
                 lastButtonWasDice = true;
             });
         
