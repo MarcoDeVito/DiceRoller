@@ -37,6 +37,7 @@
         function clearDisplay() {
             document.getElementById('display').value = '';
             lastButtonWasDice = false;
+            lastButtonWasVantageOrDisadvantage = false;
         }
 
         function backspaceDisplay() {
