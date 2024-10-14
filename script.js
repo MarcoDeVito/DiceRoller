@@ -169,10 +169,10 @@
         }
 
        
-        function saveFormulaToLocalStorage(formula) {
-            let formulas = JSON.parse(localStorage.getItem('formulas')) || [];
+        function saveFormulaToLocalStorage(formula, localStorageName="formulas") {
+            let formulas = JSON.parse(localStorage.getItem(localStorageName)) || [];
             formulas.push(formula);
-            localStorage.setItem('formulas', JSON.stringify(formulas));
+            localStorage.setItem(localStorageName, JSON.stringify(formulas));
         }
 
         function removeFormulaFromLocalStorage(name) {
@@ -181,13 +181,13 @@
             localStorage.setItem('formulas', JSON.stringify(formulas));
         }
 
-        function createFormulaElement(id, name, listItem = null) {
-            const savedFormulasElement = document.getElementById('savedFormulas');
+        function createFormulaElement(id, name, save="savedFormulas") {
+            const savedFormulasElement = document.getElementById(save);
         
-            if (!listItem) {
+            
                 listItem = document.createElement('li');
                 listItem.className = 'list-group-item w-100 d-flex align-items-center ';
-            }
+            
             const btnGroup= document.createElement('div')
             btnGroup.className= 'btn-group w-100'
             
@@ -221,7 +221,7 @@
             deleteButton.addEventListener('click', function () {
                 savedFormulasElement.removeChild(listItem);
                 removeFormulaFromLocalStorage(name);
-                document.getElementById('savedFormulas').innerHTML=''; 
+                
                 loadFormulas()
             });
         
@@ -232,7 +232,6 @@
             listItem.appendChild(btnGroup)
             savedFormulasElement.appendChild(listItem);
         
-            return listItem;
         }
         
         function saveFormula() {
@@ -240,20 +239,22 @@
             let name = prompt("Inserisci un nome per la formula:");
             if (display && name) {
                 name += ": " + display;
-                const listItem = createFormulaElement(display, name);
+                createFormulaElement(display, name);
                 saveFormulaToLocalStorage({ id: display, name });
-                document.getElementById('savedFormulas').innerHTML=''; 
+                 
                 loadFormulas()
             } else {
                 alert("Non è possibile salvare una formula vuota o senza nome.");
             }
         }
         
-        function loadFormulas() {
-            const savedFormulas = JSON.parse(localStorage.getItem('formulas')) || [];
+        function loadFormulas(localStorageName="formulas",save='savedFormulas') {
+            const savedFormulas = JSON.parse(localStorage.getItem(localStorageName)) || [];
+            const tutorialFormulas=document.getElementById(save)
+            tutorialFormulas.innerHTML='';           
                         
             if (savedFormulas.length===0) {
-                const tutorialFormulas = document.getElementById('savedFormulas'); 
+               
                 tutorialFormulas.innerHTML='<p>Ancora nessuna formula salvata</p><p>Premi ❤ per salvare una formula tra i preferiti</p>'
             }
             else{
