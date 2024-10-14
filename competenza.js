@@ -1,3 +1,5 @@
+
+
 function getProficiencyBonus(level) {
     if (level >= 1 && level <= 4) {
         return 2;
@@ -46,16 +48,50 @@ function salvaStatistiche() {
         // "name": name,
     }
     
+    document.querySelector("#rowRollCharModal").innerHTML=""
+    let titleModal=name?name:"Character"
+    localStorage.removeItem("Character")
     Object.entries(character).forEach(function([key, value]) {
         let symbol= value<0?"-":"+"
         let id="d20"+symbol+Math.abs(value)
-        charName= name?name:""
-        let formulaName= charName+" "+key+": "+id
-        formula={"id":id,"name":formulaName}
-        saveFormulaToLocalStorage(formula,name?name:"Character")
+        formula={"id":id,"name":key}
+        createButtonStats(id,key)
+        
+        saveFormulaToLocalStorage(formula,"Character")
         
     });
-    
+    document.querySelector("#statsModalLabel1").innerHTML=titleModal
+    localStorage.setItem("CharacterName",titleModal)    
     // loadFormulas()
     closeModal("statsModal")
   }
+
+  function createButtonStats(id,name){
+    const rowRollCharModal=document.querySelector("#rowRollCharModal")
+    const col= document.createElement('div')
+    col.className="col-4"
+    const button= document.createElement('button')
+    button.className="btn btn-success w-100 mb-2"
+    button.dataset.id = id;
+    button.innerHTML=name
+   
+    button.addEventListener('click', function (event) {
+        
+        document.getElementById('display').value = this.dataset.id;
+        rollDice();
+        lastButtonWasDice = true;
+    });
+    col.appendChild(button)
+    rowRollCharModal.appendChild(col)
+  }
+
+function loadModificators(){
+    let titleModal =localStorage.getItem("CharacterName")
+    document.querySelector("#statsModalLabel1").innerHTML=titleModal
+    const savedFormulas = JSON.parse(localStorage.getItem("Character")) || [];
+    document.querySelector("#rowRollCharModal").innerHTML=""
+        savedFormulas.forEach(formula => {
+            createButtonStats(formula.id,formula.name)
+       
+    });
+}

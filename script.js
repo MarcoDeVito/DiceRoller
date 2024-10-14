@@ -7,6 +7,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadFormulas();
             loadRollHistory();
+            loadModificators()
         });
 
         document.addEventListener('keydown', event => {
