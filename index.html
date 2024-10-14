@@ -108,11 +108,14 @@
                     <h1 class="m-1">Roll</h1>
                 </button> -->
                 <!-- Bottone per aprire il modale -->
-                <button type="button" class="btn btn-secondary border col-6" data-bs-toggle="modal" data-bs-target="#statsModal">
-                    Inserisci Statistiche
+                <button type="button" class="btn btn-secondary border col-4" data-bs-toggle="modal" data-bs-target="#statsModal">
+                    Inserisci PG
                 </button>
-                <button type="button" class="btn btn-secondary border col-6" data-bs-toggle="modal" data-bs-target="#rollStatsModal">
-                    Scheda Statistiche
+                <button type="button" class="btn btn-secondary border col-4" data-bs-toggle="modal" data-bs-target="#rollStatsModal">
+                    Roll Stat
+                </button>
+                <button type="button" class="btn btn-secondary border col-4" data-bs-toggle="modal" onclick="loadStatforForce()" data-bs-target="#forceStatsModal">
+                    Forza Stat
                 </button>
             </div>
         </div>
@@ -277,6 +280,29 @@
                         <div class="row justify-content-center" id="rowRollCharModal">
                             <p>Inserisci prima le stat di un Personaggio!</p>
                         </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <!-- Modale forza statistiche-->
+    <div class="modal fade" id="forceStatsModal" tabindex="-1" aria-labelledby="statsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="statsModalLabel1"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    
+                        <div class="row justify-content-center" id="rowforceCharModal">
+                            
+                        </div>
+                    
+                </div>
+                <div class="modal-footer"></div>
+                    <button type="button" class="btn btn-warning" onclick="saveModifiedStats()">Sovrascrivi</button>
                     
                 </div>
                 

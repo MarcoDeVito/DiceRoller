@@ -228,3 +228,73 @@ function loadSelectedSkills() {
     });
 }
 
+
+function loadStatforForce() {
+    // Recupera il personaggio salvato nel localStorage
+    const character = JSON.parse(localStorage.getItem("Character")) || [];
+
+    // Ottiene il container dove inserire gli input (puoi cambiare l'ID con uno appropriato)
+    const statContainer = document.querySelector("#rowforceCharModal");
+
+    // Pulisce il contenitore prima di aggiungere nuovi elementi
+    statContainer.innerHTML = "";
+
+    // Scorriamo le statistiche del personaggio
+    character.forEach(({ id, name }) => {
+        // Estrai il modificatore dall'id (che è nella forma d20+X o d20-X)
+        let modifier = id; // Prende il valore del modificatore (+X o -X)
+
+        // Creiamo un div per ogni statistica
+        const statDiv = document.createElement('div');
+        statDiv.className = "mb-3 col-6";
+
+        // Creiamo la label per la statistica
+        const label = document.createElement('label');
+        label.setAttribute("for", name);  // Imposta il "for" per legarlo all'input
+        label.innerHTML = name;           // Usa il nome della statistica (es. FOR, DEX, Atletica, ecc.)
+        label.className = "form-label";
+
+        // Creiamo l'input di testo
+        const input = document.createElement('input');
+        input.type = "text";
+        input.id = name;                   // Imposta l'id con il nome della statistica o abilità
+        input.value = modifier;            // Imposta il modificatore estratto dal `id`
+        input.className = "form-control";
+
+        // Aggiungiamo la label e l'input al div della statistica
+        statDiv.appendChild(label);
+        statDiv.appendChild(input);
+
+        // Inseriamo il div della statistica nel container
+        statContainer.appendChild(statDiv);
+    });
+}
+
+function saveModifiedStats() {
+    // Recupera il personaggio salvato nel localStorage
+    let character = JSON.parse(localStorage.getItem("Character")) || [];
+
+    // Cicla su ogni statistica/abilità nell'array `Character`
+    character = character.map(entry => {
+        // Trova l'input associato alla statistica/abilità
+        let input = document.getElementById(entry.name);
+
+        if (input) {
+            // Aggiorna l'ID con il nuovo valore dell'input (modificatore)
+            let newValue = input.value.trim(); // Prende il valore modificato
+
+            // Aggiorna l'id mantenendo il formato "d20+X" o "d20-X"
+            entry.id = newValue
+        }
+
+        return entry;
+    });
+
+    // Salva il nuovo array di personaggio nel localStorage
+    localStorage.setItem("Character", JSON.stringify(character));
+
+    // Avvisa l'utente che le modifiche sono state salvate (opzionale)
+    alert("Modifiche salvate con successo!");
+    closeModal("forceStatsModal")
+    loadModificators()
+}
