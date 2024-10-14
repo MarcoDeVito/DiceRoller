@@ -264,10 +264,9 @@
             let name = prompt("Inserisci un nome per la formula:");
             if (display && name) {
                 name += ": " + display;
-                createFormulaElement(display, name);
                 saveFormulaToLocalStorage({ id: display, name });
-                 
                 loadFormulas()
+
             } else {
                 alert("Non è possibile salvare una formula vuota o senza nome.");
             }
