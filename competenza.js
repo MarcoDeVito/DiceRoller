@@ -144,10 +144,10 @@ function salvaStatistiche() {
 
     let rowRollCharModal = document.querySelector("#rowRollCharModal").innerHTML = `<div class="btn-group mb-3" role="group" aria-label="Basic checkbox toggle button group">
         <input type="checkbox" class="btn-check" id="vantaggio" autocomplete="off">
-        <label class="btn btn-outline-success" for="vantaggio">Vantaggio</label>
+        <label class="btn btn-outline-success" onclick="vantaggiobtnclick()" for="vantaggio">Vantaggio</label>
 
-        <input type="checkbox" class="btn-check" id="svantaggio" autocomplete="off">
-        <label class="btn btn-outline-danger" for="svantaggio">Svantaggio</label>
+        <input type="checkbox" class="btn-check" id="svantaggio" onclick="svantaggiobtnclick()" autocomplete="off">
+        <label class="btn btn-outline-danger" onclick="svantaggiobtnclick()" for="svantaggio">Svantaggio</label>
     </div>`;
     let titleModal = name ? name : "Character";
     localStorage.removeItem("Character");
@@ -184,6 +184,8 @@ function salvaStatistiche() {
     document.querySelector("#statsModalLabel1").innerHTML = titleModal;
     localStorage.setItem("CharacterName", titleModal);
     closeModal("statsModal");
+    location.reload();
+
 }
 
 function createButtonStats(id, name, i = false) {
@@ -229,10 +231,10 @@ function loadModificators() {
     const savedFormulas = JSON.parse(localStorage.getItem("Character")) || [];
     document.querySelector("#rowRollCharModal").innerHTML = `<div class="btn-group mb-3" role="group" aria-label="Basic checkbox toggle button group">
         <input type="checkbox" class="btn-check" id="vantaggio" autocomplete="off">
-        <label class="btn btn-outline-success" for="vantaggio">Vantaggio</label>
+        <label class="btn btn-outline-success" onclick="vantaggiobtnclick()" for="vantaggio">Vantaggio</label>
 
         <input type="checkbox" class="btn-check" id="svantaggio" autocomplete="off">
-        <label class="btn btn-outline-danger" for="svantaggio">Svantaggio</label>
+        <label class="btn btn-outline-danger" onclick="svantaggiobtnclick()" for="svantaggio">Svantaggio</label>
     </div>`;
     savedFormulas.forEach((formula, i) => {
         createButtonStats(formula.id, formula.name, i);

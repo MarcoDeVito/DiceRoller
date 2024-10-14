@@ -3,7 +3,21 @@
         let lastButtonWasVantageOrDisadvantage = false;
         let rollHistory = [];
 
+        vantaggiobtnclick=()=> {
+                
+            if(vantaggiobtn.checked===true&& svantaggiobtn.checked===true){
+                svantaggiobtn.checked=false
+            }
+        }
 
+
+        svantaggiobtnclick=()=> {
+                console.log(svantaggiobtn.checked);
+                
+            if(vantaggiobtn.checked===true&& svantaggiobtn.checked===true){
+                vantaggiobtn.checked=false
+            }
+        }
         document.addEventListener('DOMContentLoaded', () => {
             loadFormulas();
             loadRollHistory();
@@ -12,18 +26,8 @@
             vantaggiobtn=document.querySelector('#vantaggio')
             svantaggiobtn=document.querySelector('#svantaggio')
 
-            vantaggiobtn.addEventListener("click",()=> {
-                
-                if(vantaggiobtn.checked===true&& svantaggiobtn.checked===true){
-                    svantaggiobtn.checked=false
-                }
-            })
-            svantaggiobtn.addEventListener("click",()=> {
-                
-                if(vantaggiobtn.checked===true&& svantaggiobtn.checked===true){
-                    vantaggiobtn.checked=false
-                }
-            })
+            vantaggiobtn.addEventListener("click",vantaggiobtnclick)
+            svantaggiobtn.addEventListener("click",svantaggiobtnclick)
         });
 
         document.addEventListener('keydown', event => {
