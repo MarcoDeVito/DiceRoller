@@ -161,12 +161,12 @@ function salvaStatistiche() {
     });
 
      // Aggiungi anche i tiri salvezza come pulsanti
-     ['FOR', 'DEX', 'COS', 'INT', 'SAG', 'CAR'].forEach(stat => {
+     ['FOR', 'DEX', 'COS', 'INT', 'SAG', 'CAR'].forEach((stat,i) => {
         let savingThrowBonus = calculateSavingThrowBonus(stat, stats, bonus, proficientSavingThrows);
         let symbol = savingThrowBonus < 0 ? "-" : "+";
         let id = "d20" + symbol + Math.abs(savingThrowBonus);
-        let formula = { "id": id, "name": stat + " Salvezza" };
-        createButtonStats(id, stat + " Salvezza");
+        let formula = { "id": id, "name": "TS "+stat };
+        createButtonStats(id, "TS "+stat  ,i);
         saveFormulaToLocalStorage(formula, "Character");
     });
 
@@ -194,10 +194,10 @@ function createButtonStats(id, name, i = false) {
     if (i === 0) {
         i++;
     }
-    let numcol = i < 6 && i ? "col-4 " : "col-6 ";
-    col.className = numcol + "btn-group p-1 btn-group-lg" + (i === 3 || i === 4 || i === 5 ? " mb-3 " : "");
+    let numcol = i < 12 && i ? "col-4 " : "col-6 ";
+    col.className = numcol + "btn-group p-1 btn-group-lg" + ((i >= 3 && i <= 5) ||((i >= 9 && i <= 11)) ? " mb-3 " : "");
     const button = document.createElement('button');
-    if (proficientSkills.includes(name) || proficientSavingThrows.includes(name.replace(" Salvezza", ""))) {
+    if (proficientSkills.includes(name) || proficientSavingThrows.includes(name.replace("TS ", ""))) {
         button.className = "btn btn-custom"; // Cambia colore se è competente
     } else {
         button.className = "btn btn-secondary"; // Colore di default
