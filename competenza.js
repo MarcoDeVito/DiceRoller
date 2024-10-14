@@ -1,23 +1,24 @@
 const skills = [
-    { name: 'Atletica', stat: 'FOR' },
     { name: 'Acrobazia', stat: 'DEX' },
-    { name: 'Rapidità di mano', stat: 'DEX' },
-    { name: 'Furtività', stat: 'DEX' },
-    { name: 'Arcano', stat: 'INT' },
-    { name: 'Indagare', stat: 'INT' },
-    { name: 'Storia', stat: 'INT' },
-    { name: 'Natura', stat: 'INT' },
-    { name: 'Religione', stat: 'INT' },
-    { name: 'Percezione', stat: 'SAG' },
-    { name: 'Intuizione', stat: 'SAG' },
-    { name: 'Medicina', stat: 'SAG' },
-    { name: 'Sopravvivenza', stat: 'SAG' },
     { name: 'Addestrare animali', stat: 'SAG' },
-    { name: 'Persuasione', stat: 'CAR' },
-    { name: 'Intimidazione', stat: 'CAR' },
+    { name: 'Arcano', stat: 'INT' },
+    { name: 'Atletica', stat: 'FOR' },
+    { name: 'Furtività', stat: 'DEX' },
+    { name: 'Indagare', stat: 'INT' },
     { name: 'Inganno', stat: 'CAR' },
+    { name: 'Intimidazione', stat: 'CAR' },
+    { name: 'Intuizione', stat: 'SAG' },
     { name: 'Intrattenere', stat: 'CAR' },
+    { name: 'Medicina', stat: 'SAG' },
+    { name: 'Natura', stat: 'INT' },
+    { name: 'Percezione', stat: 'SAG' },
+    { name: 'Persuasione', stat: 'CAR' },
+    { name: 'Rapidità di mano', stat: 'DEX' },
+    { name: 'Religione', stat: 'INT' },
+    { name: 'Sopravvivenza', stat: 'SAG' },
+    { name: 'Storia', stat: 'INT' }
 ];
+
 
 // Calcola il bonus dell'abilità
 function calculateSkillBonus(skill, stats, proficiencyBonus, proficientSkills) {
