@@ -8,6 +8,7 @@
             loadFormulas();
             loadRollHistory();
             loadModificators()
+            loadSelectedSkills();
         });
 
         document.addEventListener('keydown', event => {
