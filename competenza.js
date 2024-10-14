@@ -142,13 +142,7 @@ function salvaStatistiche() {
 
     character = { ...stats };
 
-    let rowRollCharModal = document.querySelector("#rowRollCharModal").innerHTML = `<div class="btn-group mb-3" role="group" aria-label="Basic checkbox toggle button group">
-        <input type="checkbox" class="btn-check" id="vantaggio" autocomplete="off">
-        <label class="btn btn-outline-success" onclick="vantaggiobtnclick()" for="vantaggio">Vantaggio</label>
-
-        <input type="checkbox" class="btn-check" id="svantaggio" onclick="svantaggiobtnclick()" autocomplete="off">
-        <label class="btn btn-outline-danger" onclick="svantaggiobtnclick()" for="svantaggio">Svantaggio</label>
-    </div>`;
+    
     let titleModal = name ? name : "Character";
     localStorage.removeItem("Character");
 
@@ -156,8 +150,7 @@ function salvaStatistiche() {
         let symbol = value < 0 ? "-" : "+";
         let id = "d20" + symbol + Math.abs(value);
         let formula = { "id": id, "name": key };
-        createButtonStats(id, key, i);
-        saveFormulaToLocalStorage(formula, "Character");
+                saveFormulaToLocalStorage(formula, "Character");
     });
 
      // Aggiungi anche i tiri salvezza come pulsanti
@@ -166,7 +159,7 @@ function salvaStatistiche() {
         let symbol = savingThrowBonus < 0 ? "-" : "+";
         let id = "d20" + symbol + Math.abs(savingThrowBonus);
         let formula = { "id": id, "name": "TS "+stat };
-        createButtonStats(id, "TS "+stat  ,i);
+        
         saveFormulaToLocalStorage(formula, "Character");
     });
 
@@ -175,13 +168,13 @@ function salvaStatistiche() {
         let symbol = skillBonus < 0 ? "-" : "+";
         let id = "d20" + symbol + Math.abs(skillBonus);
         let formula = { "id": id, "name": skill.name };
-        createButtonStats(id, skill.name);
+       
         saveFormulaToLocalStorage(formula, "Character");
     });
 
    
 
-    document.querySelector("#statsModalLabel1").innerHTML = titleModal;
+    
     localStorage.setItem("CharacterName", titleModal);
     closeModal("statsModal");
     location.reload();
@@ -217,7 +210,7 @@ function createButtonStats(id, name, i = false) {
             result = result.replace("d20", "d20s");
         }
         document.getElementById('display').value = result;
-        rollDice();
+        rollDice(false,this.innerText);
         lastButtonWasDice = true;
     });
 

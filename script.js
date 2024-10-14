@@ -64,7 +64,7 @@
             display.value = display.value.slice(0, -1);
         }
 
-        function rollDice(isopen=false) {
+        function rollDice(isopen=false,resultName=false) {
             const display = document.getElementById('display').value.trim();
             let total = 0;
             let detailedResult = '';
@@ -123,7 +123,7 @@
             }
  // Aggiorna il contenuto del modale
  const modalResultContent = document.getElementById('modalResultContent');
- modalResultContent.innerHTML = `<p class='text-center display-1 fw.bold'>Risultato: ${total}</p><p class='text-center h3'>${detailedResult}</p>`;
+ modalResultContent.innerHTML = `<p class='text-center display-1 fw.bold'>${resultName?resultName:"Risultato"}: ${total}</p><p class='text-center h3'>${detailedResult}</p>`;
 
  if(!isopen){
      const resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
@@ -131,18 +131,18 @@
 
  }
  // Mostra il modale
-            updateRollHistory(display, total, detailedResult);
+            updateRollHistory(display, total, detailedResult,resultName?resultName:"Risultato");
 
         }
 
-        function updateRollHistory(roll, result, details) {
+        function updateRollHistory(roll, result, details,resultName) {
             const rollHistoryElement = document.getElementById('rollHistory');
             const listItem = document.createElement('li');
             listItem.className = 'list-group-item';
 
             const currentTime = new Date().toLocaleTimeString();
 
-            listItem.innerHTML = `<p class="text-center mb-0">${currentTime}<br><strong>Formula:</strong> <a class="link-opacity-50-hover link-offset-2 link-danger">${roll}</a> - <strong>Risultato:</strong> ${result} <br> <small>${details}</small></p>`;
+            listItem.innerHTML = `<p class="text-center mb-0">${currentTime}<br><strong>Formula:</strong> <a class="link-opacity-50-hover link-offset-2 link-danger">${roll}</a> - <strong>${resultName}:</strong> ${result} <br> <small>${details}</small></p>`;
             listItem.id=roll
             listItem.onclick= event=> {
                 document.getElementById('display').value = roll;
@@ -151,10 +151,11 @@
                lastButtonWasDice = true;
            };
             
-
+           
+           
             rollHistoryElement.prepend(listItem);
 
-            rollHistory.unshift({ roll, result, details, time: currentTime });
+            rollHistory.unshift({resultName, roll, result, details, time: currentTime });
 
             if (rollHistory.length > 10) {
                 rollHistory.pop();
@@ -175,7 +176,7 @@
             savedRollHistory.forEach(rollItem => {
                 const listItem = document.createElement('li');
                 listItem.className = 'list-group-item';
-                listItem.innerHTML = `<p class="text-center mb-0">${rollItem.time}<br><strong>Formula:</strong> <a class="link-opacity-50-hover link-offset-2 link-danger">${rollItem.roll}</a> - <strong>Risultato:</strong> ${rollItem.result} <br> <small>${rollItem.details}</small></p>`;
+                listItem.innerHTML = `<p class="text-center mb-0">${rollItem.time}<br><strong>Formula:</strong> <a class="link-opacity-50-hover link-offset-2 link-danger">${rollItem.roll}</a> - <strong>${rollItem.resultName}:</strong> ${rollItem.result} <br> <small>${rollItem.details}</small></p>`;
                 listItem.id=rollItem.roll
                 listItem.onclick= event=> {
                     document.getElementById('display').value = rollItem.roll;
