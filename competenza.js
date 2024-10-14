@@ -198,7 +198,7 @@ function createButtonStats(id, name, i = false) {
     col.className = numcol + "btn-group p-1 btn-group-lg" + (i === 3 || i === 4 || i === 5 ? " mb-3 " : "");
     const button = document.createElement('button');
     if (proficientSkills.includes(name) || proficientSavingThrows.includes(name.replace(" Salvezza", ""))) {
-        button.className = "btn btn-success"; // Cambia colore se è competente
+        button.className = "btn btn-custom"; // Cambia colore se è competente
     } else {
         button.className = "btn btn-secondary"; // Colore di default
     }
