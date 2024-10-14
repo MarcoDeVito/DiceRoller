@@ -69,19 +69,33 @@ function salvaStatistiche() {
   function createButtonStats(id,name){
     const rowRollCharModal=document.querySelector("#rowRollCharModal")
     const col= document.createElement('div')
-    col.className="col-4"
+    col.className="col-6 btn-group p-1 btn-group-lg"
     const button= document.createElement('button')
-    button.className="btn btn-success w-100 mb-2"
+    button.className="btn btn-secondary"
     button.dataset.id = id;
     button.innerHTML=name
+    const buttonv= document.createElement('button')
+    buttonv.className="btn btn-success"
+    buttonv.dataset.id = id.replace("d20", "d20v");
+    buttonv.innerHTML="V"
+    const buttons= document.createElement('button')
+    buttons.className="btn btn-danger"
+    buttons.dataset.id = id.replace("d20", "d20s");
+    buttons.innerHTML="S"
    
-    button.addEventListener('click', function (event) {
+    let buttonn=[button,buttons,buttonv]
+    buttonn.forEach(function(element) {
+    element.addEventListener('click', function (event) {
         
         document.getElementById('display').value = this.dataset.id;
         rollDice();
         lastButtonWasDice = true;
     });
+});
+    
+    col.appendChild(buttonv)
     col.appendChild(button)
+    col.appendChild(buttons)
     rowRollCharModal.appendChild(col)
   }
 
