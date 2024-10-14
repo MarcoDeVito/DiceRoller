@@ -19,8 +19,6 @@ const skills = [
     { name: 'Intrattenere', stat: 'CAR' },
 ];
 
-
-
 // Calcola il bonus dell'abilità
 function calculateSkillBonus(skill, stats, proficiencyBonus, proficientSkills) {
     let statModifier = stats[skill.stat];
@@ -48,6 +46,51 @@ function getSelectedSkills() {
     return selectedSkills;
 }
 
+// Recupera i tiri salvezza selezionati
+function getSelectedSavingThrows() {
+    let selectedSavingThrows = [];
+    let checkboxes = document.querySelectorAll('.saving-throw-checkbox');
+    
+    checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            selectedSavingThrows.push(checkbox.value);
+        }
+    });
+    
+    return selectedSavingThrows;
+}
+
+// Funzione per calcolare il bonus per i tiri salvezza
+function calculateSavingThrowBonus(stat, stats, proficiencyBonus, proficientSavingThrows) {
+    let statModifier = stats[stat];
+    let isProficient = proficientSavingThrows.includes(stat);
+    let bonus = statModifier;
+    
+    if (isProficient) {
+        bonus += proficiencyBonus; // Aggiungi il bonus di competenza se il tiro salvezza è competente
+    }
+    
+    return bonus;
+}
+
+// Funzione per salvare i tiri salvezza nel localStorage
+function saveSavingThrows() {
+    let proficientSavingThrows = getSelectedSavingThrows();
+    localStorage.setItem("proficientSavingThrows", JSON.stringify(proficientSavingThrows));
+}
+
+// Funzione per caricare i tiri salvezza selezionati dal localStorage e aggiornare le checkbox
+function loadSelectedSavingThrows() {
+    let proficientSavingThrows = JSON.parse(localStorage.getItem("proficientSavingThrows")) || [];
+    let checkboxes = document.querySelectorAll('.saving-throw-checkbox');
+    
+    checkboxes.forEach(checkbox => {
+        if (proficientSavingThrows.includes(checkbox.value)) {
+            checkbox.checked = true; // Se il tiro salvezza è salvato nel localStorage, seleziona la checkbox
+        }
+    });
+}
+
 function getProficiencyBonus(level) {
     if (level >= 1 && level <= 4) {
         return 2;
@@ -64,14 +107,9 @@ function getProficiencyBonus(level) {
     }
 }
 
-
 function modifier(stat) {
-    return Math.floor((stat-10)/2)
+    return Math.floor((stat-10)/2);
 }
-
-    
-
-
 
 function salvaStatistiche() {
     let name = document.getElementById('name').value.trim();
@@ -83,47 +121,51 @@ function salvaStatistiche() {
     let wisdom = document.getElementById('wisdom').value;
     let charisma = document.getElementById('charisma').value;
     let bonus = getProficiencyBonus(level);
-    let stats ={
-        
-        // "level" : parseInt(level),
-        "FOR" : modifier(strength),
-        "DEX" : modifier(dexterity),
-        "COS" : modifier(constitution),
-        "INT" : modifier(intelligence),
-        "SAG" : modifier(wisdom),
-        "CAR" : modifier(charisma),
-        // "proficency":bonus,
-        // "name": name,
-    }
+    let stats = {
+        "FOR": modifier(strength),
+        "DEX": modifier(dexterity),
+        "COS": modifier(constitution),
+        "INT": modifier(intelligence),
+        "SAG": modifier(wisdom),
+        "CAR": modifier(charisma),
+    };
 
     // Recupera le abilità selezionate dall'utente
     let proficientSkills = getSelectedSkills();
+    // Recupera i tiri salvezza selezionati dall'utente
+    let proficientSavingThrows = getSelectedSavingThrows();
 
-    // Salva le abilità con competenza nel localStorage
+    // Salva le abilità e i tiri salvezza nel localStorage
     localStorage.setItem("proficientSkills", JSON.stringify(proficientSkills));
-    character = {
-        ...stats,
-    };
+    localStorage.setItem("proficientSavingThrows", JSON.stringify(proficientSavingThrows));
 
-   
+    character = { ...stats };
 
-    let rowRollCharModal=document.querySelector("#rowRollCharModal").innerHTML=`<div class="btn-group mb-3" role="group" aria-label="Basic checkbox toggle button group">
-  <input type="checkbox" class="btn-check" id="vantaggio" autocomplete="off">
-  <label class="btn btn-outline-success" for="vantaggio">Vantaggio</label>
+    let rowRollCharModal = document.querySelector("#rowRollCharModal").innerHTML = `<div class="btn-group mb-3" role="group" aria-label="Basic checkbox toggle button group">
+        <input type="checkbox" class="btn-check" id="vantaggio" autocomplete="off">
+        <label class="btn btn-outline-success" for="vantaggio">Vantaggio</label>
 
-  <input type="checkbox" class="btn-check" id="svantaggio" autocomplete="off">
-  <label class="btn btn-outline-danger" for="svantaggio">Svantaggio</label>
+        <input type="checkbox" class="btn-check" id="svantaggio" autocomplete="off">
+        <label class="btn btn-outline-danger" for="svantaggio">Svantaggio</label>
+    </div>`;
+    let titleModal = name ? name : "Character";
+    localStorage.removeItem("Character");
 
-</div>`
-    let titleModal=name?name:"Character"
-    localStorage.removeItem("Character")
-
-    Object.entries(stats).forEach(function ([key, value],i) {
-                
+    Object.entries(stats).forEach(function ([key, value], i) {
         let symbol = value < 0 ? "-" : "+";
         let id = "d20" + symbol + Math.abs(value);
         let formula = { "id": id, "name": key };
-        createButtonStats(id, key,i);
+        createButtonStats(id, key, i);
+        saveFormulaToLocalStorage(formula, "Character");
+    });
+
+     // Aggiungi anche i tiri salvezza come pulsanti
+     ['FOR', 'DEX', 'COS', 'INT', 'SAG', 'CAR'].forEach(stat => {
+        let savingThrowBonus = calculateSavingThrowBonus(stat, stats, bonus, proficientSavingThrows);
+        let symbol = savingThrowBonus < 0 ? "-" : "+";
+        let id = "d20" + symbol + Math.abs(savingThrowBonus);
+        let formula = { "id": id, "name": stat + " Salvezza" };
+        createButtonStats(id, stat + " Salvezza");
         saveFormulaToLocalStorage(formula, "Character");
     });
 
@@ -136,82 +178,79 @@ function salvaStatistiche() {
         saveFormulaToLocalStorage(formula, "Character");
     });
 
-    document.querySelector("#statsModalLabel1").innerHTML=titleModal
-    localStorage.setItem("CharacterName",titleModal)    
-    // loadFormulas()
-    closeModal("statsModal")
-  }
+   
 
-  function createButtonStats(id,name,i=false){
-    // Recupera le abilità con competenza dal localStorage
+    document.querySelector("#statsModalLabel1").innerHTML = titleModal;
+    localStorage.setItem("CharacterName", titleModal);
+    closeModal("statsModal");
+}
+
+function createButtonStats(id, name, i = false) {
     let proficientSkills = JSON.parse(localStorage.getItem("proficientSkills")) || [];
-    const rowRollCharModal=document.querySelector("#rowRollCharModal")
-    const col= document.createElement('div')
-    if (i===0) {
-        i++
+    let proficientSavingThrows = JSON.parse(localStorage.getItem("proficientSavingThrows")) || [];
+    const rowRollCharModal = document.querySelector("#rowRollCharModal");
+    const col = document.createElement('div');
+    if (i === 0) {
+        i++;
     }
-    let numcol= i<6&&i?"col-4 ":"col-6 "
-    col.className=numcol+"btn-group p-1 btn-group-lg"+(i===3||i===4||i===5?" mb-3 ":"")
-    const button= document.createElement('button')
-     // Verifica se l'abilità è competente e assegna una classe di colore diversa
-     if (proficientSkills.includes(name)) {
-        button.className = "btn btn-success"; // Cambia colore se l'abilità ha competenza
+    let numcol = i < 6 && i ? "col-4 " : "col-6 ";
+    col.className = numcol + "btn-group p-1 btn-group-lg" + (i === 3 || i === 4 || i === 5 ? " mb-3 " : "");
+    const button = document.createElement('button');
+    if (proficientSkills.includes(name) || proficientSavingThrows.includes(name.replace(" Salvezza", ""))) {
+        button.className = "btn btn-success"; // Cambia colore se è competente
     } else {
         button.className = "btn btn-secondary"; // Colore di default
     }
     button.dataset.id = id;
-    button.innerHTML=name
-    // const buttonv= document.createElement('button')
-    // buttonv.className="btn btn-success"
-    // buttonv.dataset.id = id.replace("d20", "d20v");
-    // buttonv.innerHTML="V"
-    // const buttons= document.createElement('button')
-    // buttons.className="btn btn-danger"
-    // buttons.dataset.id = id.replace("d20", "d20s");
-    // buttons.innerHTML="S"
-   
+    button.innerHTML = name;
 
-    // let buttonn=[button,buttons,buttonv]
-    let buttonn=[button]
-    buttonn.forEach(function(element) {
-    element.addEventListener('click', function (event) {
-        let result = this.dataset.id
-                
-        if(document.querySelector("#vantaggio").checked===true){
-            result= result.replace("d20", "d20v");
-            }
-        if(document.querySelector("#svantaggio").checked===true){
-            result= result.replace("d20", "d20s");
-            }
+    button.addEventListener('click', function () {
+        let result = this.dataset.id;
+
+        if (document.querySelector("#vantaggio").checked === true) {
+            result = result.replace("d20", "d20v");
+        }
+        if (document.querySelector("#svantaggio").checked === true) {
+            result = result.replace("d20", "d20s");
+        }
         document.getElementById('display').value = result;
         rollDice();
         lastButtonWasDice = true;
     });
-});
-    
-col.appendChild(button)
-    // col.appendChild(buttonv)
-    // col.appendChild(buttons)
-    rowRollCharModal.appendChild(col)
-  }
 
-function loadModificators(){
-    let titleModal =localStorage.getItem("CharacterName")
-    document.querySelector("#statsModalLabel1").innerHTML=titleModal
+    col.appendChild(button);
+    rowRollCharModal.appendChild(col);
+}
+
+function loadModificators() {
+    let titleModal = localStorage.getItem("CharacterName");
+    document.querySelector("#statsModalLabel1").innerHTML = titleModal;
     const savedFormulas = JSON.parse(localStorage.getItem("Character")) || [];
-    document.querySelector("#rowRollCharModal").innerHTML=`<div class="btn-group mb-3" role="group" aria-label="Basic checkbox toggle button group">
-  <input type="checkbox" class="btn-check" id="vantaggio" autocomplete="off">
-  <label class="btn btn-outline-success" for="vantaggio">Vantaggio</label>
+    document.querySelector("#rowRollCharModal").innerHTML = `<div class="btn-group mb-3" role="group" aria-label="Basic checkbox toggle button group">
+        <input type="checkbox" class="btn-check" id="vantaggio" autocomplete="off">
+        <label class="btn btn-outline-success" for="vantaggio">Vantaggio</label>
 
-  <input type="checkbox" class="btn-check" id="svantaggio" autocomplete="off">
-  <label class="btn btn-outline-danger" for="svantaggio">Svantaggio</label>
-
-</div>`
-        savedFormulas.forEach((formula,i) => {
-            createButtonStats(formula.id,formula.name,i)
-       
+        <input type="checkbox" class="btn-check" id="svantaggio" autocomplete="off">
+        <label class="btn btn-outline-danger" for="svantaggio">Svantaggio</label>
+    </div>`;
+    savedFormulas.forEach((formula, i) => {
+        createButtonStats(formula.id, formula.name, i);
     });
 }
+
+// Carica le abilità e i tiri salvezza selezionati quando si ricarica la pagina
+function loadSelectedSkills() {
+    let proficientSkills = JSON.parse(localStorage.getItem("proficientSkills")) || [];
+    let checkboxes = document.querySelectorAll('.skill-checkbox');
+    
+    checkboxes.forEach(checkbox => {
+        if (proficientSkills.includes(checkbox.value)) {
+            checkbox.checked = true;
+        }
+    });
+    loadSelectedSavingThrows(); // Carica i tiri salvezza selezionati
+}
+
 
 // Funzione per caricare le abilità con competenza dal localStorage e aggiornare le checkbox
 function loadSelectedSkills() {

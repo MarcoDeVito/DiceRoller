@@ -8,6 +8,7 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+      
 
 </head>
 
@@ -181,58 +182,93 @@
 
 
 
-    <!-- Modale Inserimento statistiche-->
-    <div class="modal fade" id="statsModal" tabindex="-1" aria-labelledby="statsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="statsModalLabel">Inserisci Statistiche D&D 5e</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="statsForm">
-                        <div class="row">
-                            <div class="col-4 form-floating mb-3">
-                                <input type="number" value="1" class="form-control" id="level" min="1" max="20"
-                                    required>
-                                <label for="level">Livello</label>
-                            </div>
-                            <div class="col-8 form-floating">
-                                <input type="text" class="form-control" id="name" required>
-                                <label for="name">Nome PG</label>
-                            </div>
+  <!-- Modale Inserimento statistiche-->
+<div class="modal fade" id="statsModal" tabindex="-1" aria-labelledby="statsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="statsModalLabel">Inserisci Statistiche D&D 5e</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="statsForm">
+                    <div class="row">
+                        <div class="col-4 form-floating mb-3">
+                            <input type="number" value="1" class="form-control" id="level" min="1" max="20"
+                                required>
+                            <label for="level">Livello</label>
+                        </div>
+                        <div class="col-8 form-floating">
+                            <input type="text" class="form-control" id="name" required>
+                            <label for="name">Nome PG</label>
+                        </div>
 
-                            <div class="col-4 mb-3 form-floating">
-                                <input type="number" value="10" class="form-control" id="strength" min="1" max="20"
-                                    required>
-                                <label for="strength">FOR</label>
-                            </div>
-                            <div class="col-4 mb-3 form-floating">
-                                <input type="number" value="10" class="form-control" id="dexterity" min="1" max="20"
-                                    required>
-                                <label for="dexterity">DEX</label>
-                            </div>
-                            <div class="col-4 mb-3 form-floating">
-                                <input type="number" value="10" class="form-control" id="constitution" min="1" max="20"
-                                    required>
-                                <label for="constitution">COS</label>
-                            </div>
-                            <div class="col-4 mb-3 form-floating">
-                                <input type="number" value="10" class="form-control" id="intelligence" min="1" max="20"
-                                    required>
-                                <label for="intelligence">INT</label>
-                            </div>
-                            <div class="col-4 mb-3 form-floating">
-                                <input type="number" value="10" class="form-control" id="wisdom" min="1" max="20"
-                                    required>
-                                <label for="wisdom">SAG</label>
-                            </div>
-                            <div class="col-4 mb-3 form-floating">
-                                <input type="number" value="10" class="form-control" id="charisma" min="1" max="20"
-                                    required>
-                                <label for="charisma">CAR</label>
+                        <!-- Statistica FOR con tiro salvezza -->
+                        <div class="col-4 mb-3">
+                            <label for="strength">FOR</label>
+                            <div class="input-group custom-group">
+                                <input type="number" value="10" class="form-control" id="strength" min="1" max="20" required>
+                                <div class="input-group-text">
+                                    <input class="form-check-input saving-throw-checkbox" type="checkbox" value="FOR">
+                                </div>
                             </div>
                         </div>
+
+                        <!-- Statistica DEX con tiro salvezza -->
+                        <div class="col-4 mb-3">
+                            <label for="dexterity" >DEX</label>
+                            <div class="input-group custom-group">
+                                <input type="number" value="10" class="form-control" id="dexterity" min="1" max="20" required>
+                                <div class="input-group-text">
+                                    <input class="form-check-input saving-throw-checkbox" type="checkbox" value="DEX">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Statistica COS con tiro salvezza -->
+                        <div class="col-4 mb-3">
+                            <label for="constitution" >COS</label>
+                            <div class="input-group custom-group">
+                                <input type="number" value="10" class="form-control" id="constitution" min="1" max="20" required>
+                                <div class="input-group-text">
+                                    <input class="form-check-input saving-throw-checkbox" type="checkbox" value="COS">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Statistica INT con tiro salvezza -->
+                        <div class="col-4 mb-3">
+                            <label for="intelligence" >INT</label>
+                            <div class="input-group custom-group">
+                                <input type="number" value="10" class="form-control" id="intelligence" min="1" max="20" required>
+                                <div class="input-group-text">
+                                    <input class="form-check-input saving-throw-checkbox" type="checkbox" value="INT">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Statistica SAG con tiro salvezza -->
+                        <div class="col-4 mb-3">
+                            <label for="wisdom" >SAG</label>
+                            <div class="input-group custom-group">
+                                <input type="number" value="10" class="form-control" id="wisdom" min="1" max="20" required>
+                                <div class="input-group-text">
+                                    <input class="form-check-input saving-throw-checkbox" type="checkbox" value="SAG">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Statistica CAR con tiro salvezza -->
+                        <div class="col-4 mb-3">
+                            <label for="charisma">CAR</label>
+                            <div class="input-group custom-group">
+                                <input type="number" value="10" class="form-control" id="charisma" min="1" max="20" required>
+                                <div class="input-group-text">
+                                    <input class="form-check-input saving-throw-checkbox" type="checkbox" value="CAR">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                         <div class="row" id="skillsCheckboxes">
                             <div class="col-6">
                                 <label><input type="checkbox" class="skill-checkbox" value="Atletica"> Atletica</label><br>
