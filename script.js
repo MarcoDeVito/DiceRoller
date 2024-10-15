@@ -120,8 +120,13 @@ function rollDice(isopen = false, resultName = false) {
             
             detailedResult += '<br>';
         }
+        try {
+            modifiers=eval(modifiers)
+        } catch (error) {
+            alert('Errore nella formula inserita.');
+            return;
+        }
         
-        modifiers=eval(modifiers)
         modifiers= modifiers>=0? "+"+modifiers:modifiers 
         detailedResult += modifiers
         try {
