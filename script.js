@@ -140,8 +140,8 @@ function rollDice(isopen = false, resultName = false) {
             return;
         }
         
-        modifiers= modifiers>=0? "+"+modifiers:modifiers 
-        detailedResult += modifiers
+        modifiers= modifiers>0? "+"+modifiers:modifiers 
+       if(modifiers != 0) detailedResult += modifiers
         try {
             total = safeEvaluate(modifiedDisplay);
         } catch (error) {
