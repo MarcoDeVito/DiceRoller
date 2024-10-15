@@ -46,7 +46,7 @@ function InsertSkill() {
 
     skills.forEach(skill => {
         skillcheck = document.createElement('div')
-        skillcheck.className = "col-6"
+        skillcheck.className = "col-6 mb-1"
         skillcheck.innerHTML += `<input type="checkbox" class="btn-check skill-checkbox" id="${skill.name}" value="${skill.name}" autocomplete="off">
     <label class="d-flex text-center btn btn-outline-primary" for="${skill.name}">${skill.name}</label>`
     skillCheckboxes.appendChild(skillcheck)
