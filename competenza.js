@@ -278,8 +278,9 @@ function createButtonStats(id, name, i = false) {
 }
 
 function loadModificators() {
-    let titleModal = localStorage.getItem("CharacterName");
-    document.querySelector("#statsModalLabel1").innerHTML = titleModal;
+    let CharacterName = localStorage.getItem("CharacterName")||"";
+    document.querySelectorAll("#nomePG").forEach(el=>el.innerHTML = CharacterName)
+    
     const savedFormulas = JSON.parse(localStorage.getItem("Character")) || [];
     document.querySelector("#rowRollCharModal").innerHTML = `<div class="btn-group mb-3" role="group" aria-label="Basic checkbox toggle button group">
         <input type="checkbox" class="btn-check" id="vantaggio" autocomplete="off">
