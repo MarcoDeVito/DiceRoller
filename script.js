@@ -13,7 +13,7 @@ vantaggiobtnclick = () => {
 
 
 svantaggiobtnclick = () => {
-    console.log(svantaggiobtn.checked);
+    
 
     if (vantaggiobtn.checked === true && svantaggiobtn.checked === true) {
         vantaggiobtn.checked = false
@@ -82,8 +82,11 @@ function rollDice(isopen = false, resultName = false) {
         const dicePattern = /(\d*)d(\d+)([vs])?/g;
         let match;
         let modifiedDisplay = display;
+        let modifiers = display;
 
         while ((match = dicePattern.exec(display)) !== null) {
+            console.log(match);
+            
             const rolls = match[1] ? parseInt(match[1]) : 1;
             const sides = parseInt(match[2]);
             const modifier = match[3];
@@ -109,12 +112,21 @@ function rollDice(isopen = false, resultName = false) {
                     detailedResult += ' + ';
                 }
             }
-            detailedResult += '<br>';
+            
             const rollTotal = rollResults.reduce((sum, roll) => sum + roll, 0);
+            
             modifiedDisplay = modifiedDisplay.replace(match[0], rollTotal);
+            modifiers = modifiers.replace(match[0], "0");
+            console.log(modifiers);
+            
+            
+            
+            
+            detailedResult += '<br>';
         }
-
-
+        
+        modifiers=eval(modifiers)
+        detailedResult += modifiers
         try {
             total = eval(modifiedDisplay);
         } catch (error) {
