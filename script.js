@@ -2,7 +2,7 @@
 let lastButtonWasDice = false;
 let lastButtonWasVantageOrDisadvantage = false;
 let rollHistory = [];
-
+let media=[]
 
 vantaggiobtnclick = () => {
 
@@ -85,13 +85,16 @@ function rollDice(isopen = false, resultName = false) {
     if (!display) {
         return
     }
+        else if(display==='media'){
+console.log(media.reduce((total, num) => total + parseInt(num),0))
+        }
     // Controllo se il display contiene solo "s" o "v"
     else if (display === 's' || display === 'v') {
         const roll1 = Math.floor(Math.random() * 20) + 1;
         const roll2 = Math.floor(Math.random() * 20) + 1;
         total = display === 'v' ? Math.max(roll1, roll2) : Math.min(roll1, roll2);
         detailedResult = `(${roll1}, ${roll2}) => ${total}[d20]`;
-    } else {
+    } else 
         const dicePattern = /(\d*)d(\d+)([vs])?/g;
         let match;
         let modifiedDisplay = display;
@@ -106,6 +109,7 @@ function rollDice(isopen = false, resultName = false) {
 
             for (let i = 0; i < rolls; i++) {
                 let roll1 = Math.floor(Math.random() * sides) + 1;
+                if(sides===20) media.push(roll1)
                 let roll2 = Math.floor(Math.random() * sides) + 1;
                 let finalRoll = roll1;
                 if (modifier === 'v') {
