@@ -28,13 +28,13 @@ function loadStats(){
             radio.checked=true;
         }
     });
-    document.getElementById('level').value=stats.level;
-    document.getElementById('strength').value=stats.FOR;
-    document.getElementById('dexterity').value=stats.DEX;
-    document.getElementById('constitution').value=stats.COS;
-    document.getElementById('intelligence').value=stats.INT;
-    document.getElementById('wisdom').value=stats.SAG;
-    document.getElementById('charisma').value=stats.CAR
+    document.getElementById('level').value=stats.level||1;
+    document.getElementById('strength').value=stats.FOR||10;
+    document.getElementById('dexterity').value=stats.DEX||10;
+    document.getElementById('constitution').value=stats.COS||10;
+    document.getElementById('intelligence').value=stats.INT||10;
+    document.getElementById('wisdom').value=stats.SAG||10;
+    document.getElementById('charisma').value=stats.CAR||10
      
 
 }
