@@ -2,6 +2,7 @@
         let lastButtonWasDice = false;
         let lastButtonWasVantageOrDisadvantage = false;
         let rollHistory = [];
+        
 
         vantaggiobtnclick=()=> {
                 
