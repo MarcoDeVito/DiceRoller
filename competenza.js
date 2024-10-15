@@ -49,12 +49,8 @@ function InsertSkill() {
         skillcheck.className = "col-6"
         skillcheck.innerHTML += `<input type="checkbox" class="btn-check skill-checkbox" id="${skill.name}" value="${skill.name}" autocomplete="off">
     <label class="d-flex text-center btn btn-outline-primary" for="${skill.name}">${skill.name}</label>`
-    
-    })
-
     skillCheckboxes.appendChild(skillcheck)
-
-
+    })
 }
 
 // Calcola il bonus dell'abilità
