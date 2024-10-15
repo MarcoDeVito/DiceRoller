@@ -33,6 +33,24 @@ function calculateSkillBonus(skill, stats, proficiencyBonus, proficientSkills) {
     return bonus;
 }
 
+
+// Recupera la caratteristica da incantatore
+function getSpellcasting() {
+    let spellcasting;
+    let radios = document.querySelectorAll('.spellcasting');
+    
+    radios.forEach(radio => {
+        if (radio.checked) {
+            spellcasting=radio.id;
+        }
+    });
+    if (spellcasting==="noSC") {
+        return spellcasting
+    }
+    spellcasting= document.querySelector("#"+(spellcasting.replace("SC",""))).value
+    return modifier(spellcasting);
+}
+
 // Recupera le abilità con competenza dai checkbox
 function getSelectedSkills() {
     let selectedSkills = [];
@@ -130,7 +148,7 @@ function salvaStatistiche() {
         "SAG": modifier(wisdom),
         "CAR": modifier(charisma),
     };
-
+    
     // Recupera le abilità selezionate dall'utente
     let proficientSkills = getSelectedSkills();
     // Recupera i tiri salvezza selezionati dall'utente
@@ -151,7 +169,10 @@ function salvaStatistiche() {
         let id = "d20" + symbol + Math.abs(value);
         let formula = { "id": id, "name": key };
                 saveFormulaToLocalStorage(formula, "Character");
+                
     });
+
+  
 
      // Aggiungi anche i tiri salvezza come pulsanti
      ['FOR', 'DEX', 'COS', 'INT', 'SAG', 'CAR'].forEach((stat,i) => {
@@ -162,6 +183,18 @@ function salvaStatistiche() {
         
         saveFormulaToLocalStorage(formula, "Character");
     });
+    let spellc=getSpellcasting()
+    if(spellc==="noSC"){
+        saveFormulaToLocalStorage({id: "",name:"No Incantesimi"}, "Character");
+    }
+    else{
+        let spellcasting=spellc+parseInt(bonus);
+    spellcasting="d20+"+spellcasting;
+    saveFormulaToLocalStorage({id: spellcasting, name:"Tiro per colpire incantesimi: "+spellcasting});
+    let formula = { "id": spellcasting, "name": "Tiro per colpire incantesimi" };
+    saveFormulaToLocalStorage(formula, "Character");
+    }
+    
 
     skills.forEach(skill => {
         let skillBonus = calculateSkillBonus(skill, stats, bonus, proficientSkills);
@@ -190,6 +223,9 @@ function createButtonStats(id, name, i = false) {
         i++;
     }
     let numcol = i < 12 && i ? "col-4 " : "col-6 ";
+    if(i===12){
+        numcol="col-9 mb-3 "
+    }
     col.className = numcol + "btn-group p-1 " + ((i >= 3 && i <= 5) ||((i >= 9 && i <= 11)) ? " mb-3 " : "");
     const button = document.createElement('button');
     if (proficientSkills.includes(name) || proficientSavingThrows.includes(name.replace("TS ", ""))) {

@@ -222,10 +222,26 @@
                             <input type="text" class="form-control" id="name" required>
                             <label for="name">Nome PG</label>
                         </div>
+                        <p class="text-center">Caratteristica da Incantatore</p>
+                        <div class="btn-group btn-group-sm mb-3" role="group">
+                            <input type="radio" class="btn-check spellcasting" name="spellcasting" id="noSC" checked>
+                            <label class="btn btn-outline-danger" for="noSC">N/A</label>
+                            <input type="radio" class="btn-check spellcasting" name="spellcasting" id="intelligenceSC">
+                            <label class="btn btn-outline-primary" for="intelligenceSC">INT</label>
+                          
+                            <input type="radio" class="btn-check spellcasting" name="spellcasting" id="wisdomSC">
+                            <label class="btn btn-outline-primary" for="wisdomSC">SAG</label>
+                          
+                            <input type="radio" class="btn-check spellcasting" name="spellcasting" id="charismaSC">
+                            <label class="btn btn-outline-primary" for="charismaSC">CAR</label>
+                          </div>
                         <p class="text-center">Stat e Tiri salvezza</p>
                         <!-- Statistica FOR con tiro salvezza -->
                         <div class="col-4 mb-3">
-                            <label for="strength">FOR</label>
+                            <div class="row">
+                                <div class="col-6 ps-3">FOR</div>
+                                <div  class="col-6 text-end pe-4">TS</div>
+                            </div>
                             <div class="input-group custom-group">
                                 <input type="number" value="10" class="form-control" id="strength" min="1" max="20" required>
                                 <div class="input-group-text">
@@ -236,7 +252,10 @@
 
                         <!-- Statistica DEX con tiro salvezza -->
                         <div class="col-4 mb-3">
-                            <label for="dexterity" >DEX</label>
+                            <div class="row">
+                                <div class="col-6 ps-3">DEX</div>
+                                <div  class="col-6 text-end pe-4">TS</div>
+                            </div>
                             <div class="input-group custom-group">
                                 <input type="number" value="10" class="form-control" id="dexterity" min="1" max="20" required>
                                 <div class="input-group-text">
@@ -247,7 +266,10 @@
 
                         <!-- Statistica COS con tiro salvezza -->
                         <div class="col-4 mb-3">
-                            <label for="constitution" >COS</label>
+                            <div class="row">
+                                <div class="col-6 ps-3">COS</div>
+                                <div  class="col-6 text-end pe-4">TS</div>
+                            </div>
                             <div class="input-group custom-group">
                                 <input type="number" value="10" class="form-control" id="constitution" min="1" max="20" required>
                                 <div class="input-group-text">
@@ -258,7 +280,10 @@
 
                         <!-- Statistica INT con tiro salvezza -->
                         <div class="col-4 mb-3">
-                            <label for="intelligence" >INT</label>
+                            <div class="row">
+                                <div class="col-6 ps-3">INT</div>
+                                <div  class="col-6 text-end pe-4">TS</div>
+                            </div>
                             <div class="input-group custom-group">
                                 <input type="number" value="10" class="form-control" id="intelligence" min="1" max="20" required>
                                 <div class="input-group-text">
@@ -269,7 +294,10 @@
 
                         <!-- Statistica SAG con tiro salvezza -->
                         <div class="col-4 mb-3">
-                            <label for="wisdom" >SAG</label>
+                            <div class="row">
+                                <div class="col-6 ps-3">SAG</div>
+                                <div  class="col-6 text-end pe-4">TS</div>
+                            </div>
                             <div class="input-group custom-group">
                                 <input type="number" value="10" class="form-control" id="wisdom" min="1" max="20" required>
                                 <div class="input-group-text">
@@ -280,7 +308,10 @@
 
                         <!-- Statistica CAR con tiro salvezza -->
                         <div class="col-4 mb-3">
-                            <label for="charisma">CAR</label>
+                            <div class="row">
+                                <div class="col-6 ps-3">CAR</div>
+                                <div  class="col-6 text-end pe-4">TS</div>
+                            </div>
                             <div class="input-group custom-group">
                                 <input type="number" value="10" class="form-control" id="charisma" min="1" max="20" required>
                                 <div class="input-group-text">
