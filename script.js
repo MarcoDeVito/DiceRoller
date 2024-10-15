@@ -65,6 +65,17 @@ function backspaceDisplay() {
     display.value = display.value.slice(0, -1);
 }
 
+function safeEvaluate(expression) {
+    // Rimuove spazi e convalida solo numeri e operatori di base
+    expression = expression.replace(/[^-()\d/*+.]/g, '');
+    try {
+        // Usa il costrutto Function per valutare l'espressione in modo sicuro
+        return new Function('return ' + expression)();
+    } catch (error) {
+        throw new Error('Errore nella formula inserita.');
+    }
+}
+
 function rollDice(isopen = false, resultName = false) {
     const display = document.getElementById('display').value.trim();
     let total = 0;
@@ -121,7 +132,7 @@ function rollDice(isopen = false, resultName = false) {
             detailedResult += '<br>';
         }
         try {
-            modifiers=eval(modifiers)
+            modifiers=safeEvaluate(modifiers);
         } catch (error) {
             alert('Errore nella formula inserita.');
             return;
@@ -130,7 +141,7 @@ function rollDice(isopen = false, resultName = false) {
         modifiers= modifiers>=0? "+"+modifiers:modifiers 
         detailedResult += modifiers
         try {
-            total = eval(modifiedDisplay);
+            total = safeEvaluate(modifiedDisplay);
         } catch (error) {
             alert('Errore nella formula inserita.');
             return;
