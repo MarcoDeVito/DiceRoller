@@ -122,6 +122,7 @@ function rollDice(isopen = false, resultName = false) {
         }
         
         modifiers=eval(modifiers)
+        modifiers= modifiers>=0? "+"+modifiers:modifiers 
         detailedResult += modifiers
         try {
             total = eval(modifiedDisplay);
