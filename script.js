@@ -85,8 +85,7 @@ function rollDice(isopen = false, resultName = false) {
         let modifiers = display;
 
         while ((match = dicePattern.exec(display)) !== null) {
-            console.log(match);
-            
+                        
             const rolls = match[1] ? parseInt(match[1]) : 1;
             const sides = parseInt(match[2]);
             const modifier = match[3];
@@ -117,9 +116,6 @@ function rollDice(isopen = false, resultName = false) {
             
             modifiedDisplay = modifiedDisplay.replace(match[0], rollTotal);
             modifiers = modifiers.replace(match[0], "0");
-            console.log(modifiers);
-            
-            
             
             
             detailedResult += '<br>';
