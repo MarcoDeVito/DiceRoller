@@ -41,23 +41,19 @@ function loadStats(){
 
 function InsertSkill() {
     let skillCheckboxes = document.querySelector('#skillsCheckboxes')
-    let n = skills.length
-    let col6 = document.createElement('div')
-    col6.className = "col-6"
-    let col6_2 = document.createElement('div')
-    col6_2.className = "col-6"
+    
+    let skillcheck
 
-    skills.forEach((skill, i) => {
+    skills.forEach(skill => {
         skillcheck = document.createElement('div')
-        skillcheck.className = "mb-1"
+        skillcheck.className = "col-6"
         skillcheck.innerHTML += `<input type="checkbox" class="btn-check skill-checkbox" id="${skill.name}" value="${skill.name}" autocomplete="off">
     <label class="d-flex text-center btn btn-outline-primary" for="${skill.name}">${skill.name}</label>`
-        if (i < n / 2)
-            col6.appendChild(skillcheck)
-        else col6_2.appendChild(skillcheck)
+    
     })
-    skillCheckboxes.appendChild(col6)
-    skillCheckboxes.appendChild(col6_2)
+
+    skillCheckboxes.appendChild(skillcheck)
+
 
 }
 
