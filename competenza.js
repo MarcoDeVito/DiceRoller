@@ -18,8 +18,26 @@ const skills = [
     { name: 'Sopravvivenza', stat: 'SAG' },
     { name: 'Storia', stat: 'INT' }
 ];
-InsertSkill()
 
+function loadStats(){
+    let stats = JSON.parse(localStorage.getItem("Stats")) || [];
+    let spellcasting=localStorage.getItem("Spellcasting")
+    let radios = document.querySelectorAll('.spellcasting');
+    radios.forEach(radio => {
+        if (radio.id===spellcasting) {
+            radio.checked=true;
+        }
+    });
+    document.getElementById('level').value=stats.level;
+    document.getElementById('strength').value=stats.FOR;
+    document.getElementById('dexterity').value=stats.DEX;
+    document.getElementById('constitution').value=stats.COS;
+    document.getElementById('intelligence').value=stats.INT;
+    document.getElementById('wisdom').value=stats.SAG;
+    document.getElementById('charisma').value=stats.CAR
+     
+
+}
 
 function InsertSkill() {
     let skillCheckboxes = document.querySelector('#skillsCheckboxes')
@@ -68,8 +86,10 @@ function getSpellcasting() {
         }
     });
     if (spellcasting === "noSC") {
+        localStorage.removeItem("Spellcasting")
         return spellcasting
     }
+    localStorage.setItem("Spellcasting",spellcasting)
     spellcasting = document.querySelector("#" + (spellcasting.replace("SC", ""))).value
     return modifier(spellcasting);
 }
@@ -163,13 +183,22 @@ function salvaStatistiche() {
     let wisdom = document.getElementById('wisdom').value;
     let charisma = document.getElementById('charisma').value;
     let bonus = getProficiencyBonus(level);
-    let stats = {
+    let statsMod = {
         "FOR": modifier(strength),
         "DEX": modifier(dexterity),
         "COS": modifier(constitution),
         "INT": modifier(intelligence),
         "SAG": modifier(wisdom),
         "CAR": modifier(charisma),
+    };
+    let stats = {
+        "level":level,
+        "FOR": strength,
+        "DEX": dexterity,
+        "COS": constitution,
+        "INT": intelligence,
+        "SAG": wisdom,
+        "CAR": charisma,
     };
 
     // Recupera le abilità selezionate dall'utente
@@ -181,13 +210,15 @@ function salvaStatistiche() {
     localStorage.setItem("proficientSkills", JSON.stringify(proficientSkills));
     localStorage.setItem("proficientSavingThrows", JSON.stringify(proficientSavingThrows));
 
-    character = { ...stats };
+    
 
 
     let titleModal = name ? name : "Character";
     localStorage.removeItem("Character");
+    localStorage.removeItem("Stats");
+    localStorage.setItem("Stats", JSON.stringify(stats));
 
-    Object.entries(stats).forEach(function ([key, value], i) {
+    Object.entries(statsMod).forEach(function ([key, value], i) {
         let symbol = value < 0 ? "-" : "+";
         let id = "d20" + symbol + Math.abs(value);
         let formula = { "id": id, "name": key };
@@ -199,7 +230,7 @@ function salvaStatistiche() {
 
     // Aggiungi anche i tiri salvezza come pulsanti
     ['FOR', 'DEX', 'COS', 'INT', 'SAG', 'CAR'].forEach((stat, i) => {
-        let savingThrowBonus = calculateSavingThrowBonus(stat, stats, bonus, proficientSavingThrows);
+        let savingThrowBonus = calculateSavingThrowBonus(stat, statsMod, bonus, proficientSavingThrows);
         let symbol = savingThrowBonus < 0 ? "-" : "+";
         let id = "d20" + symbol + Math.abs(savingThrowBonus);
         let formula = { "id": id, "name": "TS " + stat };
@@ -220,7 +251,7 @@ function salvaStatistiche() {
 
 
     skills.forEach(skill => {
-        let skillBonus = calculateSkillBonus(skill, stats, bonus, proficientSkills);
+        let skillBonus = calculateSkillBonus(skill, statsMod, bonus, proficientSkills);
         let symbol = skillBonus < 0 ? "-" : "+";
         let id = "d20" + symbol + Math.abs(skillBonus);
         let formula = { "id": id, "name": skill.name };
@@ -280,7 +311,7 @@ function createButtonStats(id, name, i = false) {
 function loadModificators() {
     let CharacterName = localStorage.getItem("CharacterName")||"";
     document.querySelectorAll("#nomePG").forEach(el=>el.innerHTML = CharacterName)
-    
+    document.querySelector("#name").value=CharacterName
     const savedFormulas = JSON.parse(localStorage.getItem("Character")) || [];
     document.querySelector("#rowRollCharModal").innerHTML = `<div class="btn-group mb-3" role="group" aria-label="Basic checkbox toggle button group">
         <input type="checkbox" class="btn-check" id="vantaggio" autocomplete="off">
@@ -308,20 +339,6 @@ function loadSelectedSkills() {
 }
 
 
-// Funzione per caricare le abilità con competenza dal localStorage e aggiornare le checkbox
-function loadSelectedSkills() {
-    // Recupera le abilità con competenza dal localStorage
-    let proficientSkills = JSON.parse(localStorage.getItem("proficientSkills")) || [];
-
-    // Aggiorna lo stato delle checkbox in base alle abilità selezionate precedentemente
-    let checkboxes = document.querySelectorAll('.skill-checkbox');
-
-    checkboxes.forEach(checkbox => {
-        if (proficientSkills.includes(checkbox.value)) {
-            checkbox.checked = true; // Se l'abilità è salvata nel localStorage, seleziona la checkbox
-        }
-    });
-}
 
 
 function loadStatforForce() {

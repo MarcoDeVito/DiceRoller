@@ -20,6 +20,8 @@ svantaggiobtnclick = () => {
     }
 }
 document.addEventListener('DOMContentLoaded', () => {
+    InsertSkill()
+    loadStats()
     loadFormulas();
     loadRollHistory();
     loadModificators()
