@@ -5,10 +5,10 @@ let currentListItem = null;
 function showEditModal(id, name, listItem) {
     currentEditFormula = { id, name };
     currentListItem = listItem;
-    namesplit=name.split(":")
+    namesplit = name.split(":")
     document.getElementById('editInputName').value = namesplit[0].trim();
-    document.getElementById('editInputFormula').value=namesplit[1].trim();
-        
+    document.getElementById('editInputFormula').value = namesplit[1].trim();
+
     const editModal = new bootstrap.Modal(document.getElementById('editModal'));
     editModal.show();
 }
@@ -18,13 +18,13 @@ function confirmEdit() {
     const newFormula = document.getElementById('editInputFormula').value;
 
     if (newName && newFormula) {
-        const newSave= currentListItem.querySelector('.btn-secondary')
-        newSave.textContent = newName+": "+newFormula;
+        const newSave = currentListItem.querySelector('.btn-secondary')
+        newSave.textContent = newName + ": " + newFormula;
         newSave.id = newFormula;
         removeFormulaFromLocalStorage(currentEditFormula.name);
-        saveFormulaToLocalStorage({ id: newFormula, name: newName+": "+newFormula });
+        saveFormulaToLocalStorage({ id: newFormula, name: newName + ": " + newFormula });
         const savedFormulasElement = document.getElementById('savedFormulas');
-        savedFormulasElement.innerHTML=''
+        savedFormulasElement.innerHTML = ''
         loadFormulas()
         closeModal('editModal')
     }

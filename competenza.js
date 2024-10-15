@@ -21,25 +21,25 @@ const skills = [
 InsertSkill()
 
 
-function InsertSkill(){
-let skillCheckboxes= document.querySelector('#skillsCheckboxes')
-let n=skills.length
-let col6= document.createElement('div')
-col6.className="col-6"
-let col6_2= document.createElement('div')
-col6_2.className="col-6"
+function InsertSkill() {
+    let skillCheckboxes = document.querySelector('#skillsCheckboxes')
+    let n = skills.length
+    let col6 = document.createElement('div')
+    col6.className = "col-6"
+    let col6_2 = document.createElement('div')
+    col6_2.className = "col-6"
 
-skills.forEach((skill,i)=>{
-    skillcheck=document.createElement('div')
-    skillcheck.className="mb-1"
-    skillcheck.innerHTML+=`<input type="checkbox" class="btn-check skill-checkbox" id="${skill.name}" value="${skill.name}" autocomplete="off">
+    skills.forEach((skill, i) => {
+        skillcheck = document.createElement('div')
+        skillcheck.className = "mb-1"
+        skillcheck.innerHTML += `<input type="checkbox" class="btn-check skill-checkbox" id="${skill.name}" value="${skill.name}" autocomplete="off">
     <label class="d-flex text-center btn btn-outline-primary" for="${skill.name}">${skill.name}</label>`
-    if(i<n/2) 
-        col6.appendChild(skillcheck)
-    else col6_2.appendChild(skillcheck)
-})
-skillCheckboxes.appendChild(col6)
-skillCheckboxes.appendChild(col6_2)
+        if (i < n / 2)
+            col6.appendChild(skillcheck)
+        else col6_2.appendChild(skillcheck)
+    })
+    skillCheckboxes.appendChild(col6)
+    skillCheckboxes.appendChild(col6_2)
 
 }
 
@@ -48,11 +48,11 @@ function calculateSkillBonus(skill, stats, proficiencyBonus, proficientSkills) {
     let statModifier = stats[skill.stat];
     let isProficient = proficientSkills.includes(skill.name);
     let bonus = statModifier;
-    
+
     if (isProficient) {
         bonus += proficiencyBonus; // Aggiungi il bonus di competenza se l'abilità è competente
     }
-    
+
     return bonus;
 }
 
@@ -61,16 +61,16 @@ function calculateSkillBonus(skill, stats, proficiencyBonus, proficientSkills) {
 function getSpellcasting() {
     let spellcasting;
     let radios = document.querySelectorAll('.spellcasting');
-    
+
     radios.forEach(radio => {
         if (radio.checked) {
-            spellcasting=radio.id;
+            spellcasting = radio.id;
         }
     });
-    if (spellcasting==="noSC") {
+    if (spellcasting === "noSC") {
         return spellcasting
     }
-    spellcasting= document.querySelector("#"+(spellcasting.replace("SC",""))).value
+    spellcasting = document.querySelector("#" + (spellcasting.replace("SC", ""))).value
     return modifier(spellcasting);
 }
 
@@ -78,13 +78,13 @@ function getSpellcasting() {
 function getSelectedSkills() {
     let selectedSkills = [];
     let checkboxes = document.querySelectorAll('.skill-checkbox');
-    
+
     checkboxes.forEach(checkbox => {
         if (checkbox.checked) {
             selectedSkills.push(checkbox.value);
         }
     });
-    
+
     return selectedSkills;
 }
 
@@ -92,13 +92,13 @@ function getSelectedSkills() {
 function getSelectedSavingThrows() {
     let selectedSavingThrows = [];
     let checkboxes = document.querySelectorAll('.saving-throw-checkbox');
-    
+
     checkboxes.forEach(checkbox => {
         if (checkbox.checked) {
             selectedSavingThrows.push(checkbox.value);
         }
     });
-    
+
     return selectedSavingThrows;
 }
 
@@ -107,11 +107,11 @@ function calculateSavingThrowBonus(stat, stats, proficiencyBonus, proficientSavi
     let statModifier = stats[stat];
     let isProficient = proficientSavingThrows.includes(stat);
     let bonus = statModifier;
-    
+
     if (isProficient) {
         bonus += proficiencyBonus; // Aggiungi il bonus di competenza se il tiro salvezza è competente
     }
-    
+
     return bonus;
 }
 
@@ -125,7 +125,7 @@ function saveSavingThrows() {
 function loadSelectedSavingThrows() {
     let proficientSavingThrows = JSON.parse(localStorage.getItem("proficientSavingThrows")) || [];
     let checkboxes = document.querySelectorAll('.saving-throw-checkbox');
-    
+
     checkboxes.forEach(checkbox => {
         if (proficientSavingThrows.includes(checkbox.value)) {
             checkbox.checked = true; // Se il tiro salvezza è salvato nel localStorage, seleziona la checkbox
@@ -150,7 +150,7 @@ function getProficiencyBonus(level) {
 }
 
 function modifier(stat) {
-    return Math.floor((stat-10)/2);
+    return Math.floor((stat - 10) / 2);
 }
 
 function salvaStatistiche() {
@@ -171,7 +171,7 @@ function salvaStatistiche() {
         "SAG": modifier(wisdom),
         "CAR": modifier(charisma),
     };
-    
+
     // Recupera le abilità selezionate dall'utente
     let proficientSkills = getSelectedSkills();
     // Recupera i tiri salvezza selezionati dall'utente
@@ -183,7 +183,7 @@ function salvaStatistiche() {
 
     character = { ...stats };
 
-    
+
     let titleModal = name ? name : "Character";
     localStorage.removeItem("Character");
 
@@ -191,46 +191,46 @@ function salvaStatistiche() {
         let symbol = value < 0 ? "-" : "+";
         let id = "d20" + symbol + Math.abs(value);
         let formula = { "id": id, "name": key };
-                saveFormulaToLocalStorage(formula, "Character");
-                
+        saveFormulaToLocalStorage(formula, "Character");
+
     });
 
-  
 
-     // Aggiungi anche i tiri salvezza come pulsanti
-     ['FOR', 'DEX', 'COS', 'INT', 'SAG', 'CAR'].forEach((stat,i) => {
+
+    // Aggiungi anche i tiri salvezza come pulsanti
+    ['FOR', 'DEX', 'COS', 'INT', 'SAG', 'CAR'].forEach((stat, i) => {
         let savingThrowBonus = calculateSavingThrowBonus(stat, stats, bonus, proficientSavingThrows);
         let symbol = savingThrowBonus < 0 ? "-" : "+";
         let id = "d20" + symbol + Math.abs(savingThrowBonus);
-        let formula = { "id": id, "name": "TS "+stat };
-        
+        let formula = { "id": id, "name": "TS " + stat };
+
         saveFormulaToLocalStorage(formula, "Character");
     });
-    let spellc=getSpellcasting()
-    if(spellc==="noSC"){
-        saveFormulaToLocalStorage({id: "",name:"No Incantesimi"}, "Character");
+    let spellc = getSpellcasting()
+    if (spellc === "noSC") {
+        saveFormulaToLocalStorage({ id: "", name: "No Incantesimi" }, "Character");
     }
-    else{
-        let spellcasting=spellc+parseInt(bonus);
-    spellcasting="d20+"+spellcasting;
-    saveFormulaToLocalStorage({id: spellcasting, name:"Tiro per colpire incantesimi: "+spellcasting});
-    let formula = { "id": spellcasting, "name": "Tiro per colpire incantesimi" };
-    saveFormulaToLocalStorage(formula, "Character");
+    else {
+        let spellcasting = spellc + parseInt(bonus);
+        spellcasting = "d20+" + spellcasting;
+        saveFormulaToLocalStorage({ id: spellcasting, name: "Tiro per colpire incantesimi: " + spellcasting });
+        let formula = { "id": spellcasting, "name": "Tiro per colpire incantesimi" };
+        saveFormulaToLocalStorage(formula, "Character");
     }
-    
+
 
     skills.forEach(skill => {
         let skillBonus = calculateSkillBonus(skill, stats, bonus, proficientSkills);
         let symbol = skillBonus < 0 ? "-" : "+";
         let id = "d20" + symbol + Math.abs(skillBonus);
         let formula = { "id": id, "name": skill.name };
-       
+
         saveFormulaToLocalStorage(formula, "Character");
     });
 
-   
 
-    
+
+
     localStorage.setItem("CharacterName", titleModal);
     closeModal("statsModal");
     location.reload();
@@ -246,10 +246,10 @@ function createButtonStats(id, name, i = false) {
         i++;
     }
     let numcol = i < 12 && i ? "col-4 " : "col-6 ";
-    if(i===12){
-        numcol="col-9 mb-3 "
+    if (i === 12) {
+        numcol = "col-9 mb-3 "
     }
-    col.className = numcol + "btn-group p-1 " + ((i >= 3 && i <= 5) ||((i >= 9 && i <= 11)) ? " mb-3 " : "");
+    col.className = numcol + "btn-group p-1 " + ((i >= 3 && i <= 5) || ((i >= 9 && i <= 11)) ? " mb-3 " : "");
     const button = document.createElement('button');
     if (proficientSkills.includes(name) || proficientSavingThrows.includes(name.replace("TS ", ""))) {
         button.className = "btn btn-custom"; // Cambia colore se è competente
@@ -269,7 +269,7 @@ function createButtonStats(id, name, i = false) {
             result = result.replace("d20", "d20s");
         }
         document.getElementById('display').value = result;
-        rollDice(false,this.innerText);
+        rollDice(false, this.innerText);
         lastButtonWasDice = true;
     });
 
@@ -297,7 +297,7 @@ function loadModificators() {
 function loadSelectedSkills() {
     let proficientSkills = JSON.parse(localStorage.getItem("proficientSkills")) || [];
     let checkboxes = document.querySelectorAll('.skill-checkbox');
-    
+
     checkboxes.forEach(checkbox => {
         if (proficientSkills.includes(checkbox.value)) {
             checkbox.checked = true;
@@ -311,10 +311,10 @@ function loadSelectedSkills() {
 function loadSelectedSkills() {
     // Recupera le abilità con competenza dal localStorage
     let proficientSkills = JSON.parse(localStorage.getItem("proficientSkills")) || [];
-    
+
     // Aggiorna lo stato delle checkbox in base alle abilità selezionate precedentemente
     let checkboxes = document.querySelectorAll('.skill-checkbox');
-    
+
     checkboxes.forEach(checkbox => {
         if (proficientSkills.includes(checkbox.value)) {
             checkbox.checked = true; // Se l'abilità è salvata nel localStorage, seleziona la checkbox
