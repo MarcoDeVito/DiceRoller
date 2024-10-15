@@ -86,7 +86,7 @@ function rollDice(isopen = false, resultName = false) {
         return
     }
         else if(display==='media'){
-console.log(media.reduce((total, num) =>{total + parseInt(num)},0)/media.length)
+total=media.reduce((sum, num) =>{sum + parseInt(num)},0)/media.length)
         }
     // Controllo se il display contiene solo "s" o "v"
     else if (display === 's' || display === 'v') {
