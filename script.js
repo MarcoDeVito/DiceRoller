@@ -94,10 +94,10 @@ function loadScrollable(){
             
             return clientY <= aaa;
         });
-        if(nextSibling)
-        {
+        if (nextSibling) {
             sortableList.insertBefore(draggingItem, nextSibling);
-
+        } else {
+            sortableList.appendChild(draggingItem);
         }
 
     }
@@ -335,11 +335,11 @@ function createFormulaElement(id, name, save = "savedFormulas") {
    
 
     const draggable= document.createElement("span")
-    draggable.className="btn bars btn-custom flex-shrink-1 d-flex justify-content-center align-items-center"
+    draggable.className="d-md-none btn bars btn-custom flex-shrink-1 d-flex justify-content-center align-items-center"
     draggable.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 448 512"><path fill="#FFF" d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/></svg>`
 
     const formulaButton = document.createElement('button');
-    formulaButton.className = 'btn btn-secondary';
+    formulaButton.className = 'btn btn-secondary bords';
     formulaButton.style = "width:60%; overflow:hidden"
     formulaButton.dataset.id = id;
     formulaButton.textContent = name;

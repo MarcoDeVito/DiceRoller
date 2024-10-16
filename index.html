@@ -17,7 +17,12 @@
 .item.dragging :where(.bars, i) {
   opacity: 0;
 }
-
+@media only screen and (min-width: 768px) {
+    .bords {
+        border-top-left-radius: 5px !important;
+        border-bottom-left-radius: 5px !important;
+    }
+}
         .btn-outline-primary {
             --bs-btn-color: #338fc5;
             --bs-btn-border-color: #338fc5;
