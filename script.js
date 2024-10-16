@@ -308,12 +308,15 @@ function loadRollHistory() {
 }
 
 
-// Funzione per salvare una nuova formula assegnando l'indice
-function saveFormulaToLocalStorage(formula) {
-    const savedFormulas = JSON.parse(localStorage.getItem("formulas")) || [];
-    formula.index = savedFormulas.length; // Imposta l'indice come l'ultimo
-    savedFormulas.push(formula);
-    localStorage.setItem("formulas", JSON.stringify(savedFormulas));
+
+function saveFormulaToLocalStorage(formula, localStorageName = "formulas") {
+    let formulas = JSON.parse(localStorage.getItem(localStorageName)) || [];
+    if (localStorageName==="formulas") {
+        
+        formula.index = savedFormulas.length;
+    }
+    formulas.push(formula);
+    localStorage.setItem(localStorageName, JSON.stringify(formulas));
 }
 
 function removeFormulaFromLocalStorage(name) {
