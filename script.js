@@ -347,7 +347,7 @@ function createFormulaElement(id, name, save = "savedFormulas") {
     formulaButton.dataset.id = id;
     formulaButton.textContent = name;
 
-    formulaButton.addEventListener('touchend', function (event) {
+    formulaButton.addEventListener('touchstart', function (event) {
         event.stopPropagation();
         textsplit = this.innerText.split(":")
         formulaname = textsplit[0]
@@ -370,7 +370,7 @@ function createFormulaElement(id, name, save = "savedFormulas") {
     let editClick=()=>{
         showEditModal(id, name, listItem);
     }
-    editButton.addEventListener('touchend', editClick);
+    editButton.addEventListener('touchstart', editClick);
     editButton.addEventListener('click', editClick);
 
     const deleteButton = document.createElement('button');
@@ -380,7 +380,7 @@ function createFormulaElement(id, name, save = "savedFormulas") {
         savedFormulasElement.removeChild(listItem);
         removeFormulaFromLocalStorage(name);
         loadFormulas()}
-    deleteButton.addEventListener('touchend', removeClick);
+    deleteButton.addEventListener('touchstart', removeClick);
     deleteButton.addEventListener('click', removeClick);
 
     listItem.innerHTML = '';
