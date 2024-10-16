@@ -10,6 +10,14 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <style>
+       
+      .item.dragging {
+  opacity: 0.6;
+}
+.item.dragging :where(.bars, i) {
+  opacity: 0;
+}
+
         .btn-outline-primary {
             --bs-btn-color: #338fc5;
             --bs-btn-border-color: #338fc5;
@@ -150,7 +158,7 @@
             </div>
         </div>
 
-
+        
         <!-- Accordion for Saved Formulas and Roll History -->
         <div class="accordion mt-4" id="accordionExample">
             <!-- Formule Salvate -->
@@ -164,8 +172,8 @@
                 </h2>
                 <div id="collapseSavedFormulas" class="accordion-collapse collapse show"
                     aria-labelledby="headingSavedFormulas" data-bs-parent="#accordionExample">
-                    <div class="accordion-body ">
-                        <ul class="list-group " id="savedFormulas"></ul>
+                    <div class="accordion-body" id="savedFormulas">
+                       
                     </div>
                 </div>
             </div>
@@ -422,7 +430,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <!--  Script personali -->
+   <!-- jsDelivr :: Sortable :: Latest (https://www.jsdelivr.com/package/npm/sortablejs) -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+        <!--  Script personali -->
     <script src="script.js"></script>
     <script src="modalScript.js"></script>
     <script src="competenza.js"></script>
