@@ -47,7 +47,7 @@ function InsertSkill() {
     skills.forEach(skill => {
         skillcheck = document.createElement('div')
         skillcheck.className = "col-6 mb-1"
-        skillcheck.innerHTML += `<input type="checkbox" class="btn-check skill-checkbox" id="${skill.name}" value="${skill.name}" autocomplete="off">
+        skillcheck.innerHTML += `<input type="checkbox" class="btn-check skill-checkbox" id="${skill.name}Ins" value="${skill.name}" autocomplete="off">
     <label class="d-flex text-center btn btn-outline-primary" for="${skill.name}">${skill.name}</label>`
     skillCheckboxes.appendChild(skillcheck)
     })
@@ -382,11 +382,12 @@ function saveModifiedStats() {
     character = character.map(entry => {
         // Trova l'input associato alla statistica/abilità
         let input = document.getElementById(entry.name);
-
+        
         if (input) {
             // Aggiorna l'ID con il nuovo valore dell'input (modificatore)
             let newValue = input.value.trim(); // Prende il valore modificato
-
+            console.log("input.value.trim():"+input.value.trim());
+            
             // Aggiorna l'id mantenendo il formato "d20+X" o "d20-X"
             entry.id = newValue
         }
