@@ -401,6 +401,13 @@
                     <div class="row justify-content-center" id="rowforceCharModal">
 
                     </div>
+                    
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" placeholder="Scrivi qui le formule in formato json" id="forzaFormule" style="height: 200px"></textarea>
+                        <label for="forzaFormule">Formule</label>
+                    </div>
+                    <button class="btn btn-custom" onclick="saveFormulasCode()">Salva Formule</button>
+                    <button class="btn btn-secondary" data-clipboard-target="#forzaFormule">Copia</button>
 
                 </div>
                 <div class="modal-footer"></div>
@@ -437,6 +444,8 @@
         crossorigin="anonymous"></script>
    <!-- jsDelivr :: Sortable :: Latest (https://www.jsdelivr.com/package/npm/sortablejs) -->
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+<!-- script per copiare -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script>
         <!--  Script personali -->
     <script src="script.js"></script>
     <script src="modalScript.js"></script>

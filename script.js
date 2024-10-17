@@ -23,11 +23,15 @@ svantaggiobtnclick = () => {
 document.addEventListener('DOMContentLoaded', () => {
     InsertSkill()
     loadStats()
+    loadFormulasCode()
     loadFormulas();
     loadRollHistory();
     loadModificators()
     loadSelectedSkills();
     loadScrollable();
+    new ClipboardJS('.btn', {
+        container: document.getElementById('forceStatsModal')
+    });
 
 
     vantaggiobtn = document.querySelector('#vantaggio')
@@ -43,6 +47,17 @@ document.addEventListener('keydown', event => {
         rollDice()
     }
 });
+
+function loadFormulasCode() {
+    const formulascode= document.querySelector("#forzaFormule")
+    formulascode.innerText= localStorage.getItem("formulas")
+}
+function saveFormulasCode() {
+    const formulascode= document.querySelector("#forzaFormule")
+    localStorage.setItem("formulas", formulascode.value)  
+    loadFormulas()
+    closeModal("forceStatsModal")
+}
 
 function loadScrollable(){
     const sortableList = document.querySelector("#savedFormulas");
