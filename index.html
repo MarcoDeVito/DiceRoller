@@ -423,6 +423,8 @@
                         <div class="d-flex justify-content-around">
                             <button class="btn btn-custom" onclick="saveFormulasCode()">Salva</button>
                             <button class="btn btn-secondary" data-clipboard-target="#forzaLocalStorage">Copia</button>
+                            <button class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#confirmDestroy">Cancella</button>
                         </div>
                     </div>
 
@@ -432,7 +434,24 @@
         </div>
     </div>
     </div>
-
+    <div class="modal fade " id="confirmDestroy" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background-color: #c7a95c;" onclick="closeModal('resultModal'); location.reload();">
+                <div class="modal-body">
+                   <h3>Sei sicuro di voler eliminare tutti i dati?</h3>
+                    
+                </div>
+                <div class="modal-footer d-flex justify-content-evenly">
+                    <button type="button" class="btn btn-secondary" onclick="localStorage.clear(); closeModal('confirmDestroy')">
+                        <h1 class="m-1">✅</h1>
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <h1 class="m-1">❌</h1>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Modale risultato dadi -->
     <div class="modal fade " id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">

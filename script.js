@@ -189,6 +189,7 @@ function rollDice(isopen = false, resultName = false) {
         else if(display.toLowerCase()==='sviluppatore'){
             document.querySelector(".sviluppatore").classList.remove("d-none")
             total= "Modalità sviluppatore Attivata"
+            
         }
         else if(display==='media'){
 total=media.reduce((sum, num) =>{ return sum + parseInt(num)},0)/media.length
@@ -262,7 +263,7 @@ total=media.reduce((sum, num) =>{ return sum + parseInt(num)},0)/media.length
     const modalResultContent = document.getElementById('modalResultContent');
     modalResultContent.innerHTML = `<p class='text-center display-1 fw.bold'>${resultName ? resultName : "Risultato"}: ${total}</p><p class='text-center h3'>${detailedResult}</p>`;
 
-    if (!isopen) {
+    if (!isopen&&display.toLowerCase()!=='sviluppatore') {
         const resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
         resultModal.show();
 
