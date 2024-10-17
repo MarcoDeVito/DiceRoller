@@ -378,7 +378,7 @@ function createFormulaElement(id, name, save = "savedFormulas") {
     //     lastButtonWasDice = true;
     // });
     formulaButton.addEventListener('click', function (event) {
-        event.stopPropagation();
+        // event.stopPropagation();
         textsplit = this.innerText.split(":")
         formulaname = textsplit[0]
         document.getElementById('display').value = this.dataset.id;
@@ -398,6 +398,7 @@ function createFormulaElement(id, name, save = "savedFormulas") {
     const deleteButton = document.createElement('button');
     deleteButton.className = 'btn btn-danger flex-shrink-1';
     deleteButton.innerHTML = '🗑️';
+
    let removeClick=()=>{ 
         savedFormulasElement.removeChild(listItem);
         removeFormulaFromLocalStorage(name);
