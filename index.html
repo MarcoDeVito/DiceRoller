@@ -401,19 +401,20 @@
                     <div class="row justify-content-center" id="rowforceCharModal">
 
                     </div>
+                    <button type="button" class="btn w-100 mb-2 btn-warning" onclick="saveModifiedStats()">Sovrascrivi</button>
+                    <hr>
                     
                     <div class="form-floating mb-3">
                         <textarea class="form-control" placeholder="Scrivi qui le formule in formato json" id="forzaFormule" style="height: 200px"></textarea>
                         <label for="forzaFormule">Formule</label>
                     </div>
-                    <button class="btn btn-custom" onclick="saveFormulasCode()">Salva Formule</button>
-                    <button class="btn btn-secondary" data-clipboard-target="#forzaFormule">Copia</button>
+                    <div class="d-flex justify-content-around">
+                        <button class="btn btn-custom" onclick="saveFormulasCode()">Salva Formule</button>
+                        <button class="btn btn-secondary" data-clipboard-target="#forzaFormule">Copia</button>
+                    </div>
 
                 </div>
-                <div class="modal-footer"></div>
-                <button type="button" class="btn btn-warning" onclick="saveModifiedStats()">Sovrascrivi</button>
-
-            </div>
+                
 
         </div>
     </div>
