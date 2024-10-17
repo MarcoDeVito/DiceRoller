@@ -103,7 +103,7 @@ function loadScrollable(){
     }
 
     sortableList.addEventListener("touchmove", initSortableList);
-    sortableList.addEventListener("touchstart", e => e.preventDefault());
+    // sortableList.addEventListener("touchstart", e => e.preventDefault());
 }
 
 
@@ -347,14 +347,14 @@ function createFormulaElement(id, name, save = "savedFormulas") {
     formulaButton.dataset.id = id;
     formulaButton.textContent = name;
 
-    formulaButton.addEventListener('touchstart', function (event) {
-        event.stopPropagation();
-        textsplit = this.innerText.split(":")
-        formulaname = textsplit[0]
-        document.getElementById('display').value = this.dataset.id;
-        rollDice(false, formulaname);
-        lastButtonWasDice = true;
-    });
+    // formulaButton.addEventListener('touchstart', function (event) {
+    //     event.stopPropagation();
+    //     textsplit = this.innerText.split(":")
+    //     formulaname = textsplit[0]
+    //     document.getElementById('display').value = this.dataset.id;
+    //     rollDice(false, formulaname);
+    //     lastButtonWasDice = true;
+    // });
     formulaButton.addEventListener('click', function (event) {
         event.stopPropagation();
         textsplit = this.innerText.split(":")
@@ -370,7 +370,7 @@ function createFormulaElement(id, name, save = "savedFormulas") {
     let editClick=()=>{
         showEditModal(id, name, listItem);
     }
-    editButton.addEventListener('touchstart', editClick);
+    // editButton.addEventListener('touchstart', editClick);
     editButton.addEventListener('click', editClick);
 
     const deleteButton = document.createElement('button');
@@ -380,7 +380,7 @@ function createFormulaElement(id, name, save = "savedFormulas") {
         savedFormulasElement.removeChild(listItem);
         removeFormulaFromLocalStorage(name);
         loadFormulas()}
-    deleteButton.addEventListener('touchstart', removeClick);
+    // deleteButton.addEventListener('touchstart', removeClick);
     deleteButton.addEventListener('click', removeClick);
 
     listItem.innerHTML = '';
