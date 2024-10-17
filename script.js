@@ -49,12 +49,14 @@ document.addEventListener('keydown', event => {
 });
 
 function loadFormulasCode() {
-    const formulascode= document.querySelector("#forzaFormule")
-    formulascode.innerText= localStorage.getItem("formulas")
+    const formulascode= document.querySelector("#forzaLocalStorage")
+    const formulascodename= document.querySelector("#forzaLocalStorageNome")
+    formulascode.innerText= localStorage.getItem(formulascodename.value)
 }
 function saveFormulasCode() {
-    const formulascode= document.querySelector("#forzaFormule")
-    localStorage.setItem("formulas", formulascode.value)  
+    const formulascode= document.querySelector("#forzaLocalStorage")
+    const formulascodename= document.querySelector("#forzaLocalStorageNome")
+    localStorage.setItem(formulascodename.value, formulascode.value)  
     loadFormulas()
     closeModal("forceStatsModal")
 }
