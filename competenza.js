@@ -305,16 +305,25 @@ function loadModificators() {
     document.querySelectorAll("#nomePG").forEach(el=>el.innerHTML = CharacterName)
     document.querySelector("#name").value=CharacterName
     const savedFormulas = JSON.parse(localStorage.getItem("Character")) || [];
-    document.querySelector("#rowRollCharModal").innerHTML = `<div class="btn-group mb-3" role="group" aria-label="Basic checkbox toggle button group">
+    const RollStats= document.querySelector("#rowRollCharModal")
+    RollStats.innerHTML = `<div class="btn-group mb-3" role="group" aria-label="Basic checkbox toggle button group">
         <input type="checkbox" class="btn-check" id="vantaggio" autocomplete="off">
         <label class="btn btn-outline-success" onclick="vantaggiobtnclick()" for="vantaggio">Vantaggio</label>
 
         <input type="checkbox" class="btn-check" id="svantaggio" autocomplete="off">
         <label class="btn btn-outline-danger" onclick="svantaggiobtnclick()" for="svantaggio">Svantaggio</label>
     </div>`;
-    savedFormulas.forEach((formula, i) => {
-        createButtonStats(formula.id, formula.name, i);
-    });
+    
+    
+    if (savedFormulas.length>0) {
+        
+        savedFormulas.forEach((formula, i) => {
+            createButtonStats(formula.id, formula.name, i);
+        });
+    }
+    else{
+        RollStats.innerHTML+="<p>Inserisci prima le stat di un Personaggio!</p>"
+    }
 }
 
 // Carica le abilità e i tiri salvezza selezionati quando si ricarica la pagina
@@ -341,37 +350,39 @@ function loadStatforForce() {
     const statContainer = document.querySelector("#rowforceCharModal");
 
     // Pulisce il contenitore prima di aggiungere nuovi elementi
-    statContainer.innerHTML = "";
-
-    // Scorriamo le statistiche del personaggio
-    character.forEach(({ id, name }) => {
-        // Estrai il modificatore dall'id (che è nella forma d20+X o d20-X)
-        let modifier = id; // Prende il valore del modificatore (+X o -X)
-
-        // Creiamo un div per ogni statistica
-        const statDiv = document.createElement('div');
-        statDiv.className = "mb-3 col-6";
-
-        // Creiamo la label per la statistica
-        const label = document.createElement('label');
-        label.setAttribute("for", name);  // Imposta il "for" per legarlo all'input
-        label.innerHTML = name;           // Usa il nome della statistica (es. FOR, DEX, Atletica, ecc.)
-        label.className = "form-label";
-
-        // Creiamo l'input di testo
-        const input = document.createElement('input');
-        input.type = "text";
-        input.id = name;                   // Imposta l'id con il nome della statistica o abilità
-        input.value = modifier;            // Imposta il modificatore estratto dal `id`
-        input.className = "form-control";
-
-        // Aggiungiamo la label e l'input al div della statistica
-        statDiv.appendChild(label);
-        statDiv.appendChild(input);
-
-        // Inseriamo il div della statistica nel container
-        statContainer.appendChild(statDiv);
-    });
+    if (character.length>0) {
+        
+        statContainer.innerHTML = "";
+        // Scorriamo le statistiche del personaggio
+        character.forEach(({ id, name }) => {
+            // Estrai il modificatore dall'id (che è nella forma d20+X o d20-X)
+            let modifier = id; // Prende il valore del modificatore (+X o -X)
+    
+            // Creiamo un div per ogni statistica
+            const statDiv = document.createElement('div');
+            statDiv.className = "mb-3 col-6";
+    
+            // Creiamo la label per la statistica
+            const label = document.createElement('label');
+            label.setAttribute("for", name);  // Imposta il "for" per legarlo all'input
+            label.innerHTML = name;           // Usa il nome della statistica (es. FOR, DEX, Atletica, ecc.)
+            label.className = "form-label";
+    
+            // Creiamo l'input di testo
+            const input = document.createElement('input');
+            input.type = "text";
+            input.id = name;                   // Imposta l'id con il nome della statistica o abilità
+            input.value = modifier;            // Imposta il modificatore estratto dal `id`
+            input.className = "form-control";
+    
+            // Aggiungiamo la label e l'input al div della statistica
+            statDiv.appendChild(label);
+            statDiv.appendChild(input);
+    
+            // Inseriamo il div della statistica nel container
+            statContainer.appendChild(statDiv);
+        });
+    }
 }
 
 function saveModifiedStats() {
