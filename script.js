@@ -220,11 +220,13 @@ total=media.reduce((sum, num) =>{ return sum + parseInt(num)},0)/media.length
                 let finalRoll = roll1;
                 if (modifier === 'v') {
                     finalRoll = Math.max(roll1, roll2);
-                    detailedResult += `(${roll1}, ${roll2}) => ${finalRoll}[d${sides}]`;
+                    detailedResult += `(${roll1==20?"<strong class="text-success">20</strong>”:roll1}, ${roll2==20?"<strong class="text-success">20</strong>”:roll2}) => ${finalRoll}[d${sides}]`;
                 } else if (modifier === 's') {
                     finalRoll = Math.min(roll1, roll2);
                     detailedResult += `(${roll1}, ${roll2}) => ${finalRoll}[d${sides}]`;
                 } else {
+                    if(finalRoll==1) {finalRoll='<strong class="text-danger">1</strong>'}
+                    else if(finalRoll==20) {finalRoll='<strong class="text-success">20</strong>'}
                     detailedResult += `${finalRoll}[d${sides}]`;
                 }
 
