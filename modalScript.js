@@ -26,6 +26,7 @@ function confirmEdit() {
         const savedFormulasElement = document.getElementById('savedFormulas');
         savedFormulasElement.innerHTML = ''
         loadFormulas()
+        loadScrollable()
         closeModal('editModal')
     }
 }
