@@ -184,6 +184,10 @@ function rollDice(isopen = false, resultName = false) {
     if (!display) {
         return
     }
+        else if(display.toLowerCase()==='sviluppatore'){
+            document.querySelector(".sviluppatore").classList.remove("d-none")
+            total= "Modalità sviluppatore Attivata"
+        }
         else if(display==='media'){
 total=media.reduce((sum, num) =>{ return sum + parseInt(num)},0)/media.length
         }
