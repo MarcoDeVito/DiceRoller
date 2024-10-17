@@ -179,6 +179,12 @@ function safeEvaluate(expression) {
     }
 }
 
+function critOrMiss(roll) {
+    if(roll==1) {return '<strong class="text-danger">1</strong>'}
+    if(roll==20) {return '<strong class="text-success">20</strong>'}
+    return roll
+}
+
 function rollDice(isopen = false, resultName = false) {
     const display = document.getElementById('display').value.trim();
     let total = 0;
@@ -220,14 +226,13 @@ total=media.reduce((sum, num) =>{ return sum + parseInt(num)},0)/media.length
                 let finalRoll = roll1;
                 if (modifier === 'v') {
                     finalRoll = Math.max(roll1, roll2);
-                    detailedResult += `(${roll1==20?'<strong class="text-success">20</strong>':roll1}, ${roll2==20?'<strong class="text-success">20</strong>':roll2}) => ${finalRoll}[d${sides}]`;
+                    detailedResult += `(${critOrMiss(roll1)}, ${critOrMiss(roll2)}) => ${critOrMiss(finalRoll)}[d${sides}]`;
                 } else if (modifier === 's') {
                     finalRoll = Math.min(roll1, roll2);
-                    detailedResult += `(${roll1}, ${roll2}) => ${finalRoll}[d${sides}]`;
+                    detailedResult += `(${critOrMiss(roll1)}, ${critOrMiss(roll2)}) => ${critOrMiss(finalRoll)}[d${sides}]`;
                 } else {
-                    if(finalRoll==1) {finalRoll='<strong class="text-danger">1</strong>'}
-                    else if(finalRoll==20) {finalRoll='<strong class="text-success">20</strong>'}
-                    detailedResult += `${finalRoll}[d${sides}]`;
+                    
+                    detailedResult += `${critOrMiss(finalRoll)}[d${sides}]`;
                 }
 
                 rollResults.push(finalRoll);
