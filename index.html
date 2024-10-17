@@ -404,16 +404,24 @@
                     <button type="button" class="btn w-100 mb-2 btn-warning" onclick="saveModifiedStats()">Sovrascrivi</button>
                     <div class="sviluppatore d-none">
                         <hr>
-                        
                         <div class="form-floating mb-3">
-                            <input class="form-control mb-3" id="forzaLocalStorageNome" value="formulas">
+                            <select class="form-select mb-3" id="forzaLocalStorageNome">
+                                <option selected value="formulas">Formule</option>
+                                <option value="CharacterName">Nome Personaggio</option>
+                                <option value="Character">Pulsanti</option>
+                                <option value="rollHistory">Cronologia tiri dadi</option>
+                                <option value="proficientSkills">Abilit' con Competenza</option>
+                                <option value="proficientSavingThrows">TS con Competenza</option>
+                                <option value="Stats">Statistiche Personaggio</option>
+                                <option value="Spellcasting">Caratteristica Incantatore</option>
+                              </select>
+                            
                             
                             <textarea class="form-control" placeholder="Scrivi qui le formule in formato json" id="forzaLocalStorage" style="height: 200px"></textarea>
                             <label for="forzaLocalStorage">Local Storage</label>
                         </div>
                         <div class="d-flex justify-content-around">
                             <button class="btn btn-custom" onclick="saveFormulasCode()">Salva</button>
-                            <button class="btn btn-custom" onclick="loadFormulasCode()">Carica</button>
                             <button class="btn btn-secondary" data-clipboard-target="#forzaLocalStorage">Copia</button>
                         </div>
                     </div>

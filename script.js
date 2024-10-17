@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     new ClipboardJS('.btn', {
         container: document.getElementById('forceStatsModal')
     });
-
+    document.querySelector("#forzaLocalStorageNome").addEventListener("input", loadFormulasCode)
 
     vantaggiobtn = document.querySelector('#vantaggio')
     svantaggiobtn = document.querySelector('#svantaggio')
