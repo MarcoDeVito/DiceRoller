@@ -43,15 +43,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function loadScrollable() {
-    new Sortable(document.querySelector("#savedFormulas"), {
+    const formulas= document.querySelector("#savedFormulas")
+    new Sortable(formulas, {
         handle: '.bars', // handle's class
-        animation: 100,
+        animation: 0,
         fallbackClass: 'd-none',
-        multiDrag: true, // Enable multi-drag
+       multiDrag: true, // Enable multi-drag
 	selectedClass: 'selected', // The class applied to the selected items
 	fallbackTolerance: 3, // So that we can select items on mobile
         ghostClass: 'opacity-50',
         onEnd:saveCurrentOrder(),
+        
            
     });
 }
