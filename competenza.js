@@ -397,7 +397,7 @@ function saveModifiedStats() {
         if (input) {
             // Aggiorna l'ID con il nuovo valore dell'input (modificatore)
             let newValue = input.value.trim(); // Prende il valore modificato
-            console.log("input.value.trim():"+input.value.trim());
+            
             
             // Aggiorna l'id mantenendo il formato "d20+X" o "d20-X"
             entry.id = newValue
