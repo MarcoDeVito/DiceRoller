@@ -3,6 +3,8 @@ let lastButtonWasDice = false;
 let lastButtonWasVantageOrDisadvantage = false;
 let rollHistory = [];
 let media=[]
+let soundEffect = new Audio('diceRoll.mp3');
+let secret = new Audio('secret.mp3');
 
 vantaggiobtnclick = () => {
 
@@ -29,6 +31,9 @@ document.addEventListener('DOMContentLoaded', () => {
     loadRollHistory();
     loadModificators()
     loadSelectedSkills();
+    
+
+    
     new ClipboardJS('.btn', {
         container: document.getElementById('forceStatsModal')
     });
@@ -156,7 +161,7 @@ function rollDice(isopen = false, resultName = false) {
     }
         else if(display.toLowerCase()==='sviluppatore'){
             document.querySelector(".sviluppatore").classList.remove("d-none")
-            total= "Modalità sviluppatore Attivata"
+            secret.play();
             
         }
         else if(display==='media'){
@@ -236,10 +241,12 @@ total=media.reduce((sum, num) =>{ return sum + parseInt(num)},0)/media.length
     modalResultContent.innerHTML = `<p class='text-center display-1'>${resultName ? resultName : "Risultato"}: <strong class='fw-bold'>${total}</strong></p><p class='text-center h3'>${detailedResult}</p>`;
 
     if (!isopen&&display.toLowerCase()!=='sviluppatore') {
+        soundEffect.play();
         const resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
         resultModal.show();
 
     }
+    
     // Mostra il modale
     updateRollHistory(display, total, detailedResult, resultName ? resultName : "Risultato");
 
