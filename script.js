@@ -3,8 +3,11 @@ let lastButtonWasDice = false;
 let lastButtonWasVantageOrDisadvantage = false;
 let rollHistory = [];
 let media=[]
-let soundEffect = new Audio('diceRoll.mp3');
-let secret = new Audio('secret.mp3');
+const soundEffect = new Audio('sound/diceRoll.mp3');
+const secret = new Audio('sound/secret.mp3');
+const success = new Audio('sound/success.mp3');
+const fail = new Audio('sound/fail.mp3');
+
 
 vantaggiobtnclick = () => {
 
@@ -156,6 +159,8 @@ function rollDice(isopen = false, resultName = false) {
     const display = document.getElementById('display').value.trim();
     let total = 0;
     let detailedResult = '';
+    let hasCritFail = false;
+    let hasCritSuccess = false;
     if (!display) {
         return
     }
@@ -178,6 +183,7 @@ total=media.reduce((sum, num) =>{ return sum + parseInt(num)},0)/media.length
         let match;
         let modifiedDisplay = display;
         let modifiers = display;
+        
 
         while ((match = dicePattern.exec(display)) !== null) {
                         
@@ -200,6 +206,15 @@ total=media.reduce((sum, num) =>{ return sum + parseInt(num)},0)/media.length
                 } else {
                     
                     detailedResult += `${critOrMiss(finalRoll,sides)}${critOrMiss(finalRoll,sides,true)}`;
+                }
+
+                 // Se il dado è un d20, controlla se è 1 o 20
+                 if (sides === 20) {
+                    if (finalRoll === 1) {
+                        hasCritFail = true;
+                    } else if (finalRoll === 20) {
+                        hasCritSuccess = true;
+                    }
                 }
 
                 rollResults.push(finalRoll);
@@ -241,11 +256,27 @@ total=media.reduce((sum, num) =>{ return sum + parseInt(num)},0)/media.length
     modalResultContent.innerHTML = `<p class='text-center display-1'>${resultName ? resultName : "Risultato"}: <strong class='fw-bold'>${total}</strong></p><p class='text-center h3'>${detailedResult}</p>`;
 
     if (!isopen&&display.toLowerCase()!=='sviluppatore') {
-        soundEffect.play();
+        if (hasCritSuccess) {
+            success.play();
+        }
+        else if (hasCritFail) {
+            fail.play(); 
+        }
+        else{
+
+            soundEffect.play();
+        }
         const resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
         resultModal.show();
 
     }
+
+    if (hasCritSuccess) {
+        success.play();
+    }
+    else if (hasCritFail) {
+        fail.play(); 
+    } 
     
     // Mostra il modale
     updateRollHistory(display, total, detailedResult, resultName ? resultName : "Risultato");
