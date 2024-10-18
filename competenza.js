@@ -236,7 +236,14 @@ function salvaStatistiche() {
     else {
         let spellcasting = spellc + parseInt(bonus);
         spellcasting = "d20+" + spellcasting;
-        saveFormulaToLocalStorage({ id: spellcasting, name: "Tiro per colpire incantesimi: " + spellcasting });
+        let formulas = JSON.parse(localStorage.getItem("formulas")) || [];
+        
+           
+                
+                let index = formulas.length;
+            
+       
+        saveFormulaToLocalStorage({ id: spellcasting, name: "Tiro per colpire incantesimi", index: index });
         let formula = { "id": spellcasting, "name": "Tiro per colpire incantesimi" };
         saveFormulaToLocalStorage(formula, "Character");
     }

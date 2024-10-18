@@ -349,7 +349,7 @@ function saveFormulaToLocalStorage(formula, localStorageName = "formulas") {
     if (localStorageName==="formulas") {
         if (formula.index === undefined) {
             
-            formula.index = formulas.length+1;
+            formula.index = formulas?formulas.length:0;
         }
     }
     formulas.push(formula);
