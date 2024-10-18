@@ -179,13 +179,15 @@ function safeEvaluate(expression) {
     }
 }
 
-function critOrMiss(roll, sides=false) {
-    let risultato
-    if(roll==1) {risultato= 'text-danger'}
-    else if(roll==20) {risultato= 'text-success'}
-    else{ return sides==false?roll:"[d"+sides+"]"}
-    if (!sides) return `<strong class="${risultato}">${roll}</strong>`
-    else return `<strong class="${risultato}">[d${sides}]</strong>`
+function critOrMiss(roll, sides, isSides = false) {
+    const risultato = roll === 1 ? 'text-danger' : (roll === sides ? 'text-success' : '');
+
+    if (!risultato) {
+        return isSides ? `[d${sides}]` : roll;
+    }
+
+    const displayValue = isSides ? `[d${sides}]` : roll;
+    return `<strong class="${risultato}">${displayValue}</strong>`;
 }
 
 function rollDice(isopen = false, resultName = false) {
@@ -229,13 +231,13 @@ total=media.reduce((sum, num) =>{ return sum + parseInt(num)},0)/media.length
                 let finalRoll = roll1;
                 if (modifier === 'v') {
                     finalRoll = Math.max(roll1, roll2);
-                    detailedResult += `(${critOrMiss(roll1)}, ${critOrMiss(roll2)}) => ${critOrMiss(finalRoll)}${critOrMiss(finalRoll,sides)}`;
+                    detailedResult += `(${critOrMiss(roll1,sides)}, ${critOrMiss(roll2,sides)}) => ${critOrMiss(finalRoll,sides)}${critOrMiss(finalRoll,sides,true)}`;
                 } else if (modifier === 's') {
                     finalRoll = Math.min(roll1, roll2);
-                    detailedResult += `(${critOrMiss(roll1)}, ${critOrMiss(roll2)}) => ${critOrMiss(finalRoll)}${critOrMiss(finalRoll,sides)}`;
+                    detailedResult += `(${critOrMiss(roll1,sides)}, ${critOrMiss(roll2,sides)}) => ${critOrMiss(finalRoll,sides)}${critOrMiss(finalRoll,sides,true)}`;
                 } else {
                     
-                    detailedResult += `${critOrMiss(finalRoll)}${critOrMiss(finalRoll,sides)}`;
+                    detailedResult += `${critOrMiss(finalRoll,sides)}${critOrMiss(finalRoll,sides,true)}`;
                 }
 
                 rollResults.push(finalRoll);
