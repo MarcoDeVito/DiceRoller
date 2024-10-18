@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadStats()
     loadFormulasCode()
     loadFormulas();
+    loadScrollable();
     loadRollHistory();
     loadModificators()
     loadSelectedSkills();
@@ -38,14 +39,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     vantaggiobtn.addEventListener("click", vantaggiobtnclick)
     svantaggiobtn.addEventListener("click", svantaggiobtnclick)
+    
+});
 
+function loadScrollable() {
     new Sortable(document.querySelector("#savedFormulas"), {
         handle: '.bars', // handle's class
         animation: 100,
         fallbackClass: 'd-none',
-        ghostClass: 'opacity-50'
+        multiDrag: true, // Enable multi-drag
+	selectedClass: 'selected', // The class applied to the selected items
+	fallbackTolerance: 3, // So that we can select items on mobile
+        ghostClass: 'opacity-50',
+        onEnd:saveCurrentOrder(),
+           
     });
-});
+}
 
 document.addEventListener('keydown', event => {
     if (event.key === "Enter") {
@@ -63,8 +72,8 @@ function saveFormulasCode() {
     const formulascode= document.querySelector("#forzaLocalStorage")
     const formulascodename= document.querySelector("#forzaLocalStorageNome")
     localStorage.setItem(formulascodename.value, formulascode.value)  
-    loadFormulas()
     closeModal("forceStatsModal")
+    location.reload();
 }
 
 
@@ -360,7 +369,8 @@ function createFormulaElement(id, name, save = "savedFormulas") {
    let removeClick=()=>{ 
         savedFormulasElement.removeChild(listItem);
         removeFormulaFromLocalStorage(name);
-        loadFormulas()}
+        location.reload();
+    }
     // deleteButton.addEventListener('touchstart', removeClick);
     deleteButton.addEventListener('click', removeClick);
 
@@ -385,8 +395,7 @@ function saveFormula() {
     if (display && name) {
         name += ": " + display;
         saveFormulaToLocalStorage({ id: display, name });
-        loadFormulas()
-        loadScrollable();
+        location.reload();
 
     } else {
         alert("Non è possibile salvare una formula vuota o senza nome.");

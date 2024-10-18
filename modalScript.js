@@ -25,8 +25,7 @@ function confirmEdit() {
         saveFormulaToLocalStorage({ id: newFormula, name: newName + ": " + newFormula });
         const savedFormulasElement = document.getElementById('savedFormulas');
         savedFormulasElement.innerHTML = ''
-        loadFormulas()
-        loadScrollable()
+        location.reload();
         closeModal('editModal')
     }
 }
