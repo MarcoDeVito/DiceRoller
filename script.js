@@ -60,7 +60,7 @@ function loadScrollable() {
 	selectedClass: 'selected', // The class applied to the selected items
 	fallbackTolerance: 3, // So that we can select items on mobile
         ghostClass: 'opacity-50',
-        onEnd:saveCurrentOrder(),
+        onEnd:saveCurrentOrder,
         
            
     });
@@ -96,15 +96,18 @@ function saveCurrentOrder() {
 
     // Aggiorna gli indici in base alla posizione corrente degli elementi
     items.forEach((item, index) => {
-        const formulaId = item.querySelector("button").dataset.id;
-        const formula = savedFormulas.find(f => f.id === formulaId);
+        const formulaName = item.querySelector("button").dataset.name;
+        const formula = savedFormulas.find(f => f.name === formulaName);
         if (formula) {
             formula.index = index; // Assegna il nuovo indice
         }
     });
-
+    
+    
     // Salva nuovamente le formule con i nuovi indici
     localStorage.setItem("formulas", JSON.stringify(savedFormulas));
+    
+    
 }
 
 
@@ -344,8 +347,10 @@ function loadRollHistory() {
 function saveFormulaToLocalStorage(formula, localStorageName = "formulas") {
     let formulas = JSON.parse(localStorage.getItem(localStorageName)) || [];
     if (localStorageName==="formulas") {
-        
-        formula.index = savedFormulas.length;
+        if (formula.index === undefined) {
+            
+            formula.index = formulas.length+1;
+        }
     }
     formulas.push(formula);
     localStorage.setItem(localStorageName, JSON.stringify(formulas));
@@ -407,6 +412,7 @@ function createFormulaElement(id, name, save = "savedFormulas") {
         savedFormulasElement.removeChild(listItem);
         removeFormulaFromLocalStorage(name);
         location.reload();
+        
     }
     // deleteButton.addEventListener('touchstart', removeClick);
     deleteButton.addEventListener('click', removeClick);
@@ -429,9 +435,15 @@ function saveFormula() {
     const display = document.getElementById('display').value;
     let name = prompt("Inserisci un nome per la formula:");
     if (display && name) {
-        
-        saveFormulaToLocalStorage({ id: display, name });
+        let formulas = JSON.parse(localStorage.getItem("formulas")) || [];
+       
+            
+        let index = formulas?formulas.length:0;
+       
+       
+        saveFormulaToLocalStorage({ id: display, name: name, index: index });
         location.reload();
+        
 
     } else {
         alert("Non è possibile salvare una formula vuota o senza nome.");

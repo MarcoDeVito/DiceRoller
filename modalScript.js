@@ -17,16 +17,23 @@ function confirmEdit() {
     const newFormula = document.getElementById('editInputFormula').value;
 
     if (newName && newFormula) {
-        const newSave = currentListItem.querySelector('.btn-secondary')
-        newSave.textContent = newName + ": " + newFormula;
-        newSave.dataset.id = newFormula;
-        newSave.dataset.name = newName;
+        const savedFormulas = JSON.parse(localStorage.getItem("formulas")) || [];
+        
+        
+        const formula = savedFormulas.find(f => f.name === currentEditFormula.name);
+        
+        
+        if (formula) {
+            formula.name = newName;
+            formula.id = newFormula;
+        }
         removeFormulaFromLocalStorage(currentEditFormula.name);
-        saveFormulaToLocalStorage({ id: newFormula, name: newName});
+        saveFormulaToLocalStorage(formula);
         const savedFormulasElement = document.getElementById('savedFormulas');
         savedFormulasElement.innerHTML = ''
         closeModal('editModal')
         location.reload();
+        
     }
 }
 
