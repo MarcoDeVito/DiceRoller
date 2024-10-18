@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loadRollHistory();
     loadModificators()
     loadSelectedSkills();
-    loadScrollable();
     new ClipboardJS('.btn', {
         container: document.getElementById('forceStatsModal')
     });
@@ -39,6 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     vantaggiobtn.addEventListener("click", vantaggiobtnclick)
     svantaggiobtn.addEventListener("click", svantaggiobtnclick)
+
+    new Sortable(document.querySelector("#savedFormulas"), {
+        handle: '.bars', // handle's class
+        animation: 100,
+        fallbackClass: 'd-none',
+        ghostClass: 'opacity-50'
+    });
 });
 
 document.addEventListener('keydown', event => {
@@ -61,67 +67,7 @@ function saveFormulasCode() {
     closeModal("forceStatsModal")
 }
 
-function loadScrollable(){
-    const sortableList = document.querySelector("#savedFormulas");
-    const items = sortableList.querySelectorAll(".item");
 
-    items.forEach(item => {
-        const handle = item.querySelector(".bars");
-
-        if (handle) {
-            handle.addEventListener("touchstart", (e) => {
-                e.stopPropagation();
-                e.preventDefault()
-                // item.setAttribute("draggable", "true");
-                item.classList.add("dragging")
-            });
-
-            handle.addEventListener("touchend", () => {
-                item.classList.remove("dragging");
-                // item.removeAttribute("draggable");
-
-                // Salva l'ordine attuale dopo il riordinamento
-                saveCurrentOrder();
-            });
-        }
-
-        // Assicurarsi che i pulsanti restino cliccabili
-        const buttons = item.querySelectorAll("button");
-        buttons.forEach(button => {
-            button.addEventListener("click", (e) => {
-                e.stopPropagation();
-            });
-        });
-    });
-
-    const initSortableList = (e) => {
-        e.preventDefault();
-        const draggingItem = document.querySelector(".dragging");
-        let siblings = [...sortableList.querySelectorAll(".item:not(.dragging)")];
-        
-        
-        let clientY = e.touches[0].clientY;
-        console.log(clientY);
-        
-        
-        let nextSibling = siblings.find(sibling => {
-            const siblingRect = sibling.getBoundingClientRect();
-            aaa=(siblingRect.top + siblingRect.height)
-            console.log("aaa:"+aaa);
-            
-            return clientY <= aaa;
-        });
-        if (nextSibling) {
-            sortableList.insertBefore(draggingItem, nextSibling);
-        } else {
-            sortableList.appendChild(draggingItem);
-        }
-
-    }
-
-    sortableList.addEventListener("touchmove", initSortableList);
-    // sortableList.addEventListener("touchstart", e => e.preventDefault());
-}
 
 
 // Funzione per salvare l'ordine attuale aggiornando gli indici nel localStorage
