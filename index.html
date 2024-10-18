@@ -461,7 +461,7 @@
                     <div id="modalResultContent"></div>
                 </div>
                 <div class="modal-footer d-flex justify-content-evenly">
-                    <button type="button" class="btn btn-secondary" onclick="event.stopPropagation(); rollDice(true)">
+                    <button type="button" class="btn btn-secondary" id="rerollButton" onclick="event.stopPropagation(); rollDice(true, this.dataset.name)">
                         <h1 class="m-1">🔄</h1>
                     </button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">

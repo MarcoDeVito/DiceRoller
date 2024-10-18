@@ -228,9 +228,12 @@ total=media.reduce((sum, num) =>{ return sum + parseInt(num)},0)/media.length
             return;
         }
     }
-    // Aggiorna il contenuto del modale
+   
+        
+        document.querySelector("#rerollButton").dataset.name=resultName?resultName:""
+          // Aggiorna il contenuto del modale
     const modalResultContent = document.getElementById('modalResultContent');
-    modalResultContent.innerHTML = `<p class='text-center display-1 fw.bold'>${resultName ? resultName : "Risultato"}: ${total}</p><p class='text-center h3'>${detailedResult}</p>`;
+    modalResultContent.innerHTML = `<p class='text-center display-1'>${resultName ? resultName : "Risultato"}: <strong class='fw-bold'>${total}</strong></p><p class='text-center h3'>${detailedResult}</p>`;
 
     if (!isopen&&display.toLowerCase()!=='sviluppatore') {
         const resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
@@ -336,20 +339,14 @@ function createFormulaElement(id, name, save = "savedFormulas") {
     formulaButton.className = 'btn btn-secondary bords';
     formulaButton.style = "width:60%; overflow:hidden"
     formulaButton.dataset.id = id;
-    formulaButton.textContent = name;
+    formulaButton.textContent = name+": "+id
+    formulaButton.dataset.name = name;
 
-    // formulaButton.addEventListener('touchstart', function (event) {
-    //     event.stopPropagation();
-    //     textsplit = this.innerText.split(":")
-    //     formulaname = textsplit[0]
-    //     document.getElementById('display').value = this.dataset.id;
-    //     rollDice(false, formulaname);
-    //     lastButtonWasDice = true;
-    // });
-    formulaButton.addEventListener('click', function (event) {
+  
+    formulaButton.addEventListener('click', function () {
         // event.stopPropagation();
-        textsplit = this.innerText.split(":")
-        formulaname = textsplit[0]
+        
+        formulaname = this.dataset.name
         document.getElementById('display').value = this.dataset.id;
         rollDice(false, formulaname);
         lastButtonWasDice = true;
@@ -392,10 +389,9 @@ function createFormulaElement(id, name, save = "savedFormulas") {
 
 function saveFormula() {
     const display = document.getElementById('display').value;
-    const savedFormulas = JSON.parse(localStorage.getItem("formulas")) || [];
     let name = prompt("Inserisci un nome per la formula:");
     if (display && name) {
-        name += ": " + display;
+        
         saveFormulaToLocalStorage({ id: display, name });
         location.reload();
 
