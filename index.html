@@ -76,7 +76,7 @@
                     <input class="w-100 display border border-none bg-dark text-white p-3 rounded" id="display">
                 </div>
                 <div class="col-3 p-0">
-                    <button class="btn bg-dark text-white w-100 h-100" onclick="event.stopPropagation(); rollDice()">
+                    <button class="btn bg-dark text-white w-100 h-100 primo" onclick="event.stopPropagation(); rollDice()">
                         <h2 class="m-1">
                             <img src="diceIcon.svg" />
                         </h2>
@@ -130,6 +130,9 @@
                     <button class="btn btn-custom border col-4""
                         onclick=" saveFormula()">❤</button>
                 </div>
+                <button class="btn btn-dark btn-lg col-10 mb-3 d-none secondo" onclick="rollDice()">
+                    <h1 class="m-1"><img src="diceIcon.svg" alt="dadi"></h1>
+                </button>
                 <!-- Operation buttons -->
                 <button class="btn btn-custom border col-4" onclick="appendToDisplay('+', false)">➕</button>
                 <button class="btn btn-success border col-4" onclick="appendToDisplay('v', false)">
@@ -157,9 +160,6 @@
                     onclick="loadStatforForce()" data-bs-target="#forceStatsModal">
                     Modifica Stat
                 </button>
-                <!-- <button class="btn btn-dark btn-lg col-12 mt-2" onclick="rollDice()">
-                    <h1 class="m-1"><img src="diceIcon.svg" alt="dadi"></h1>
-                </button> -->
             </div>
         </div>
 

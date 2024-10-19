@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadRollHistory();
     loadModificators()
     loadSelectedSkills();
+    gestisciVisibilita()
     
 
     
@@ -88,6 +89,30 @@ function saveFormulasCode() {
 
 
 
+function gestisciVisibilita() {
+    // Seleziona gli elementi
+    const primoBtn = document.querySelector(".primo");
+    const secondoBtn = document.querySelector(".secondo");
+  
+    // Funzione per controllare se l'elemento è completamente fuori dallo schermo
+    function isElementOutOfViewport(el) {
+      const rect = el.getBoundingClientRect();
+      return rect.bottom < 0 || rect.top > window.innerHeight;
+    }
+  
+    // Funzione che controlla la visibilità e gestisce la classe
+    function checkVisibility() {
+      if (isElementOutOfViewport(primoBtn)) {
+        secondoBtn.classList.remove('d-none');
+      } else {
+        secondoBtn.classList.add('d-none');
+      }
+    }
+  
+    // Controlla la visibilità all'inizio e su scroll
+    window.addEventListener('scroll', checkVisibility);
+    checkVisibility(); // Controlla all'avvio
+  }
 
 // Funzione per salvare l'ordine attuale aggiornando gli indici nel localStorage
 function saveCurrentOrder() {
@@ -180,7 +205,8 @@ total=media.reduce((sum, num) =>{ return sum + parseInt(num)},0)/media.length
         const roll1 = Math.floor(Math.random() * 20) + 1;
         const roll2 = Math.floor(Math.random() * 20) + 1;
         total = display === 'v' ? Math.max(roll1, roll2) : Math.min(roll1, roll2);
-        detailedResult = `(${roll1}, ${roll2}) => ${total}[d20]`;
+        detailedResult =`(${critOrMiss(roll1,20)}, ${critOrMiss(roll2,20)}) => ${critOrMiss(total,20)}${critOrMiss(total,20,true)}`
+        
         if (total === 1) {
                 hasCritFail = true;
             } else if (total === 20) {
