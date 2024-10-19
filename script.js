@@ -181,6 +181,12 @@ total=media.reduce((sum, num) =>{ return sum + parseInt(num)},0)/media.length
         const roll2 = Math.floor(Math.random() * 20) + 1;
         total = display === 'v' ? Math.max(roll1, roll2) : Math.min(roll1, roll2);
         detailedResult = `(${roll1}, ${roll2}) => ${total}[d20]`;
+        if (total === 1) {
+                hasCritFail = true;
+            } else if (total === 20) {
+                hasCritSuccess = true;
+            }
+        
     } else {
         const dicePattern = /(\d*)d(\d+)([vs])?/g;
         let match;
