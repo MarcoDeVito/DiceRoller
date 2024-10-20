@@ -232,12 +232,13 @@ function salvaStatistiche() {
     let spellc = getSpellcasting()
     if (spellc === "noSC") {
         saveFormulaToLocalStorage({ id: "", name: "No Incantesimi" }, "Character");
+        localStorage.setItem("CDinc","")
     }
     else {
         let spellcasting = spellc + parseInt(bonus);
         spellcasting = "d20+" + spellcasting;
         let formulas = JSON.parse(localStorage.getItem("formulas")) || [];
-        
+        localStorage.setItem("CDinc",8+spellc + parseInt(bonus)) 
            
                 
                 let index = formulas.length;
@@ -309,7 +310,9 @@ function createButtonStats(id, name, i = false) {
 
 function loadModificators() {
     let CharacterName = localStorage.getItem("CharacterName")||"";
-    document.querySelectorAll("#nomePG").forEach(el=>el.innerHTML = CharacterName)
+    let cd = localStorage.getItem("CDinc")||"";
+    cd= cd?", CD Incantesimo: "+cd:cd
+    document.querySelectorAll("#nomePG").forEach(el=>el.innerHTML = CharacterName+cd)
     document.querySelector("#name").value=CharacterName
     const savedFormulas = JSON.parse(localStorage.getItem("Character")) || [];
     const RollStats= document.querySelector("#rowRollCharModal")
