@@ -1,7 +1,6 @@
 const cacheName = 'app-cache-v1';
 const assetsToCache = [
   '/DiceRoller/',
-  '/',
   '/DiceRoller/index.html',
   '/DiceRoller/script.js',
   '/DiceRoller/modalScript.js',
