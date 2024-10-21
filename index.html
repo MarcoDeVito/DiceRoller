@@ -10,10 +10,8 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <style>
-      .fixed-button {
-    position: sticky;
-    width: 21%;
-    z-index: 50; 
+     .primo, .display {
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.555);
 }
        .selected {
   box-shadow: 0 0 10px 5px rgba(255, 0, 0, 0.7); /* Effetto alone rosso */
@@ -71,14 +69,28 @@
     </style>
 </head>
 
-<body class="d-flex justify-content-center" style="background-color: #c7a95c;">
+<body class="" style="background-color: #c7a95c;">
+    <nav class="navbar sticky-top ">
+        <div class="container-fluid m-0">
+            
+                    <input class="w-75 display border border-dark bg-dark text-white p-3 rounded" id="display">
+               
+                
+                    <button class=" w-25 btn border border-none bg-dark text-white primo" onclick="event.stopPropagation(); rollDice()">
+                        <h2 class="m-1">
+                            <img src="diceIcon.svg" />
+                        </h2>
+                    </button>
+             
+        </div>
+      </nav>
     <div class="container m-md-5">
         <!-- <button class="btn btn-dark btn-lg secondo fixed-button" onclick="rollDice()">
             <h1 class="m-1"><img src="diceIcon.svg" alt="dadi"></h1>
         </button> -->
         <div class="calculator p-3 rounded shadow position-relative" style="background-color: #edede2;">
 
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-9 p-0">
                     <input class="w-100 display border border-none bg-dark text-white p-3 rounded" id="display">
                 </div>
@@ -89,7 +101,7 @@
                         </h2>
                     </button>
                 </div>
-            </div>
+            </div> -->
             <div class="buttons row justify-content-center">
                 <!-- Dice buttons -->
                 <div class="row">
