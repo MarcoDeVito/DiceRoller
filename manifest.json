@@ -1,0 +1,16 @@
+{
+    "name": "Dice Roller",
+    "short_name": "DiceRoller",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "description": "App per lanciare dadi",
+    "icons": [
+      {
+        "src": "favicon.svg",
+        "sizes": "512x512",
+        "type": "image/svg+xml"
+      }
+    ]
+  }
+  
