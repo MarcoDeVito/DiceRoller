@@ -503,19 +503,7 @@
     <script src="script.js"></script>
     <script src="modalScript.js"></script>
     <script src="competenza.js"></script>
-    <script>
-        if ('serviceWorker' in navigator) {
-          window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/DiceRoller/service-worker.js')
-              .then(registration => {
-                console.log('Service Worker registrato con successo:', registration);
-              })
-              .catch(error => {
-                console.log('Service Worker registration failed:', error);
-              });
-          });
-        }
-      </script>
+    
       
 </body>
 
