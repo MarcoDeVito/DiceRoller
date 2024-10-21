@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadRollHistory();
     loadModificators()
     loadSelectedSkills();
-    gestisciVisibilita()
+    // gestisciVisibilita()
     
 
     
@@ -89,30 +89,30 @@ function saveFormulasCode() {
 
 
 
-function gestisciVisibilita() {
-    // Seleziona gli elementi
-    const primoBtn = document.querySelector(".primo");
-    const secondoBtn = document.querySelector(".secondo");
+// function gestisciVisibilita() {
+//     // Seleziona gli elementi
+//     const primoBtn = document.querySelector(".primo");
+//     const secondoBtn = document.querySelector(".secondo");
   
-    // Funzione per controllare se l'elemento è completamente fuori dallo schermo
-    function isElementOutOfViewport(el) {
-      const rect = el.getBoundingClientRect();
-      return rect.bottom < 0 || rect.top > window.innerHeight;
-    }
+//     // Funzione per controllare se l'elemento è completamente fuori dallo schermo
+//     function isElementOutOfViewport(el) {
+//       const rect = el.getBoundingClientRect();
+//       return rect.bottom < 0 || rect.top > window.innerHeight;
+//     }
   
-    // Funzione che controlla la visibilità e gestisce la classe
-    function checkVisibility() {
-      if (isElementOutOfViewport(primoBtn)) {
-        secondoBtn.classList.remove('d-none');
-      } else {
-        secondoBtn.classList.add('d-none');
-      }
-    }
+//     // Funzione che controlla la visibilità e gestisce la classe
+//     function checkVisibility() {
+//       if (isElementOutOfViewport(primoBtn)) {
+//         secondoBtn.classList.remove('d-none');
+//       } else {
+//         secondoBtn.classList.add('d-none');
+//       }
+//     }
   
-    // Controlla la visibilità all'inizio e su scroll
-    window.addEventListener('scroll', checkVisibility);
-    checkVisibility(); // Controlla all'avvio
-  }
+//     // Controlla la visibilità all'inizio e su scroll
+//     window.addEventListener('scroll', checkVisibility);
+//     checkVisibility(); // Controlla all'avvio
+//   }
 
 // Funzione per salvare l'ordine attuale aggiornando gli indici nel localStorage
 function saveCurrentOrder() {
