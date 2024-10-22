@@ -1,4 +1,4 @@
-const cacheName = 'app-cache-v4';
+const cacheName = 'app-cache-v5';
 const assetsToCache = [
   '/DiceRoller/',
   '/DiceRoller/index.html',
@@ -10,7 +10,8 @@ const assetsToCache = [
   '/DiceRoller/sound/secret.mp3',
   '/DiceRoller/sound/success.mp3',
   '/DiceRoller/favicon.svg',
-  '/DiceRoller/diceIcon.svg'
+  '/DiceRoller/diceIcon.svg',
+  
 ];
 
 // Installazione: Cache delle risorse iniziali

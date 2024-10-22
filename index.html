@@ -12,6 +12,9 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <style>
+        .bords{
+            border-radius: 8px !important;
+        }
         .fixed-button {
             margin-top: 4px;
             right: 28%;
@@ -33,10 +36,7 @@
             right: 26%;
             
         }
-    .bords {
-        border-top-left-radius: 5px !important;
-        border-bottom-left-radius: 5px !important;
-    }
+    
 }
         .btn-outline-primary {
             --bs-btn-color: #338fc5;
@@ -176,8 +176,8 @@
                 <button class="btn btn-danger border col-4" onclick="appendToDisplay('s', 'prova')">
                     <h5 class="m-1"></h5>Svantaggio</h5>
                 </button>
-                <button class="btn btn-custom border col-4" onclick="clearDisplay()"><span
-                        class="p-1 bg-black border border-black rounded">🗑️</span></button>
+                <button class="btn btn-custom border col-4" onclick="modificaFormule()"><span
+                    class="p-1 bg-black border border-black rounded">🛠️</span></button>
                 <!-- Bottone per aprire il modale -->
                 <button type="button" class="btn btn-secondary border col-4" data-bs-toggle="modal"
                     data-bs-target="#statsModal">
@@ -454,8 +454,9 @@
                         <div class="d-flex justify-content-around">
                             <button class="btn btn-custom" onclick="saveFormulasCode()">Salva</button>
                             <button class="btn btn-secondary" data-clipboard-target="#forzaLocalStorage">Copia</button>
+                            <button class="btn btn-secondary" onclick="document.querySelector('#forzaLocalStorage').innerHTML = ''">✖</button>
                             <button class="btn btn-danger" data-bs-toggle="modal"
-                            data-bs-target="#confirmDestroy">Cancella</button>
+                            data-bs-target="#confirmDestroy">Cancella Tutto</button>
                         </div>
                     </div>
 
