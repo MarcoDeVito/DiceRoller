@@ -1,4 +1,4 @@
-const cacheName = 'app-cache-v2';
+const cacheName = 'app-cache-v3';
 const assetsToCache = [
   '/DiceRoller/',
   '/DiceRoller/index.html',
