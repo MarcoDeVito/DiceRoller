@@ -12,6 +12,11 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <style>
+        .fixed-button {
+            margin-top: 4px;
+            right: 28%;
+                  
+        }
      .primo, .display {
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.555);
 }
@@ -22,6 +27,12 @@
  
 }
 @media only screen and (min-width: 768px) {
+    .fixed-button {
+            /* position: fixed; */
+            
+            right: 26%;
+            
+        }
     .bords {
         border-top-left-radius: 5px !important;
         border-bottom-left-radius: 5px !important;
@@ -73,11 +84,11 @@
 
 <body class="" style="background-color: #c7a95c;">
     <nav class="navbar sticky-top ">
-        <div class="container-fluid m-0">
-            
-                    <input class="w-75 display border border-dark bg-dark text-white p-3 rounded" id="display">
-               
+        <div class="container-fluid m-0 position-relative">
                 
+                    <input class="w-75 display border border-dark bg-dark text-white p-3 rounded" id="display">
+
+                    <button class="bg-transparent border border-0 btn text-secondary position-fixed fixed-button" onclick="clearDisplay()"><p class="h1">✖</p></button>
                     <button class=" w-25 btn border border-secondary bg-dark text-white primo" onclick="event.stopPropagation(); rollDice()">
                         <h2 class="m-1">
                             <img src="diceIcon.svg" />
