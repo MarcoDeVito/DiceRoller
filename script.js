@@ -27,18 +27,8 @@ svantaggiobtnclick = () => {
 
 function loadModificaFormula(){
     let switchMod =localStorage.getItem('formulaMod') || 'false'
-    document.querySelectorAll('.formulaMod').forEach(mod => {
-        
-        if(switchMod==='false'){
-
-            mod.classList.add('d-none')
-            mod.classList.add('bords')
-        }
-        else{
-            mod.classList.remove('d-none')
-            mod.classList.remove('bords')
-        }
-    })
+    document.querySelectorAll('.formulaModName').forEach(mod => switchMod==='false'?mod.classList.add('bords'):mod.classList.remove('bords'))
+    document.querySelectorAll('.formulaMod').forEach(mod => switchMod==='false'?mod.classList.add('d-none'):mod.classList.remove('d-none'))
 
     }
 function modificaFormule(){
@@ -439,7 +429,7 @@ function createFormulaElement(id, name, save = "savedFormulas") {
     draggable.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 448 512"><path fill="#FFF" d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/></svg>`
 
     const formulaButton = document.createElement('button');
-    formulaButton.className = 'btn btn-secondary';
+    formulaButton.className = 'formulaModName btn btn-secondary';
     formulaButton.style = "width:60%; overflow:hidden"
     formulaButton.dataset.id = id;
     formulaButton.textContent = name+": "+id
