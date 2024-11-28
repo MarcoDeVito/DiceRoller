@@ -199,6 +199,7 @@ function salvaStatistiche() {
     let proficientSavingThrows = getSelectedSavingThrows();
 
     // Salva le abilità e i tiri salvezza nel localStorage
+    localStorage.setItem("CharacterLevel", level);
     localStorage.setItem("proficientSkills", JSON.stringify(proficientSkills));
     localStorage.setItem("proficientSavingThrows", JSON.stringify(proficientSavingThrows));
 
@@ -299,6 +300,11 @@ function createButtonStats(id, name, i = false) {
         if (document.querySelector("#svantaggio").checked === true) {
             result = result.replace("d20", "d20s");
         }
+        if (document.querySelector("#maestria").checked === true) {
+            let level =localStorage.getItem("CharacterLevel")||1
+            let proficiencyBonus = getProficiencyBonus(level)
+            result = result+"+"+proficiencyBonus
+        }
         document.getElementById('display').value = result;
         rollDice(false, this.innerText);
         lastButtonWasDice = true;
@@ -322,6 +328,8 @@ function loadModificators() {
 
         <input type="checkbox" class="btn-check" id="svantaggio" autocomplete="off">
         <label class="btn btn-outline-danger" onclick="svantaggiobtnclick()" for="svantaggio">Svantaggio</label>
+        <input type="checkbox" class="btn-check" id="maestria" autocomplete="off">
+        <label class="btn btn-outline-secondary"  for="maestria">Maestria</label>
     </div>`;
     
     
