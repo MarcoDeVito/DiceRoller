@@ -305,6 +305,9 @@ function createButtonStats(id, name, i = false) {
             let proficiencyBonus = getProficiencyBonus(level)
             result = result+"+"+proficiencyBonus
         }
+        if (document.querySelector("#guida").checked === true) {
+            result = result+"+d4"
+        }
         document.getElementById('display').value = result;
         rollDice(false, this.innerText);
         lastButtonWasDice = true;
@@ -330,6 +333,8 @@ function loadModificators() {
         <label class="btn btn-outline-danger" onclick="svantaggiobtnclick()" for="svantaggio">Svantaggio</label>
         <input type="checkbox" class="btn-check" id="maestria" autocomplete="off">
         <label class="btn btn-outline-secondary"  for="maestria">Maestria</label>
+        <input type="checkbox" class="btn-check" id="guida" autocomplete="off">
+        <label class="btn btn-outline-info"  for="guida">Guida</label>
     </div>`;
     
     
