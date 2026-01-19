@@ -303,6 +303,12 @@ function createButtonStats(id, name, i = false) {
         if (document.querySelector("#maestria").checked === true) {
             let level =localStorage.getItem("CharacterLevel")||1
             let proficiencyBonus = getProficiencyBonus(level)
+           
+           
+if(!getSelectedSkills().includes(this.innerText)){
+    proficiencyBonus*=2
+}
+
             result = result+"+"+proficiencyBonus
         }
         if (document.querySelector("#guida").checked === true) {
