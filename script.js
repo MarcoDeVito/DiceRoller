@@ -42,6 +42,90 @@ function modificaFormule(){
     loadModificaFormula()
 }
 
+function b64EncodeUnicode(str) {
+  return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (_, p1) =>
+    String.fromCharCode(parseInt(p1, 16))
+  ));
+}
+
+function b64DecodeUnicode(b64) {
+  const bin = atob(b64);
+  const bytes = Array.from(bin, c => "%" + c.charCodeAt(0).toString(16).padStart(2, "0")).join("");
+  return decodeURIComponent(bytes);
+}
+
+function getAllAppStorageKeys() {
+  // whitelist delle chiavi usate da questa app (incluse quelle non mostrate nella select)
+  return [
+    "formulas",
+    "CharacterName",
+    "Character",
+    "rollHistory",
+    "proficientSkills",
+    "proficientSavingThrows",
+    "Stats",
+    "Spellcasting",
+    "CharacterLevel",
+    "CDinc",
+    "formulaMod"
+  ];
+}
+
+function exportAllDiceRollerState() {
+  const keys = getAllAppStorageKeys();
+  const data = {};
+
+  keys.forEach((k) => {
+    const v = localStorage.getItem(k);
+    if (v !== null) data[k] = v;
+  });
+
+  const payload = {
+    type: "DICEROLLER_STATE",
+    v: 1,
+    exportedAt: new Date().toISOString(),
+    data
+  };
+
+  const encoded = b64EncodeUnicode(JSON.stringify(payload));
+
+  const btnCopyAll = document.querySelector("#btnCopyAll");
+  if (btnCopyAll) btnCopyAll.setAttribute("data-clipboard-text", encoded);
+
+  window.prompt("Copia questa stringa per importare TUTTO su un altro browser:", encoded);
+}
+
+
+function importAllDiceRollerState() {
+  const raw = window.prompt("Incolla qui la stringa di import (EXPORT TOTALE):");
+  if (!raw) return;
+
+  let payload;
+  try {
+    const json = b64DecodeUnicode(raw.trim());
+    payload = JSON.parse(json);
+  } catch {
+    alert("Stringa non valida (decodifica/JSON fallita).");
+    return;
+  }
+
+  if (!payload || payload.type !== "DICEROLLER_STATE" || payload.v !== 1 || !payload.data) {
+    alert("Stringa non valida (payload non riconosciuto).");
+    return;
+  }
+
+  const keys = getAllAppStorageKeys();
+
+  keys.forEach((k) => {
+    if (Object.prototype.hasOwnProperty.call(payload.data, k)) {
+      localStorage.setItem(k, payload.data[k]);
+    }
+  });
+
+  location.reload();
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
     InsertSkill()
     loadStats()
@@ -54,6 +138,19 @@ document.addEventListener('DOMContentLoaded', () => {
     loadModificaFormula()
     // gestisciVisibilita()
     
+    const btnExportAll = document.querySelector("#btnExportAll");
+    const btnImportAll = document.querySelector("#btnImportAll");
+    const btnCopyAll = document.querySelector("#btnCopyAll");
+
+    if (btnExportAll) btnExportAll.addEventListener("click", exportAllDiceRollerState);
+    if (btnImportAll) btnImportAll.addEventListener("click", importAllDiceRollerState);
+
+    if (btnCopyAll) {
+      btnCopyAll.addEventListener("click", () => {
+        // se non hai ancora esportato, esporta al volo così c'è qualcosa da copiare
+        if (!btnCopyAll.getAttribute("data-clipboard-text")) exportAllDiceRollerState();
+      });
+    }
 
     
     new ClipboardJS('.btn', {
