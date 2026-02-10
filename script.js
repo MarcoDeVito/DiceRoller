@@ -96,6 +96,76 @@ function exportAllDiceRollerState() {
 }
 
 
+function exportAllDiceRollerStateToFile() {
+  const keys = getAllAppStorageKeys();
+  const data = {};
+
+  keys.forEach((k) => {
+    const v = localStorage.getItem(k);
+    if (v !== null) data[k] = v;
+  });
+
+  const payload = {
+    type: "DICEROLLER_STATE",
+    v: 1,
+    exportedAt: new Date().toISOString(),
+    data
+  };
+
+  const json = JSON.stringify(payload, null, 2);
+
+  const blob = new Blob([json], { type: "application/json;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+
+  const ts = new Date().toISOString().replaceAll(":", "-");
+  a.download = `dice-roller-backup_${ts}.json`;
+
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  URL.revokeObjectURL(url);
+}
+
+function importAllDiceRollerStateFromFile(file) {
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    let payload;
+    try {
+      payload = JSON.parse(String(reader.result || ""));
+    } catch {
+      alert("File non valido: JSON rotto.");
+      return;
+    }
+
+    if (!payload || payload.type !== "DICEROLLER_STATE" || payload.v !== 1 || !payload.data) {
+      alert("File non valido: backup non riconosciuto.");
+      return;
+    }
+
+    const keys = getAllAppStorageKeys();
+
+    // scelta “sicura”: sovrascrive solo le chiavi presenti nel file
+    // (se vuoi wipe totale prima, dimmelo e te lo cambio)
+    keys.forEach((k) => {
+      if (Object.prototype.hasOwnProperty.call(payload.data, k)) {
+        localStorage.setItem(k, payload.data[k]);
+      }
+    });
+
+    location.reload();
+  };
+
+  reader.onerror = () => alert("Errore lettura file.");
+  reader.readAsText(file, "utf-8");
+}
+
+
 function importAllDiceRollerState() {
   const raw = window.prompt("Incolla qui la stringa di import (EXPORT TOTALE):");
   if (!raw) return;
@@ -152,7 +222,22 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    
+    const btnExportAllFile = document.querySelector("#btnExportAllFile");
+const btnImportAllFile = document.querySelector("#btnImportAllFile");
+const importAllFileInput = document.querySelector("#importAllFileInput");
+
+if (btnExportAllFile) btnExportAllFile.addEventListener("click", exportAllDiceRollerStateToFile);
+
+if (btnImportAllFile && importAllFileInput) {
+  btnImportAllFile.addEventListener("click", () => importAllFileInput.click());
+
+  importAllFileInput.addEventListener("change", () => {
+    const file = importAllFileInput.files && importAllFileInput.files[0];
+    importAllDiceRollerStateFromFile(file);
+    importAllFileInput.value = ""; // reset per reimportare anche lo stesso file
+  });
+}
+
     new ClipboardJS('.btn', {
         container: document.getElementById('forceStatsModal')
     });
